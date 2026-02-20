@@ -1,0 +1,511 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="description" content="Actividad 01 - Análisis en grupo de un ciberataque real y su impacto empresarial (Colonial Pipeline, DarkSide 2021)" />
+  <title>Actividad 01 | Colonial Pipeline (DarkSide, 2021)</title>
+
+  <link rel="stylesheet" href="assets/css/styles.css" />
+
+  <!-- ✅ Librería para EXPORTAR PDF automáticamente (debe ir ANTES de main.js) -->
+  <script defer src="https://cdn.jsdelivr.net/npm/html2pdf.js@0.10.1/dist/html2pdf.bundle.min.js"></script>
+
+  <script defer src="assets/js/main.js"></script>
+
+  <!-- Estilo extra SOLO para TABLAS (no rompe tu diseño) -->
+  <style>
+    .table-wrap{
+      overflow:auto;
+      border-radius:14px;
+      border:1px solid rgba(0,255,136,.18);
+      background: rgba(0,0,0,.18);
+    }
+    .tech-table{
+      width:100%;
+      border-collapse:collapse;
+      min-width:900px;
+    }
+    .tech-table th,
+    .tech-table td{
+      padding:.85rem;
+      vertical-align:top;
+      border-bottom:1px solid rgba(30,41,59,.75);
+      color: rgba(226,232,240,.88);
+      line-height:1.55;
+    }
+    .tech-table th{
+      position:sticky;
+      top:0;
+      background: rgba(0,255,136,.06);
+      color: rgba(226,232,240,.95);
+      text-align:left;
+      font-family: var(--font-tech);
+      letter-spacing:.4px;
+      z-index:1;
+    }
+    .tech-table td:first-child{
+      width:30%;
+      color: rgba(226,232,240,.92);
+      font-weight:900;
+    }
+    .pill-mini{
+      display:inline-flex;
+      align-items:center;
+      gap:.5rem;
+      padding:.35rem .7rem;
+      border-radius:999px;
+      border:1px solid rgba(0,255,136,.20);
+      background: rgba(0,255,136,.06);
+      color: var(--text-secondary);
+      font-family: var(--font-code);
+      font-weight:900;
+      font-size:.78rem;
+      margin:.65rem .45rem 0 0;
+    }
+    .kpi-grid{
+      display:grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap:.9rem;
+      margin-top:1rem;
+    }
+    .kpi{
+      border-radius:14px;
+      border:1px solid rgba(0,255,136,.16);
+      background: rgba(0,0,0,.18);
+      padding:1rem;
+    }
+    .kpi .label{font-family:var(--font-code); color:var(--text-secondary); font-weight:900}
+    .kpi .value{font-family:var(--font-tech); letter-spacing:.5px; font-weight:900; font-size:1.1rem; margin-top:.35rem}
+    @media (max-width: 900px){
+      .kpi-grid{grid-template-columns:1fr}
+    }
+  </style>
+</head>
+
+<body>
+<a class="skip-link" href="#contenido">Saltar al contenido principal</a>
+
+<header class="header" id="header" role="banner">
+  <div class="header-container">
+    <nav class="nav" aria-label="Menú principal">
+      <a class="nav-brand" href="index.html">
+        <span class="brand-icon" aria-hidden="true">PF01</span>
+        <span class="brand-text">Portafolio</span>
+      </a>
+
+      <button class="menu-toggle" id="menuToggle" aria-label="Abrir menú">
+        <span></span><span></span><span></span>
+      </button>
+
+      <div class="nav-menu" id="navMenu">
+        <a class="nav-link" href="index.html">Inicio</a>
+        <a class="nav-link active" href="actividades.html">Actividades</a>
+      </div>
+    </nav>
+  </div>
+</header>
+
+<main id="contenido" class="main">
+
+  <!-- HERO -->
+  <section class="section hero hero--sub">
+    <div class="hero-bg">
+      <canvas id="matrixCanvas" aria-hidden="true"></canvas>
+      <div class="grid-overlay" aria-hidden="true"></div>
+      <div class="scan-line" aria-hidden="true"></div>
+    </div>
+
+    <div class="hero-container">
+      <div>
+        <div class="hero-badge">
+          <span class="badge-pulse" aria-hidden="true"></span>
+          <span>ACTIVIDAD 01</span>
+        </div>
+
+        <h1 class="hero-title">
+          <span class="title-word">Colonial Pipeline</span>
+          <span class="title-word highlight">(DarkSide, 2021)</span>
+        </h1>
+
+        <p class="hero-description">
+          Análisis técnico, económico y estratégico de un ciberataque real (ransomware de doble extorsión) y su impacto empresarial,
+          mostrando cómo una intrusión en TI puede escalar a crisis operacional cuando existe dependencia con OT.
+        </p>
+
+        <!-- ✅ SOLO se quedan estos botones (arriba) -->
+        <div class="hero-buttons">
+        <button
+  class="btn btn-primary js-download-pdf"
+  type="button"
+  data-pdf="assets/pdfs/act01.pdf"
+  data-filename="act01.pdf"
+>
+  <span class="btn-shine" aria-hidden="true"></span>
+  Exportar a PDF
+</button>
+
+
+          <a class="btn btn-secondary" href="actividades.html">
+            <span class="btn-shine" aria-hidden="true"></span>
+            Volver a Actividades
+          </a>
+        </div>
+
+        <div class="kpi-grid" aria-label="Indicadores clave">
+          <div class="kpi">
+            <div class="label">Tipo de ataque</div>
+            <div class="value">Ransomware (doble extorsión)</div>
+          </div>
+          <div class="kpi">
+            <div class="label">Vector inicial</div>
+            <div class="value">VPN + credencial comprometida</div>
+          </div>
+          <div class="kpi">
+            <div class="label">Impacto</div>
+            <div class="value">Shutdown + crisis pública</div>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="hero-visual">
+        <div class="security-terminal">
+          <div class="terminal-header">
+            <div class="terminal-dots" aria-hidden="true">
+              <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+            </div>
+            <div class="terminal-title">root@incident:~$ COLONIAL_PIPELINE</div>
+          </div>
+          <div class="terminal-body">
+            <div class="terminal-line" style="opacity:1;">
+              <span class="prompt">root@incident:~$</span>
+              <span class="command"> summary --vector vpn --mfa off --impact shutdown</span>
+            </div>
+            <div class="terminal-line" style="opacity:1;margin-top:.4rem;">
+              <span class="output">✔ intrusión → exfiltración → ransomware → interrupción infraestructura crítica</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="media-block" style="margin-top:1rem;">
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTENIDO -->
+  <section class="section">
+    <div class="container">
+
+      <div class="breadcrumbs">
+        <a href="index.html">Inicio</a>
+        <span class="crumb-sep">/</span>
+        <a href="actividades.html">Actividades</a>
+        <span class="crumb-sep">/</span>
+        <span class="crumb-current">Actividad 01</span>
+      </div>
+
+      <article class="card article">
+
+        <div class="article-head">
+          <div>
+            <div class="article-kicker">Análisis de ciberataque real e impacto empresarial</div>
+            <h2 class="article-title">ACTIVIDAD 01 — Colonial Pipeline (DarkSide, 2021)</h2>
+            <p class="article-subtitle">
+              Documento estructurado por fases, tablas técnicas y evaluación CIA + marco económico y normativo.
+              Incluye conclusiones ejecutivas, recomendaciones y bibliografía.
+            </p>
+
+            <span class="pill-mini">1) Introducción</span>
+            <span class="pill-mini">2) Desarrollo técnico</span>
+            <span class="pill-mini">3) Multimedia</span>
+            <span class="pill-mini">4) Reflexión</span>
+            <span class="pill-mini">5) Referencias</span>
+          </div>
+
+          <!-- ❌ ELIMINADO: botones duplicados en article-actions -->
+        </div>
+
+        <!-- 1) INTRODUCCIÓN -->
+        <section class="article-section">
+          <h2>1) Introducción contextual al tema</h2>
+          <p>
+            En la era digital, las organizaciones dependen cada vez más de la interconexión de sus sistemas de información para mantener
+            operaciones críticas y sostenibilidad económica. Sin embargo, esta dependencia también las expone a riesgos cibernéticos de alto impacto,
+            capaces de comprometer simultáneamente la confidencialidad, integridad y disponibilidad de la información.
+          </p>
+          <p>
+            El caso del ataque a Colonial Pipeline en 2021, perpetrado por el grupo DarkSide, constituye un ejemplo paradigmático de cómo un incidente
+            dirigido a sistemas administrativos y corporativos puede desencadenar consecuencias estratégicas y económicas a nivel nacional.
+            El objetivo de este análisis es examinar de manera técnica, económica y estratégica este ciberataque real, identificando sus causas, desarrollo,
+            impactos y consecuencias.
+          </p>
+          <p>
+            Este estudio permite comprender la importancia de implementar medidas robustas de ciberseguridad y su relación directa con la continuidad operativa y
+            la estabilidad financiera. Un ataque de ransomware no solo compromete sistemas corporativos: tiene repercusiones económicas, logísticas y sociales significativas,
+            reforzando la necesidad de adoptar un enfoque integral (tecnología + procesos + gobernanza).
+          </p>
+        </section>
+
+        <!-- 2) DESARROLLO TÉCNICO -->
+        <section class="article-section">
+          <h2>2) Desarrollo técnico de la actividad</h2>
+
+          <div class="media-block">
+            <div class="media-title">🧭 Fases del incidente (línea de tiempo)</div>
+            <div class="code-block"><pre><code>Fase 1: Pre-intrusión e intrusión inicial
+• 29-abr-2021 (D-9): Acceso inicial a red corporativa vía VPN con credenciales comprometidas. Sin MFA.
+• 06-may-2021 (D-1): Movimiento lateral y exfiltración de ~100 GB. Preparación para doble extorsión.
+
+Día 0: Detección y shutdown
+• 07-may-2021 (D-0, 05:00–06:10): Nota de rescate; aislamiento preventivo de OT y cierre total del oleoducto.
+
+Fase de escalamiento: Crisis pública y respuesta gubernamental
+• 08-may-2021 (D+1): Comunicación pública; desabasto regional y pánico.
+• 09-may-2021 (D+2): Se trata como amenaza a infraestructura crítica nacional.
+• 10-may-2021 (D+3): Atribución a DarkSide/RaaS.
+• 11-may-2021 (D+4): Recomendaciones (MFA, segmentación, respuesta formal).
+
+Fase de restauración: Reinicio y estabilización
+• 12-may-2021 (D+5): Inicio de restauración tras seis días.
+• 13-may-2021 (D+6): Reanudación parcial, mitigación por excepciones regulatorias.
+• 15-may-2021 (D+8): Normalización y auditoría forense posterior.
+
+Decisiones de negocio y evidencia financiera
+• 18-may-2021 (D+11): Pago de 75 BTC (~USD 4.4M aprox.) por continuidad.
+• 19-may-2021 (D+12): CEO justifica públicamente el pago.
+
+Respuesta regulatoria y seguimiento
+• 27-may-2021: TSA emite directivas para pipelines (reporte a CISA, coordinador 24/7, remediación).
+• 07-jun-2021: DOJ incauta 63.7 BTC (~USD 2.3M aprox.) vinculados al rescate.</code></pre></div>
+          </div>
+
+          <div class="media-block">
+            <div class="media-title">🔎 Vulnerabilidades y factores clave</div>
+            <ul class="list">
+              <li><b>Vector inicial:</b> credencial comprometida en VPN.</li>
+              <li><b>Controles débiles:</b> ausencia de MFA, gestión insuficiente de cuentas y privilegios heredados.</li>
+              <li><b>Dependencia de TI:</b> impacto en sistemas corporativos provocó shutdown de infraestructura crítica.</li>
+              <li><b>Segmentación limitada:</b> cierre rápido sugiere falta de certeza sobre confinamiento.</li>
+            </ul>
+          </div>
+
+          <div class="media-block">
+            <div class="media-title">📋 Tabla técnica del ataque</div>
+            <div class="table-wrap">
+              <table class="tech-table" aria-label="Tabla técnica del ataque">
+                <thead><tr><th>Elemento</th><th>Descripción</th></tr></thead>
+                <tbody>
+                  <tr><td>Tipo de ataque</td><td>Ransomware de doble extorsión.</td></tr>
+                  <tr><td>Actor o grupo atacante</td><td>DarkSide.</td></tr>
+                  <tr><td>Vector de entrada</td><td>Acceso remoto vía VPN con credenciales comprometidas.</td></tr>
+                  <tr><td>Vulnerabilidad explotada</td><td>Fallo de configuración: ausencia de MFA en cuenta activa.</td></tr>
+                  <tr><td>Etapas del ataque</td><td>Infiltración, Exfiltración, Ejecución y Extorsión.</td></tr>
+                  <tr><td>Sistemas o servicios comprometidos</td><td>Red IT y facturación; apagado preventivo de red OT.</td></tr>
+                  <tr><td>Duración del incidente</td><td>17 días (29-abril al 15-mayo).</td></tr>
+                  <tr><td>Mecanismos de detección y respuesta</td><td>Auditoría Mandiant, pago del rescate, intervención FBI/CISA y backups.</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="media-block">
+            <div class="media-title">🧪 Evaluación del impacto (Modelo CIA)</div>
+            <div class="table-wrap">
+              <table class="tech-table" aria-label="Evaluación CIA">
+                <thead>
+                  <tr>
+                    <th>Principio</th>
+                    <th>Descripción del impacto</th>
+                    <th>Evidencia del caso</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Confidencialidad</td>
+                    <td>Exfiltración de datos corporativos sensibles utilizados como mecanismo de doble extorsión.</td>
+                    <td>Reportes indican robo de entre ~100 GB hasta cerca de 1 TB de datos corporativos sensibles.</td>
+                  </tr>
+                  <tr>
+                    <td>Integridad</td>
+                    <td>Cifrado de sistemas TI corporativos, comprometiendo confiabilidad y operatividad de la información.</td>
+                    <td>El ransomware bloqueó múltiples sistemas corporativos, incluyendo facturación, generando incertidumbre operativa y financiera.</td>
+                  </tr>
+                  <tr>
+                    <td>Disponibilidad</td>
+                    <td>Suspensión total preventiva de operaciones del pipeline (infraestructura crítica energética), causando impacto económico y social.</td>
+                    <td>07-mayo: detección 05:00 ET; suspensión 05:55 ET; shutdown total 06:10 ET. Sistema cerrado varios días.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="media-block">
+            <div class="media-title">💰 Marco económico (costos estimados)</div>
+            <div class="table-wrap">
+              <table class="tech-table" aria-label="Marco económico">
+                <thead>
+                  <tr>
+                    <th>Tipo de costo</th>
+                    <th>Descripción</th>
+                    <th>Estimación (MXN)</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Pérdidas operativas</td>
+                    <td>Interrupción del oleoducto durante varios días por ataque ransomware.</td>
+                    <td>$80 millones MXN</td>
+                  </tr>
+                  <tr>
+                    <td>Daños reputacionales</td>
+                    <td>Pérdida de confianza pública, impacto en sector energético y percepción de seguridad.</td>
+                    <td>$20 millones MXN</td>
+                  </tr>
+                  <tr>
+                    <td>Costos técnicos</td>
+                    <td>Respuesta al incidente, recuperación de sistemas y consultoría especializada en ciberseguridad.</td>
+                    <td>$40 millones MXN</td>
+                  </tr>
+                  <tr>
+                    <td>Costos legales/regulatorios</td>
+                    <td>Asesoría legal, cumplimiento normativo y revisión de seguridad.</td>
+                    <td>$10 millones MXN</td>
+                  </tr>
+                  <tr>
+                    <td>Pago de rescate o extorsión</td>
+                    <td>Pago de rescate por ataque ransomware.</td>
+                    <td>$85 millones MXN</td>
+                  </tr>
+                  <tr>
+                    <td><b>Total estimado</b></td>
+                    <td><b>Suma total del impacto económico aproximado</b></td>
+                    <td><b>$235 millones MXN</b></td>
+                  </tr>
+                  <tr>
+                    <td>Tipo de cambio MXN/USD</td>
+                    <td>Costo USD a MXN</td>
+                    <td>20.18</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <div class="media-block" style="margin-top:1rem;">
+              <div class="media-title">📎 Comparación (contexto económico)</div>
+              <p class="muted" style="margin:0;">
+                El costo promedio de un incidente grave de ransomware suele superar ampliamente la inversión anual en ciberseguridad,
+                especialmente en infraestructura crítica. La ausencia de controles preventivos maduros, planes de respuesta y segmentación adecuada
+                incrementa significativamente el impacto económico, más allá del rescate (interrupción, recuperación, legales, reputación).
+              </p>
+            </div>
+          </div>
+
+          <div class="media-block">
+            <div class="media-title">🧩 Relación con marcos normativos (ISO 27001, NIST CSF, GDPR)</div>
+            <p>
+              El ciberataque a Colonial Pipeline puede analizarse mediante NIST CSF e ISO/IEC 27001. En NIST CSF se evidencian debilidades en:
+              <b>Identify</b> (gestión insuficiente de riesgos en accesos remotos y cuentas heredadas), <b>Protect</b> (ausencia de MFA),
+              y <b>Detect</b> (intrusión inicial no detectada durante nueve días). En <b>Respond</b> y <b>Recover</b> hubo fortalezas al aislar OT y
+              restaurar progresivamente el servicio.
+            </p>
+            <p>
+              Según ISO 27001, los dominios más afectados fueron: <b>Control de Accesos (A.9)</b>, <b>Seguridad en Operaciones (A.12)</b>,
+              <b>Gestión de Incidentes (A.16)</b> y <b>Continuidad del Negocio (A.17)</b>. La madurez en estos controles (MFA, monitoreo continuo,
+              respuesta y recuperación formal) habría reducido probabilidad e impacto. Los principios del GDPR, aunque no aplican directamente,
+              refuerzan la relevancia de la confidencialidad y el riesgo reputacional frente a la exfiltración.
+            </p>
+          </div>
+
+          <div class="media-block">
+            <div class="media-title">✅ Lecciones aprendidas y recomendaciones</div>
+            <ul class="list">
+              <li>Ausencia de MFA en accesos remotos críticos.</li>
+              <li>Monitoreo insuficiente de cuentas heredadas (legacy) y credenciales filtradas/reutilizadas.</li>
+              <li>Detección tardía del acceso no autorizado.</li>
+              <li>Alta dependencia entre IT corporativo y operación física (OT).</li>
+              <li>Mitigación recomendada: MFA obligatorio, auditoría y eliminación de cuentas legacy, SOC/SIEM, segmentación estricta IT/OT, simulacros IR, y modelo Zero Trust.</li>
+              <li>En Latinoamérica: tratar ciberseguridad como riesgo estratégico, proteger accesos remotos en sectores críticos, adoptar NIST/ISO, coordinar con CSIRT/CERT e invertir en prevención.</li>
+            </ul>
+          </div>
+
+          <div class="media-block">
+            <div class="media-title">🧾 Cierre ejecutivo</div>
+            <p class="muted" style="margin:0;">
+              El caso Colonial Pipeline demuestra que un incidente puede escalar de problema técnico a crisis económica, social y de seguridad nacional
+              cuando afecta infraestructura crítica. Fallas básicas (sin MFA, mala gestión de identidades, monitoreo insuficiente) pueden generar impactos sistémicos
+              al combinarse con modelos criminales modernos como RaaS. La ciberseguridad debe verse como componente esencial de continuidad operativa y estabilidad económica.
+            </p>
+          </div>
+
+        </section>
+
+        <!-- 3) MATERIAL MULTIMEDIA -->
+        <section class="article-section">
+          <h2>3) Material multimedia</h2>
+
+          <div class="media-block">
+            <div class="media-title">🎥 Video referenciado</div>
+            <div class="media-placeholder">
+              <ul class="material-list">
+    <li>
+        <a href="https://youtu.be/iR_u90zWZEA" target="_blank" rel="noopener">
+          Da click para ver video
+        </a>
+    </li>
+</ul>
+            </div>
+          </div>
+        </section>
+
+        <!-- 4) REFLEXIÓN / OPINIÓN -->
+        <section class="article-section">
+          <h2>4) Opinión o reflexión técnica del estudiante</h2>
+          <p>
+            Este caso deja claro que la ciberseguridad ya no se limita a “proteger archivos”: se trata de proteger operaciones, economía y continuidad del negocio.
+            Lo más crítico del ataque no fue únicamente el cifrado, sino la combinación de <b>identidades mal protegidas</b> (VPN sin MFA, cuentas legacy)
+            y la <b>dependencia entre TI y OT</b>. Cuando una organización no tiene certeza de su segmentación, la respuesta termina siendo extrema: apagar sistemas críticos.
+          </p>
+          <p>
+            En un escenario real latinoamericano, donde hay empresas con madurez baja (sin inventario de activos, sin segmentación, sin SOC),
+            un incidente similar podría generar impactos prolongados porque la recuperación depende de procesos que muchas veces no existen:
+            respaldos probados, respuesta coordinada, análisis forense y comunicación pública controlada. La lección práctica es directa:
+            <b>controles básicos bien implementados (MFA, mínimo privilegio, monitoreo y segmentación) previenen crisis sistémicas</b>.
+          </p>
+        </section>
+
+        <!-- 5) REFERENCIAS -->
+        <section class="article-section">
+          <h2>5) Referencias técnicas</h2>
+          <ul class="list">
+            <li>Banco de México. (s. f.). Serie histórica del tipo de cambio (CF102). Sistema de Información Económica (SIE). <span class="muted">banxico.org.mx</span></li>
+            <li>CrowdStrike. (2021). <i>DarkSide: The new face of ransomware-as-a-service</i>. CrowdStrike Intelligence Report.</li>
+            <li>CISA &amp; FBI. (2021, 11 de mayo). <i>DarkSide ransomware: Best practices for preventing business disruption from ransomware attacks (Alert AA21-131A)</i>. <span class="muted">cisa.gov</span></li>
+            <li>Federal Bureau of Investigation. (2021, 10 de mayo). <i>FBI statement on compromise of Colonial Pipeline networks</i>. FBI National Press Office. <span class="muted">fbi.gov</span></li>
+            <li>FireEye, Inc. (Mandiant). (2021). <i>Shining a light on DarkSide ransomware operations</i>. Mandiant Threat Intelligence.</li>
+            <li>Grealish, G. (2021, 3 de agosto). <i>Colonial Pipeline hack and zero trust security</i>. IBM Community. <span class="muted">community.ibm.com</span></li>
+            <li>IBM Security X-Force. (2021). <i>Threat intelligence index 2022: Ransomware's pivot to manufacturing and energy</i>. IBM.</li>
+            <li>Kaspersky. (s. f.). <i>What is cybercrime?</i> Kaspersky Resource Center. <span class="muted">kaspersky.com</span></li>
+            <li>Reeder, J. R., &amp; Hall, T. (2021). <i>Cybersecurity’s Pearl Harbor moment: Lessons learned from the Colonial Pipeline ransomware attack</i>. The Cyber Defense Review, 6(3), 9–11.</li>
+            <li>U.S. Department of Energy. (2021). <i>Colonial Pipeline cyber incident: DOE response and timeline</i>. Office of Cybersecurity, Energy Security, and Emergency Response.</li>
+          </ul>
+        </section>
+
+        <!-- ❌ ELIMINADO: botones duplicados en article-footer -->
+      </article>
+    </div>
+  </section>
+</main>
+
+<footer class="footer">
+  <div class="container footer__inner">
+    <p>© <span class="muted">Portafolio de evidencias</span> | Seguridad Informática</p>
+    <p class="muted">PF01</p>
+  </div>
+</footer>
+
+</body>
+</html>

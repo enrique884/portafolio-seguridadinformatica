@@ -1,0 +1,546 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="description" content="Actividad 02 - Análisis de servicios de seguridad (X.800 y RFC 4949)" />
+  <title>Actividad 02 | X.800 y RFC 4949</title>
+
+  <link rel="stylesheet" href="assets/css/styles.css" />
+  <script defer src="assets/js/main.js"></script>
+
+  <!-- Estilo extra solo para TABLAS (no rompe tu diseño) -->
+  <style>
+    .table-wrap{
+      overflow:auto;
+      border-radius:14px;
+      border:1px solid rgba(0,255,136,.18);
+      background: rgba(0,0,0,.18);
+    }
+    .tech-table{
+      width:100%;
+      border-collapse:collapse;
+      min-width:860px;
+    }
+    .tech-table th,
+    .tech-table td{
+      padding:.85rem;
+      vertical-align:top;
+      border-bottom:1px solid rgba(30,41,59,.75);
+      color: rgba(226,232,240,.88);
+      line-height:1.55;
+    }
+    .tech-table th{
+      position:sticky;
+      top:0;
+      background: rgba(0,255,136,.06);
+      color: rgba(226,232,240,.95);
+      text-align:left;
+      font-family: var(--font-tech);
+      letter-spacing:.4px;
+    }
+    .tech-table td:first-child{
+      width:34%;
+      color: rgba(226,232,240,.92);
+      font-weight:900;
+    }
+    .pill-mini{
+      display:inline-flex;
+      align-items:center;
+      gap:.5rem;
+      padding:.35rem .7rem;
+      border-radius:999px;
+      border:1px solid rgba(0,255,136,.20);
+      background: rgba(0,255,136,.06);
+      color: var(--text-secondary);
+      font-family: var(--font-code);
+      font-weight:900;
+      font-size:.78rem;
+      margin-top:.6rem;
+    }
+  </style>
+</head>
+
+<body>
+<a class="skip-link" href="#contenido">Saltar al contenido principal</a>
+
+<header class="header" id="header" role="banner">
+  <div class="header-container">
+    <nav class="nav" aria-label="Menú principal">
+      <a class="nav-brand" href="index.html">
+        <span class="brand-icon" aria-hidden="true">PF01</span>
+        <span class="brand-text">Portafolio</span>
+      </a>
+
+      <button class="menu-toggle" id="menuToggle" aria-label="Abrir menú">
+        <span></span><span></span><span></span>
+      </button>
+
+      <div class="nav-menu" id="navMenu">
+        <a class="nav-link" href="index.html">Inicio</a>
+        <a class="nav-link active" href="actividades.html">Actividades</a>
+      </div>
+    </nav>
+  </div>
+</header>
+
+<main id="contenido" class="main">
+  <section class="section hero hero--sub">
+    <div class="hero-bg">
+      <canvas id="matrixCanvas" aria-hidden="true"></canvas>
+      <div class="grid-overlay" aria-hidden="true"></div>
+      <div class="scan-line" aria-hidden="true"></div>
+    </div>
+
+    <div class="hero-container">
+      <div>
+        <div class="hero-badge">
+          <span class="badge-pulse" aria-hidden="true"></span>
+          <span>ACTIVIDAD 02</span>
+        </div>
+
+        <h1 class="hero-title">
+          <span class="title-word">Análisis de servicios</span>
+          <span class="title-word highlight">de seguridad (X.800 y RFC 4949)</span>
+        </h1>
+
+        <p class="hero-description">
+          Documento técnico basado en 10 escenarios reales/típicos, mapeando
+          servicios X.800 comprometidos y definiciones del RFC 4949, incluyendo
+          tipo de amenaza, vector, impacto y control recomendado.
+        </p>
+
+        <!-- ✅ SOLO BOTONES SUPERIORES (ÚNICOS) -->
+        <div class="hero-buttons">
+          <!-- ✅ Descarga directa a "Descargas" (sin abrir PDF) -->
+          <button
+            class="btn btn-primary js-download-pdf"
+            type="button"
+            data-pdf="assets/pdfs/act02.pdf"
+            data-filename="act02.pdf"
+          >
+            <span class="btn-shine" aria-hidden="true"></span>
+            Exportar a PDF
+          </button>
+
+          <a class="btn btn-secondary" href="actividades.html">
+            <span class="btn-shine" aria-hidden="true"></span>
+            Volver a Actividades
+          </a>
+        </div>
+      </div>
+
+      <div class="hero-visual">
+        <div class="security-terminal">
+          <div class="terminal-header">
+            <div class="terminal-dots" aria-hidden="true">
+              <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+            </div>
+            <div class="terminal-title">root@glossary:~$ X800_RFC4949</div>
+          </div>
+          <div class="terminal-body">
+            <div class="terminal-line" style="opacity:1;">
+              <span class="prompt">root@glossary:~$</span>
+              <span class="command"> map --services --scenarios 10</span>
+            </div>
+            <div class="terminal-line" style="opacity:1;margin-top:.4rem;">
+              <span class="output">✔ Autenticación • Control de acceso • Confidencialidad • Integridad • No repudio • Disponibilidad</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+
+      <div class="breadcrumbs">
+        <a href="index.html">Inicio</a>
+        <span class="crumb-sep">/</span>
+        <a href="actividades.html">Actividades</a>
+        <span class="crumb-sep">/</span>
+        <span class="crumb-current">Actividad 02</span>
+      </div>
+
+      <article class="card article">
+        <div class="article-head">
+          <div>
+            <div class="article-kicker">X.800 (Arquitectura de seguridad OSI) + RFC 4949 (Glosario)</div>
+            <h2 class="article-title">Servicios de seguridad: análisis con escenarios y tablas</h2>
+            <p class="article-subtitle">
+              Se presentan 10 escenarios con su interpretación técnica y tabla “Elemento → Respuesta”
+              conforme a X.800 y RFC 4949, además de conclusiones y referencias.
+            </p>
+          </div>
+        </div>
+
+        <!-- INTRO -->
+        <section class="article-section">
+          <h2>Introducción</h2>
+          <p>
+            Actualmente, la seguridad de la información es un aspecto muy importante dentro de los sistemas informáticos y de comunicación,
+            ya que permite proteger los datos contra accesos no autorizados, modificaciones indebidas o pérdidas de información. Debido al crecimiento
+            del uso de redes y servicios digitales, surgió la necesidad de establecer normas y documentos que ayuden a comprender y aplicar correctamente
+            la seguridad en estos entornos. Entre estos documentos destacan el X.800 y el RFC 4949, los cuales aportan bases fundamentales para el estudio
+            de la seguridad informática.
+          </p>
+          <p>
+            El X.800, también conocido como <i>Security Architecture for OSI</i>, fue desarrollado por la International Organization for Standardization (ISO)
+            como parte del modelo de referencia OSI. Este estándar tiene como objetivo principal definir una arquitectura de seguridad que permita identificar
+            los servicios necesarios para proteger la información durante su transmisión en una red. El X.800 clasifica la seguridad en distintos servicios,
+            como la autenticación, el control de acceso, la confidencialidad, la integridad y el no repudio, además de describir mecanismos de seguridad como
+            el cifrado y las firmas digitales. Esta clasificación ayuda a comprender de forma más clara cómo se puede proteger la información dentro de los
+            sistemas de comunicación.
+          </p>
+          <p>
+            Por otro lado, el RFC 4949, conocido como <i>Internet Security Glossary</i>, fue creado con la finalidad de unificar los términos y conceptos relacionados
+            con la seguridad informática. A diferencia del X.800, este documento no se enfoca en la arquitectura de seguridad, sino en ofrecer definiciones claras y
+            precisas de los conceptos más utilizados en este campo. El RFC 4949 es de gran utilidad, ya que facilita la comunicación entre estudiantes, profesionales
+            y especialistas, evitando confusiones al momento de analizar o implementar medidas de seguridad.
+          </p>
+
+          <div class="pill-mini">📌 Nota: Cada escenario incluye tabla completa (Elemento → Respuesta)</div>
+        </section>
+
+        <!-- ESCENARIO 01 -->
+        <section class="article-section">
+          <h2>Escenario 01</h2>
+          <p>
+            En múltiples incidentes atribuidos al grupo LockBit, organizaciones públicas y privadas han sufrido el cifrado masivo de servidores tras un acceso inicial
+            no autorizado. Antes de ejecutar el ransomware, los atacantes exfiltraron información sensible y posteriormente amenazaron con su publicación, evidenciando
+            un compromiso simultáneo de la confidencialidad, la integridad y la disponibilidad. Desde el enfoque del RFC 4949, el incidente se clasifica como un
+            <i>multi-stage attack</i> con <i>data breach</i> y <i>availability attack</i>, donde la indisponibilidad del sistema es solo una fase final del daño. La ausencia
+            de respaldos inmutables y de detección temprana permitió que el impacto fuera total.
+          </p>
+
+          <div class="table-wrap">
+            <table class="tech-table" aria-label="Tabla escenario 01">
+              <thead><tr><th>Elemento</th><th>Respuesta</th></tr></thead>
+              <tbody>
+                <tr><td>Servicios X.800 comprometidos</td><td>Confidencialidad, Integridad y Disponibilidad.</td></tr>
+                <tr><td>Definicion(es) aplicable(s) RFC4949</td><td>Multi-stage attack: Serie de ataques donde cada paso ayuda al siguiente. Data breach: Acceso o extracción de datos por parte de alguien no autorizado. Availability attack: Acción que impide que los usuarios legítimos accedan a la información o servicios.</td></tr>
+                <tr><td>Tipo de amenaza</td><td>Externa : El agente de amenaza (LockBit) es un grupo externo que ataca desde fuera del perímetro de la red con fines de lucro</td></tr>
+                <tr><td>Vector de ataque</td><td>Acceso inicial no autorizado (explotación de vulnerabilidades o phishing).</td></tr>
+                <tr><td>Impacto técnico/operativo</td><td>Cifrado masivo y parálisis de la organización.</td></tr>
+                <tr><td>Medida de control recomendada</td><td>Respaldos inmutables y monitoreo de red.</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- ESCENARIO 02 -->
+        <section class="article-section">
+          <h2>Escenario 02</h2>
+          <p>
+            En diversos casos documentados, bases de datos completas quedaron accesibles públicamente debido a errores de configuración en servicios de almacenamiento en la nube.
+            No existió una explotación técnica sofisticada, sino una falla en el control de acceso, lo que derivó directamente en la pérdida de confidencialidad de los datos.
+            El RFC 4949 describe este tipo de incidentes como <i>misconfiguration</i> y <i>exposure</i>, subrayando que la amenaza no siempre implica malware o intrusión activa.
+            El impacto suele ser legal y reputacional, aun cuando no se pueda demostrar acceso malicioso.
+          </p>
+
+          <div class="table-wrap">
+            <table class="tech-table" aria-label="Tabla escenario 02">
+              <thead><tr><th>Elemento</th><th>Respuesta</th></tr></thead>
+              <tbody>
+                <tr><td>Servicios X.800 comprometidos</td><td>Confidencialidad</td></tr>
+                <tr><td>Definicion(es) aplicable(s) RFC4949</td><td>Misconfiguration: Error en los ajustes del sistema que deja brechas de seguridad. Exposure: Condición donde datos sensibles son visibles para personas no autorizadas.</td></tr>
+                <tr><td>Tipo de amenaza</td><td>Interna (error humano o negligencia en la administración)</td></tr>
+                <tr><td>Vector de ataque</td><td>Configuración incorrecta (ejemplo: bucket público, permisos abiertos).</td></tr>
+                <tr><td>Impacto técnico/operativo</td><td>Fuga de información, pérdida de confianza y posibles sanciones legales.</td></tr>
+                <tr><td>Medida de control recomendada</td><td>Auditorías periódicas de permisos, automatización de revisión de configuraciones y políticas de acceso mínimo.</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- ESCENARIO 03 -->
+        <section class="article-section">
+          <h2>Escenario 03</h2>
+          <p>
+            En un ataque de cadena de suministro, un software o actualización confiable es comprometido para distribuir código malicioso. Este tipo de ataque explota la confianza
+            entre proveedor y cliente, y puede impactar múltiples organizaciones al mismo tiempo. Desde RFC 4949, el evento puede interpretarse como abuso de confianza asociado
+            a una intrusión que compromete integridad y autenticidad.
+          </p>
+
+          <div class="table-wrap">
+            <table class="tech-table" aria-label="Tabla escenario 03">
+              <thead><tr><th>Elemento</th><th>Respuesta</th></tr></thead>
+              <tbody>
+                <tr><td>Servicios X.800 comprometidos</td><td>Integridad, Confidencialidad, Autenticidad</td></tr>
+                <tr><td>Definicion(es) aplicable(s) RFC4949</td><td>Supply chain attack: Ataque que compromete un proveedor para afectar a los clientes. Trust exploitation: Abuso de confianza en relaciones legítimas.</td></tr>
+                <tr><td>Tipo de amenaza</td><td>Externa</td></tr>
+                <tr><td>Vector de ataque</td><td>Compromiso de repositorios/servidores de actualización o firma de software.</td></tr>
+                <tr><td>Impacto técnico/operativo</td><td>Distribución masiva de malware, pérdida de confianza y compromisos a gran escala.</td></tr>
+                <tr><td>Medida de control recomendada</td><td>Validación de integridad, firmas, SBOM, monitoreo de comportamiento y enfoque Zero Trust.</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- ESCENARIO 04 -->
+        <section class="article-section">
+          <h2>Escenario 04</h2>
+          <p>
+            El compromiso de credenciales mediante phishing permite a un atacante suplantar a un usuario y acceder a sistemas internos sin explotar vulnerabilidades “técnicas”.
+            Esto impacta autenticación y control de acceso, y deriva en exposición de información y posibles movimientos laterales.
+          </p>
+
+          <div class="table-wrap">
+            <table class="tech-table" aria-label="Tabla escenario 04">
+              <thead><tr><th>Elemento</th><th>Respuesta</th></tr></thead>
+              <tbody>
+                <tr><td>Servicios X.800 comprometidos</td><td>Autenticación, Control de Acceso, Confidencialidad</td></tr>
+                <tr><td>Definicion(es) aplicable(s) RFC4949</td><td>Credential compromise: Compromiso de credenciales. Phishing: Técnica de engaño para obtener información sensible.</td></tr>
+                <tr><td>Tipo de amenaza</td><td>Externa</td></tr>
+                <tr><td>Vector de ataque</td><td>Phishing (correo o sitio falso) y robo de credenciales.</td></tr>
+                <tr><td>Impacto técnico/operativo</td><td>Acceso no autorizado, filtración de datos y escalamiento de privilegios.</td></tr>
+                <tr><td>Medida de control recomendada</td><td>MFA, concientización, detección de anomalías, y políticas de acceso mínimo.</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- ESCENARIO 05 -->
+        <section class="article-section">
+          <h2>Escenario 05</h2>
+          <p>
+            En algunos casos de ransomware, el atacante no solo cifra datos, sino también elimina o cifra respaldos para evitar la recuperación. Esto eleva el impacto y obliga
+            a negociaciones. Compromete simultáneamente confidencialidad, integridad y disponibilidad, además de accountability si se altera evidencia y registros.
+          </p>
+
+          <div class="table-wrap">
+            <table class="tech-table" aria-label="Tabla escenario 05">
+              <thead><tr><th>Elemento</th><th>Respuesta</th></tr></thead>
+              <tbody>
+                <tr><td>Servicios X.800 comprometidos</td><td>Confidencialidad, Integridad, Disponibilidad,Responsabilidad (Accountability)</td></tr>
+                <tr><td>Definicion(es) aplicable(s) RFC4949</td><td>Ransomware: Malware que cifra datos para exigir rescate. Data destruction: Destrucción o pérdida de datos. Availability attack: Ataque que impide el uso del servicio.</td></tr>
+                <tr><td>Tipo de amenaza</td><td>Externa</td></tr>
+                <tr><td>Vector de ataque</td><td>Acceso remoto vulnerable (RDP/VPN), explotación de vulnerabilidades o credenciales robadas.</td></tr>
+                <tr><td>Impacto técnico/operativo</td><td>Interrupción total del servicio, pérdida de datos y costos elevados de recuperación.</td></tr>
+                <tr><td>Medida de control recomendada</td><td>Backups offline/inmutables, EDR/XDR, segmentación y pruebas de restauración.</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- ESCENARIO 06 -->
+        <section class="article-section">
+          <h2>Escenario 06</h2>
+          <p>
+            La amenaza interna (insider) se presenta cuando un empleado o alguien con acceso legítimo abusa de privilegios para extraer datos, sabotear o vender información.
+            El reto es que el acceso puede parecer “normal” si no hay monitoreo.
+          </p>
+
+          <div class="table-wrap">
+            <table class="tech-table" aria-label="Tabla escenario 06">
+              <thead><tr><th>Elemento</th><th>Respuesta</th></tr></thead>
+              <tbody>
+                <tr><td>Servicios X.800 comprometidos</td><td>Confidencialidad, Control de Acceso, Responsabilidad (Accountability)</td></tr>
+                <tr><td>Definicion(es) aplicable(s) RFC4949</td><td>Insider threat: Amenaza originada por un actor interno. Privilege abuse: Abuso de privilegios para obtener acceso o información.</td></tr>
+                <tr><td>Tipo de amenaza</td><td>Interna</td></tr>
+                <tr><td>Vector de ataque</td><td>Uso de credenciales legítimas y privilegios excesivos.</td></tr>
+                <tr><td>Impacto técnico/operativo</td><td>Robo de información, daños reputacionales y consecuencias legales.</td></tr>
+                <tr><td>Medida de control recomendada</td><td>Mínimo privilegio, DLP, monitoreo de comportamiento y registros auditables.</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- ESCENARIO 07 -->
+        <section class="article-section">
+          <h2>Escenario 07</h2>
+          <p>
+            La manipulación o borrado de logs impide el análisis forense y reduce la capacidad de atribución. El atacante intenta eliminar evidencia para evitar ser detectado o
+            para alargar el tiempo de permanencia en la red.
+          </p>
+
+          <div class="table-wrap">
+            <table class="tech-table" aria-label="Tabla escenario 07">
+              <thead><tr><th>Elemento</th><th>Respuesta</th></tr></thead>
+              <tbody>
+                <tr><td>Servicios X.800 comprometidos</td><td>Integridad, No Repudio, Responsabilidad.</td></tr>
+                <tr><td>Definicion(es) aplicable(s) RFC4949</td><td>Audit trail: Registro de acciones para auditoría. Evidentiary integrity: Integridad de evidencia digital para análisis.</td></tr>
+                <tr><td>Tipo de amenaza</td><td>Externa</td></tr>
+                <tr><td>Vector de ataque</td><td>Acceso con privilegios para borrar o alterar registros.</td></tr>
+                <tr><td>Impacto técnico/operativo</td><td>Dificulta investigación, respuesta a incidentes y soporte legal.</td></tr>
+                <tr><td>Medida de control recomendada</td><td>Logging centralizado, almacenamiento WORM/inmutable y alertas de tampering.</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- ESCENARIO 08 -->
+        <section class="article-section">
+          <h2>Escenario 08</h2>
+          <p>
+            No todos los incidentes son ataques maliciosos: una falla operativa o un despliegue erróneo puede generar interrupción total del servicio. Aunque no haya atacante,
+            el efecto para el usuario es el mismo: indisponibilidad.
+          </p>
+
+          <div class="table-wrap">
+            <table class="tech-table" aria-label="Tabla escenario 08">
+              <thead><tr><th>Elemento</th><th>Respuesta</th></tr></thead>
+              <tbody>
+                <tr><td>Servicios X.800 comprometidos</td><td>Disponibilidad</td></tr>
+                <tr><td>Definicion(es) aplicable(s) RFC4949</td><td>Operational Failure: Fallo interno en los procesos o sistemas de la organización. Disruption: Interrupción de la operación normal del sistema debido a un evento no malicioso.</td></tr>
+                <tr><td>Tipo de amenaza</td><td>Interna</td></tr>
+                <tr><td>Vector de ataque</td><td>Error humano o falla en actualizaciones/configuración.</td></tr>
+                <tr><td>Impacto técnico/operativo</td><td>Caída del servicio, pérdida de productividad y costos de recuperación.</td></tr>
+                <tr><td>Medida de control recomendada</td><td>Pruebas en staging, rollback, monitoreo y controles de cambio.</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- ESCENARIO 09 -->
+        <section class="article-section">
+          <h2>Escenario 09</h2>
+          <p>
+            El phishing con suplantación (masquerade) busca que el usuario confíe en un actor falso. El atacante se hace pasar por alguien legítimo para capturar credenciales,
+            tokens o información sensible.
+          </p>
+
+          <div class="table-wrap">
+            <table class="tech-table" aria-label="Tabla escenario 09">
+              <thead><tr><th>Elemento</th><th>Respuesta</th></tr></thead>
+              <tbody>
+                <tr><td>Servicios X.800 comprometidos</td><td>Autenticación, Confidencialidad</td></tr>
+                <tr><td>Definicion(es) aplicable(s) RFC4949</td><td>Masquerade: Un usuario o sistema pretende ser otro para obtener acceso o datos.</td></tr>
+                <tr><td>Tipo de amenaza</td><td>Externa</td></tr>
+                <tr><td>Vector de ataque</td><td>Ingeniería social, correos y sitios falsos, spoofing.</td></tr>
+                <tr><td>Impacto técnico/operativo</td><td>Robo de credenciales, fraude y fuga de información.</td></tr>
+                <tr><td>Medida de control recomendada</td><td>Anti-spoofing (SPF/DKIM/DMARC), MFA y capacitación del usuario.</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- ESCENARIO 10 -->
+        <section class="article-section">
+          <h2>Escenario 10</h2>
+          <p>
+            Un ataque destructivo busca dañar o borrar información/infraestructura para impedir recuperación. Puede incluir exfiltración, cifrado, borrado y destrucción de evidencia,
+            impactando de manera crítica los pilares CIA.
+          </p>
+
+          <div class="table-wrap">
+            <table class="tech-table" aria-label="Tabla escenario 10">
+              <thead><tr><th>Elemento</th><th>Respuesta</th></tr></thead>
+              <tbody>
+                <tr><td>Servicios X.800 comprometidos</td><td>Confidencialidad, Integridad y Disponibilidad.</td></tr>
+                <tr><td>Definicion(es) aplicable(s) RFC4949</td><td>Destructive attack: Ataque diseñado para destruir sistemas/datos. Exfiltration: Extracción no autorizada de datos. Purge/Wiping: Eliminación intencional de información.</td></tr>
+                <tr><td>Tipo de amenaza</td><td>Externa</td></tr>
+                <tr><td>Vector de ataque</td><td>Acceso con privilegios y ejecución de borrado/cifrado masivo.</td></tr>
+                <tr><td>Impacto técnico/operativo</td><td>Pérdida irreversible, interrupción total y crisis operacional.</td></tr>
+                <tr><td>Medida de control recomendada</td><td>Detección temprana, segmentación, backups inmutables y respuesta a incidentes.</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="media-block">
+            <div class="media-title">📌 Material multimedia (recomendado)</div>
+            <div class="media-placeholder">
+              <b>Video:</b>
+              <a class="link-pill" href="https://youtu.be/td05ifSsOgk" target="_blank" rel="noopener">🎥 Ver video demostrativo</a>
+            </div>
+          </div>
+        </section>
+
+        <!-- CONCLUSIONES -->
+        <section class="article-section">
+          <h2>Conclusiones</h2>
+          <p>
+            Después de analizar estos 10 casos, me doy cuenta de que la seguridad informática es mucho más que solo poner un antivirus.
+            Aquí mis conclusiones principales:
+          </p>
+          <p>
+            Primero, queda claro que los ataques ya no son simples. Antes quizás solo te borraban un archivo, pero hoy, como vimos con LockBit o
+            los ataques destructivos, los hackers primero te roban la información, luego te cifran todo y al final hasta borran los registros para que no sepas ni quién fue.
+            Atacan los tres pilares (Confidencialidad, Integridad y Disponibilidad) al mismo tiempo para dejarte sin salida.
+          </p>
+          <p>
+            Segundo, aprendí que el enemigo no siempre viene de fuera. A veces el problema es un error de un administrador que dejó una base de datos abierta en la nube o un empleado
+            que decide vender información. Incluso un error humano al actualizar un sistema puede ser tan dañino como un virus, porque al final del día el servicio se cae igual.
+          </p>
+          <p>
+            En general, estos escenarios muestran que la seguridad se debe pensar como un conjunto de servicios, controles y procesos: prevenir, detectar, responder y recuperar, con
+            políticas claras y evidencia (logs) que respalden lo ocurrido.
+          </p>
+        </section>
+
+        <!-- REFERENCIAS -->
+        <section class="article-section">
+          <h2>Referencias</h2>
+          <ul class="list">
+            <li>
+              Internet Engineering Task Force (IETF). (2007). <i>RFC 4949: Internet Security Glossary, Version 2</i>.
+              <a class="link-pill" href="https://datatracker.ietf.org/doc/html/rfc4949" target="_blank" rel="noopener">Abrir</a>
+            </li>
+            <li>
+              International Telecommunication Union – Telecommunication Standardization Sector (ITU-T). (1991).
+              <i>Recommendation X.800: Security Architecture for Open Systems Interconnection</i>.
+              <a class="link-pill" href="https://www.itu.int/rec/T-REC-X.800-199103-I/en" target="_blank" rel="noopener">Abrir</a>
+            </li>
+          </ul>
+        </section>
+
+        <!-- ❌ ELIMINADO: article-footer (botones duplicados) -->
+      </article>
+
+    </div>
+  </section>
+</main>
+
+<footer class="footer">
+  <div class="container footer__inner">
+    <p>© <span class="muted">Portafolio de evidencias</span> | Seguridad Informática</p>
+    <p class="muted">PF01</p>
+  </div>
+</footer>
+
+<!-- ✅ Script de descarga directa (sin abrir el PDF) -->
+<script>
+  (function () {
+    function forceDownload(url, filename) {
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = filename || 'archivo.pdf';
+      a.rel = 'noopener';
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+    }
+
+    async function forceDownloadBlob(url, filename) {
+      const res = await fetch(url, { cache: 'no-store' });
+      if (!res.ok) return false;
+      const blob = await res.blob();
+      const blobUrl = URL.createObjectURL(blob);
+      forceDownload(blobUrl, filename);
+      setTimeout(() => URL.revokeObjectURL(blobUrl), 2000);
+      return true;
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      const btn = document.querySelector('.js-download-pdf');
+      if (!btn) return;
+
+      btn.addEventListener('click', async () => {
+        const url = btn.getAttribute('data-pdf');
+        const filename = btn.getAttribute('data-filename') || 'act02.pdf';
+        if (!url) return;
+
+        // Intento rápido (download)
+        forceDownload(url, filename);
+
+        // Fallback: fuerza descarga con blob (evita que se abra inline)
+        try { await forceDownloadBlob(url, filename); } catch (e) {}
+      });
+    });
+  })();
+</script>
+
+</body>
+</html>

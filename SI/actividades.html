@@ -1,0 +1,207 @@
+<!doctype html>
+<html lang="es" dir="ltr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes" />
+  <meta name="description" content="Actividades - Seguridad Informática." />
+  <title>Portafolio | Actividades</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&family=Fira+Code:wght@300;400;500;600;700&family=Orbitron:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <link rel="stylesheet" href="assets/css/styles.css" />
+
+  <script defer src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+  <script defer src="assets/js/main.js"></script>
+</head>
+
+<body>
+  <a class="skip-link" href="#contenido">Saltar al contenido principal</a>
+
+  <header class="header" id="header" role="banner">
+    <div class="header-container">
+      <nav class="nav" aria-label="Menú principal">
+        <a class="nav-brand" href="index.html#contenido" aria-label="Ir al inicio">
+          <span class="brand-icon"><i class="fas fa-shield-alt"></i></span>
+          <span class="brand-text">PF01</span>
+        </a>
+
+        <div class="nav-menu" id="navMenu">
+          <a class="nav-link" href="index.html#contenido"><span class="nav-text">Inicio</span></a>
+
+          <a class="nav-link active" href="actividades.html">
+            <span class="nav-text">Actividades</span>
+          </a>
+
+          <div class="nav-dropdown" id="parcialesDropdown">
+            <button class="nav-link nav-dropbtn" type="button" aria-expanded="false" aria-controls="parcialesMenu">
+              <span class="nav-text">Parciales</span>
+              <i class="fas fa-chevron-down"></i>
+            </button>
+            <div class="nav-dropmenu" id="parcialesMenu" role="menu">
+              <a class="nav-dropitem" href="index.html#parciales" data-open="p1" role="menuitem">Parcial 1</a>
+              <a class="nav-dropitem" href="index.html#parciales" data-open="p2" role="menuitem">Parcial 2</a>
+              <a class="nav-dropitem" href="index.html#parciales" data-open="p3" role="menuitem">Parcial 3</a>
+              <a class="nav-dropitem" href="index.html#parciales" data-open="final" role="menuitem">Final</a>
+            </div>
+          </div>
+
+          <a class="nav-link" href="index.html#contacto"><span class="nav-text">Contacto</span></a>
+        </div>
+
+        <div class="nav-actions">
+          <button class="menu-toggle" id="menuToggle" type="button" aria-label="Abrir menú">
+            <span></span><span></span><span></span>
+          </button>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main" class="main" role="main">
+    <section class="section hero hero--sub" id="contenido">
+      <div class="hero-bg" aria-hidden="true">
+        <canvas id="matrixCanvas"></canvas>
+        <div class="grid-overlay"></div>
+        <div class="scan-line"></div>
+        <div class="hack-particles" id="hackParticles"></div>
+      </div>
+
+      <div class="hero-container">
+        <div class="hero-content">
+          <div class="hero-badge">
+            <div class="badge-pulse"></div>
+            <i class="fas fa-book-skull"></i>
+            <span>ÍNDICE DE ACTIVIDADES</span>
+          </div>
+
+          <h1 class="hero-title">
+            <span class="title-word">Actividades del curso</span>
+            <span class="title-word highlight">CNO V – Seguridad Informática</span>
+          </h1>
+
+          <p class="hero-description">
+            Cada actividad está publicada como <strong>artículo técnico digital</strong>.
+            Incluye desarrollo, multimedia, reflexión, referencias y opción de <strong>Exportar a PDF</strong>.
+          </p>
+
+          <div class="hero-buttons">
+            <a class="btn btn-secondary" href="index.html#contenido">
+              <span>Volver al Inicio</span>
+              <i class="fas fa-arrow-left"></i>
+              <div class="btn-shine"></div>
+            </a>
+          </div>
+        </div>
+
+        <div class="hero-visual">
+          <div class="security-terminal">
+            <div class="terminal-header">
+              <div class="terminal-dots">
+                <span class="dot red"></span>
+                <span class="dot yellow"></span>
+                <span class="dot green"></span>
+              </div>
+              <div class="terminal-title">ACTIVITIES::INDEX</div>
+            </div>
+            <div class="terminal-body">
+              <div class="terminal-line" style="opacity:1">
+                <span class="prompt">root@portfolio:~$</span>
+                <span class="command">ls -la ./actividades</span>
+              </div>
+              <div class="terminal-line" style="opacity:1"><span class="output">6 artículos publicados</span></div>
+              <div class="terminal-line" style="opacity:1"><span class="output">Formato: técnico + export PDF</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-number">A0</span>
+          <h2 class="section-title">
+            <span class="title-text">Listado de actividades</span>
+            <span class="title-underline"></span>
+          </h2>
+        </div>
+
+        <div class="activities-grid">
+          <a class="activity-card" href="actividad-01.html">
+            <div class="activity-top">
+              <span class="activity-kicker">ACTIVIDAD 01</span>
+              <span class="activity-tag"><i class="fas fa-bug"></i> Análisis</span>
+            </div>
+            <h3 class="activity-title">Análisis en grupo de un ciberataque real y su impacto empresarial</h3>
+            <p class="activity-excerpt">Impacto operativo, financiero y reputacional, con enfoque en lecciones de ciberseguridad empresarial.</p>
+            <span class="activity-cta">Abrir artículo <i class="fas fa-arrow-right"></i></span>
+          </a>
+
+          <a class="activity-card" href="actividad-02.html">
+            <div class="activity-top">
+              <span class="activity-kicker">ACTIVIDAD 02</span>
+              <span class="activity-tag"><i class="fas fa-shield-halved"></i> Estándares</span>
+            </div>
+            <h3 class="activity-title">Análisis de servicios de seguridad (X.800 y RFC 4949)</h3>
+            <p class="activity-excerpt">Mapeo de servicios, mecanismos y terminología formal para seguridad en comunicaciones y sistemas.</p>
+            <span class="activity-cta">Abrir artículo <i class="fas fa-arrow-right"></i></span>
+          </a>
+
+          <a class="activity-card" href="actividad-03.html">
+            <div class="activity-top">
+              <span class="activity-kicker">ACTIVIDAD 03</span>
+              <span class="activity-tag"><i class="fas fa-filter"></i> Firewall</span>
+            </div>
+            <h3 class="activity-title">Interpretación y traducción de políticas de filtrado en iptables</h3>
+            <p class="activity-excerpt">Lectura, traducción y validación de reglas (INPUT/OUTPUT/FORWARD), estados, puertos y cadenas.</p>
+            <span class="activity-cta">Abrir artículo <i class="fas fa-arrow-right"></i></span>
+          </a>
+
+          <a class="activity-card" href="actividad-04.html">
+            <div class="activity-top">
+              <span class="activity-kicker">ACTIVIDAD 04</span>
+              <span class="activity-tag"><i class="fas fa-network-wired"></i> Defensa</span>
+            </div>
+            <h3 class="activity-title">Mecanismos de defensa en red</h3>
+            <p class="activity-excerpt">Controles defensivos, segmentación, IDS/IPS, hardening, detección y respuesta en infraestructura.</p>
+            <span class="activity-cta">Abrir artículo <i class="fas fa-arrow-right"></i></span>
+          </a>
+
+          <a class="activity-card" href="actividad-05.html">
+            <div class="activity-top">
+              <span class="activity-kicker">ACTIVIDAD 05</span>
+              <span class="activity-tag"><i class="fas fa-map"></i> Metodologías</span>
+            </div>
+            <h3 class="activity-title">Cartografiando el pentesting: análisis comparativo de metodologías</h3>
+            <p class="activity-excerpt">Comparación de enfoques, fases, entregables, alcance y métricas en metodologías de pentesting.</p>
+            <span class="activity-cta">Abrir artículo <i class="fas fa-arrow-right"></i></span>
+          </a>
+
+          <a class="activity-card" href="actividad-06.html">
+            <div class="activity-top">
+              <span class="activity-kicker">ACTIVIDAD 06</span>
+              <span class="activity-tag"><i class="fas fa-lock"></i> VPN</span>
+            </div>
+            <h3 class="activity-title">Implementación de IPSec VPN</h3>
+            <p class="activity-excerpt">Diseño, configuración y pruebas de túneles IPSec, incluyendo parámetros, cifrado y verificación.</p>
+            <span class="activity-cta">Abrir artículo <i class="fas fa-arrow-right"></i></span>
+          </a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer" role="contentinfo">
+    <div class="container footer__inner">
+      <p>© <span id="year"></span> Enrique Alvarez Aquino · Portafolio de Seguridad Informática</p>
+      <p class="muted">Universidad Politécnica de San Luis Potosí · UPSLP</p>
+    </div>
+  </footer>
+</body>
+</html>

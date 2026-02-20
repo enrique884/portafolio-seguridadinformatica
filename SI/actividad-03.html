@@ -1,0 +1,468 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="description" content="Actividad 03 - Interpretación y traducción de políticas de filtrado en iptables" />
+  <title>Actividad 03 | Políticas de filtrado en iptables</title>
+
+  <link rel="stylesheet" href="assets/css/styles.css" />
+  <script defer src="assets/js/main.js"></script>
+
+  <!-- Extra: tablas (solo para esta actividad) -->
+  <style>
+    .table-wrap{
+      overflow:auto;
+      border-radius:14px;
+      border:1px solid rgba(0,255,136,.18);
+      background: rgba(0,0,0,.18);
+    }
+    .tech-table{
+      width:100%;
+      border-collapse:collapse;
+      min-width:920px;
+    }
+    .tech-table th,
+    .tech-table td{
+      padding:.85rem;
+      vertical-align:top;
+      border-bottom:1px solid rgba(30,41,59,.75);
+      color: rgba(226,232,240,.88);
+      line-height:1.55;
+    }
+    .tech-table th{
+      position:sticky;
+      top:0;
+      background: rgba(0,255,136,.06);
+      color: rgba(226,232,240,.95);
+      text-align:left;
+      font-family: var(--font-tech);
+      letter-spacing:.4px;
+      z-index:1;
+    }
+    .tech-table td:first-child{
+      width:22%;
+      color: rgba(226,232,240,.92);
+      font-weight:900;
+    }
+    .pill-mini{
+      display:inline-flex;
+      align-items:center;
+      gap:.5rem;
+      padding:.35rem .7rem;
+      border-radius:999px;
+      border:1px solid rgba(0,255,136,.20);
+      background: rgba(0,255,136,.06);
+      color: var(--text-secondary);
+      font-family: var(--font-code);
+      font-weight:900;
+      font-size:.78rem;
+      margin:.65rem .45rem 0 0;
+      white-space:nowrap;
+    }
+    .kblock{
+      border-radius:16px;
+      border:1px solid rgba(0,255,136,.16);
+      background: rgba(0,0,0,.18);
+      padding:1rem;
+      margin-top:1rem;
+    }
+    .kblock h3{
+      margin:.1rem 0 .6rem;
+      font-family:var(--font-tech);
+      letter-spacing:.5px;
+      font-size:1rem;
+    }
+    .split{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:1rem;
+      margin-top:1rem;
+    }
+    @media (max-width: 980px){
+      .split{grid-template-columns:1fr}
+    }
+  </style>
+</head>
+
+<body>
+<a class="skip-link" href="#contenido">Saltar al contenido principal</a>
+
+<header class="header" id="header" role="banner">
+  <div class="header-container">
+    <nav class="nav" aria-label="Menú principal">
+      <a class="nav-brand" href="index.html">
+        <span class="brand-icon" aria-hidden="true">PF01</span>
+        <span class="brand-text">Portafolio</span>
+      </a>
+
+      <button class="menu-toggle" id="menuToggle" aria-label="Abrir menú">
+        <span></span><span></span><span></span>
+      </button>
+
+      <div class="nav-menu" id="navMenu">
+        <a class="nav-link" href="index.html">Inicio</a>
+        <a class="nav-link active" href="actividades.html">Actividades</a>
+      </div>
+    </nav>
+  </div>
+</header>
+
+<main id="contenido" class="main">
+
+  <!-- HERO -->
+  <section class="section hero hero--sub">
+    <div class="hero-bg">
+      <canvas id="matrixCanvas" aria-hidden="true"></canvas>
+      <div class="grid-overlay" aria-hidden="true"></div>
+      <div class="scan-line" aria-hidden="true"></div>
+    </div>
+
+    <div class="hero-container">
+      <div>
+        <div class="hero-badge">
+          <span class="badge-pulse" aria-hidden="true"></span>
+          <span>ACTIVIDAD 03</span>
+        </div>
+
+        <h1 class="hero-title">
+          <span class="title-word">Interpretación y traducción</span>
+          <span class="title-word highlight">de políticas de filtrado en iptables</span>
+        </h1>
+
+        <p class="hero-description">
+          Conversión del formato de “hoja de actividad” a artículo técnico:
+          flujo del paquete, tablas de iptables, anatomía del comando, opciones comunes
+          y reglas prácticas (HTTP/SSH/ESTABLISHED/LOG).
+        </p>
+
+        <!-- ✅ SOLO botones superiores -->
+        <div class="hero-buttons">
+          <!-- ✅ Descarga directa del PDF guardado -->
+          <button
+            class="btn btn-primary js-download-pdf"
+            type="button"
+            data-pdf="assets/pdfs/act03.pdf"
+            data-filename="act03.pdf"
+          >
+            <span class="btn-shine" aria-hidden="true"></span>
+            Exportar a PDF
+          </button>
+
+          <a class="btn btn-secondary" href="actividades.html">
+            <span class="btn-shine" aria-hidden="true"></span>
+            Volver a Actividades
+          </a>
+        </div>
+      </div>
+
+      <div class="hero-visual">
+        <div class="security-terminal">
+          <div class="terminal-header">
+            <div class="terminal-dots" aria-hidden="true">
+              <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+            </div>
+            <div class="terminal-title">root@iptables:~$ ACT03</div>
+          </div>
+          <div class="terminal-body">
+            <div class="terminal-line" style="opacity:1;">
+              <span class="prompt">root@iptables:~$</span>
+              <span class="command"> policy --translate --ruleset hardening</span>
+            </div>
+            <div class="terminal-line" style="opacity:1;margin-top:.4rem;">
+              <span class="output">✔ tables → chains → rules → targets (ACCEPT/DROP/LOG)</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTENIDO -->
+  <section class="section">
+    <div class="container">
+
+      <div class="breadcrumbs">
+        <a href="index.html">Inicio</a>
+        <span class="crumb-sep">/</span>
+        <a href="actividades.html">Actividades</a>
+        <span class="crumb-sep">/</span>
+        <span class="crumb-current">Actividad 03</span>
+      </div>
+
+      <article class="card article">
+
+        <div class="article-head">
+          <div>
+            <div class="article-kicker">iptables / Netfilter — reglas, tablas y traducción de políticas</div>
+            <h2 class="article-title">ACTIVIDAD 03 — Interpretación y traducción de políticas en iptables</h2>
+            <p class="article-subtitle">
+              Se documenta el flujo básico del paquete, propósito de tablas (FILTER/NAT/MANGLE/RAW/SECURITY),
+              anatomía de comandos y reglas de control (HTTP/SSH/ESTABLISHED/LOG).
+            </p>
+
+            <span class="pill-mini">1) Introducción</span>
+            <span class="pill-mini">2) Desarrollo técnico</span>
+            <span class="pill-mini">3) Multimedia</span>
+            <span class="pill-mini">4) Reflexión</span>
+            <span class="pill-mini">5) Referencias</span>
+          </div>
+
+          <!-- ❌ Eliminado: botones duplicados aquí -->
+        </div>
+
+        <!-- 1) INTRO -->
+        <section class="article-section">
+          <h2>1) Introducción contextual al tema</h2>
+          <p>
+            En Linux, <b>iptables</b> (Netfilter) funciona como un firewall por reglas que decide qué tráfico
+            entra, sale o atraviesa el sistema. Comprender la diferencia entre <b>tablas</b>, <b>cadenas</b> y <b>acciones</b>
+            permite traducir políticas de seguridad a reglas concretas: permitir servicios necesarios (HTTP/SSH),
+            restringir por IP de origen y aceptar solo tráfico relacionado/establecido.
+          </p>
+          <p>
+            Esta actividad se enfoca en interpretar el flujo de procesamiento de un paquete, relacionar tablas con su propósito,
+            y escribir reglas típicas que se usan en servidores.
+          </p>
+        </section>
+
+        <!-- 2) DESARROLLO -->
+        <section class="article-section">
+          <h2>2) Desarrollo técnico de la actividad</h2>
+
+          <div class="kblock">
+            <h3>2.1 Flujo del paquete (concepto base)</h3>
+            <p style="margin:.2rem 0 0;">
+              Cuando un paquete llega al sistema, primero pasa por una <b>tabla</b>,
+              después por una <b>cadena</b> y finalmente se ejecuta una <b>acción</b> (target).
+            </p>
+          </div>
+
+          <div class="kblock">
+            <h3>2.2 Tablas de iptables y propósito principal</h3>
+            <p style="margin:.2rem 0 .8rem;">
+              Relación “tabla → propósito” (y un ejemplo corto de uso), tal como se trabajó en la hoja.
+            </p>
+
+            <div class="table-wrap">
+              <table class="tech-table" aria-label="Relación de tablas y propósito">
+                <thead>
+                  <tr>
+                    <th>Tabla</th>
+                    <th>Propósito principal</th>
+                    <th>Ejemplo de uso (frase corta)</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><b>FILTER</b></td>
+                    <td>Filtra paquetes (permitir/denegar tráfico).</td>
+                    <td>“Pasa/filtra paquetes” (permitir HTTP/SSH).</td>
+                  </tr>
+                  <tr>
+                    <td><b>NAT</b></td>
+                    <td>Traduce direcciones (NAT, enmascaramiento, redirección).</td>
+                    <td>Conexión de diferentes dispositivos / compartir salida a Internet.</td>
+                  </tr>
+                  <tr>
+                    <td><b>MANGLE</b></td>
+                    <td>Marcar/modificar cabeceras (QoS, flags, marcas).</td>
+                    <td>Poner marcas a los encabezados.</td>
+                  </tr>
+                  <tr>
+                    <td><b>RAW</b></td>
+                    <td>Tráfico “antes” de seguimiento de conexión (conntrack).</td>
+                    <td>Dejar pasar paquetes sin seguimiento (NOTRACK).</td>
+                  </tr>
+                  <tr>
+                    <td><b>SECURITY</b></td>
+                    <td>Seguridad adicional (políticas tipo SELinux/LSM).</td>
+                    <td>Auditoría/seguridad de paquetes (contextos).</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="split">
+            <div class="kblock">
+              <h3>2.3 Anatomía de un comando iptables</h3>
+              <p style="margin:.2rem 0 .8rem;">
+                Estructura del comando (partes clave).
+              </p>
+
+              <div class="code-block"><pre><code>iptables -A &lt;CADENA&gt; -p tcp -m &lt;MATCH&gt; --dports 80,443 -j &lt;ACCIÓN&gt;
+
+A = Append (agregar regla)
+CADENA = INPUT / OUTPUT / FORWARD
+-p tcp = protocolo
+-m match = módulo de comparación (ej. multiport, state)
+--dports = puertos destino (lista)
+-j = jump (acción/target): ACCEPT | DROP | REJECT | LOG</code></pre></div>
+            </div>
+
+            <div class="kblock">
+              <h3>2.4 Opciones y variables comunes</h3>
+              <p style="margin:.2rem 0 .8rem;">
+                Ejemplos típicos que se usan para “leer” y “traducir” reglas.
+              </p>
+
+              <div class="code-block"><pre><code>a) Limitar intentos por minuto:
+   --limit 5/minute
+
+b) Filtrar por IP de origen:
+   -s 192.168.1.0/24   (o --source 192.168.1.0/24)
+
+c) Ver solo números (sin DNS, sin resolución de puertos):
+   iptables -L -n
+
+d) Ver reglas con contadores (paquetes y bytes):
+   iptables -L -v</code></pre></div>
+            </div>
+          </div>
+
+          <div class="kblock">
+            <h3>2.5 ¿Qué hace esta regla? (interpretación)</h3>
+
+            <div class="code-block"><pre><code>iptables -A INPUT -i eth0 -p tcp -m multiport --dports 22,80,443 \
+  -m state --state NEW,ESTABLISHED -j ACCEPT</code></pre></div>
+
+            <ul class="list">
+              <li><b>INPUT</b>: afecta tráfico entrante al host.</li>
+              <li><b>-i eth0</b>: aplica solo a la interfaz eth0.</li>
+              <li><b>-p tcp</b>: solo TCP.</li>
+              <li><b>--dports 22,80,443</b>: permite SSH (22) y web (HTTP/HTTPS: 80/443).</li>
+              <li><b>--state NEW,ESTABLISHED</b>: permite conexiones nuevas y ya establecidas.</li>
+              <li><b>-j ACCEPT</b>: acción final: aceptar.</li>
+            </ul>
+
+            <p class="muted" style="margin:0;">
+              Interpretación resumida: <b>permite tráfico entrante para servicios SSH y Web</b> (22/80/443) por eth0.
+            </p>
+          </div>
+
+          <div class="kblock">
+            <h3>2.6 Traducción de políticas a reglas (ejercicios)</h3>
+
+            <div class="code-block"><pre><code>7) Permitir tráfico HTTP entrante
+iptables -A INPUT -p tcp --dport 80 -j ACCEPT
+
+8) Permitir todo el tráfico saliente
+iptables -P OUTPUT ACCEPT
+
+9) Permitir SSH solo desde la IP 192.168.1.50
+iptables -A INPUT -p tcp -s 192.168.1.50 --dport 22 -j ACCEPT
+
+10) Permitir TCP entrante a puertos 80 y 443 solo si es conexión establecida o relacionada
+iptables -A INPUT -p tcp -m multiport --dports 80,443 -m state --state ESTABLISHED,RELATED -j ACCEPT
+
+11) Permitir TCP entrante por eth0 a 22,80,443; registrar intentos y permitir solo NEW y ESTABLISHED
+iptables -A INPUT -i eth0 -p tcp -m multiport --dports 22,80,443 -j LOG --log-prefix "ACCESO DETECTADO TCP: "
+
+iptables -A INPUT -i eth0 -p tcp -m multiport --dports 22,80,443 \
+  -m state --state NEW,ESTABLISHED -j ACCEPT</code></pre></div>
+
+            <p class="muted" style="margin:0;">
+              Nota: separar LOG y ACCEPT ayuda a auditoría y detección de actividad sospechosa.
+            </p>
+          </div>
+        </section>
+
+        <!-- 3) MULTIMEDIA -->
+        <section class="article-section">
+          <h2>3) Material multimedia</h2>
+
+         <div class="media-block">
+  <div class="media-title">🧩 Esquema explicativo</div>
+
+  <div class="media-image">
+    <img src="diagrama.png" alt="Diagrama Packet Flow" loading="lazy">
+  </div>
+</div>
+        </section>
+
+        <!-- 4) REFLEXIÓN -->
+        <section class="article-section">
+          <h2>4) Opinión o reflexión técnica del estudiante</h2>
+          <p>
+            Lo más importante de iptables no es memorizar comandos, sino entender la “lógica”:
+            <b>tabla → cadena → regla → acción</b>. Cuando se domina eso, se vuelve más fácil traducir
+            una política (“solo SSH desde una IP”, “web solo si la sesión ya está establecida”) a reglas concretas.
+          </p>
+          <p>
+            En escenarios reales de seguridad, este tipo de filtrado reduce superficie de ataque: limitar
+            por IP de origen, permitir únicamente puertos necesarios y registrar intentos (LOG) ayuda a detectar
+            escaneo de puertos y accesos anómalos. En un servidor expuesto, una regla mal escrita puede abrir
+            servicios innecesarios; por eso se recomienda documentar reglas, probar y auditar contadores.
+          </p>
+        </section>
+
+        <!-- 5) REFERENCIAS -->
+        <section class="article-section">
+          <h2>5) Referencias técnicas</h2>
+          <ul class="list">
+            <li>netfilter/iptables. <i>iptables(8) — Linux manual page</i> (man iptables).</li>
+            <li>Netfilter Project. <i>Documentation / Packet filtering</i> (iptables y conceptos de cadenas/tablas).</li>
+            <li>conntrack / state module. Conceptos de estados: <b>NEW</b>, <b>ESTABLISHED</b>, <b>RELATED</b>.</li>
+          </ul>
+        </section>
+
+        <!-- ❌ Eliminado: article-footer con botones duplicados -->
+
+      </article>
+    </div>
+  </section>
+</main>
+
+<footer class="footer">
+  <div class="container footer__inner">
+    <p>© <span class="muted">Portafolio de evidencias</span> | Seguridad Informática</p>
+    <p class="muted">PF01</p>
+  </div>
+</footer>
+
+<!-- ✅ Descarga directa (sin generar PDF, sin abrir primero) -->
+<script>
+  (function () {
+    function forceDownload(url, filename) {
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = filename || 'archivo.pdf';
+      a.rel = 'noopener';
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+    }
+
+    async function forceDownloadBlob(url, filename) {
+      const res = await fetch(url, { cache: 'no-store' });
+      if (!res.ok) return false;
+      const blob = await res.blob();
+      const blobUrl = URL.createObjectURL(blob);
+      forceDownload(blobUrl, filename);
+      setTimeout(() => URL.revokeObjectURL(blobUrl), 2000);
+      return true;
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      const btn = document.querySelector('.js-download-pdf');
+      if (!btn) return;
+
+      btn.addEventListener('click', async () => {
+        const url = btn.getAttribute('data-pdf');
+        const filename = btn.getAttribute('data-filename') || 'act03.pdf';
+        if (!url) return;
+
+        // Intento rápido
+        forceDownload(url, filename);
+
+        // Fallback (evita que el navegador lo abra inline)
+        try { await forceDownloadBlob(url, filename); } catch (e) {}
+      });
+    });
+  })();
+</script>
+
+</body>
+</html>

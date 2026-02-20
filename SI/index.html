@@ -75,7 +75,7 @@
   <header class="header" id="header" role="banner">
     <div class="header-container">
       <nav class="nav" aria-label="Menú principal">
-        <a class="nav-brand" href="#contenido" aria-label="Ir al inicio">
+        <a class="nav-brand" href="index.html#contenido" aria-label="Ir al inicio">
           <span class="brand-icon"><i class="fas fa-shield-alt"></i></span>
           <span class="brand-text">PF01</span>
         </a>
@@ -86,7 +86,12 @@
             <span class="nav-text">Inicio</span>
           </a>
 
-          <!-- Dropdown Parciales (evita salto de línea) -->
+          <!-- ✅ NUEVA PESTAÑA -->
+          <a class="nav-link" href="actividades.html">
+            <span class="nav-text">Actividades</span>
+          </a>
+
+          <!-- Dropdown Parciales -->
           <div class="nav-dropdown" id="parcialesDropdown">
             <button class="nav-link nav-dropbtn" type="button" aria-expanded="false" aria-controls="parcialesMenu">
               <span class="nav-text">Parciales</span>
@@ -115,7 +120,7 @@
     </div>
   </header>
 
-  <!-- HERO cyber + tu info -->
+  <!-- HERO -->
   <section class="section hero" id="contenido">
     <div class="hero-bg" aria-hidden="true">
       <canvas id="matrixCanvas"></canvas>
@@ -143,11 +148,25 @@
           <span class="subtitle-text">Ciberseguridad</span>
           <span class="subtitle-separator">|</span>
         </div>
-        <div class="hero-meta">
-         
+
+        <h3>
+          <p class="hero-description">
+            Este sitio funciona como contenedor oficial y documentado de las evidencias académicas del curso
+            <strong>CNO V – Seguridad Informática</strong>, con enfoque en <strong>ciberseguridad</strong>,
+            <strong>pruebas de penetración</strong> y <strong>análisis de vulnerabilidades</strong>.
+          </p>
+        </h3>
+
+        <!-- ✅ mini CTA opcional -->
+        <div class="hero-buttons">
+          <a class="btn btn-secondary" href="actividades.html">
+            <span>Ir a Actividades</span>
+            <i class="fas fa-terminal"></i>
+            <div class="btn-shine"></div>
+          </a>
         </div>
       </div>
-        
+
       <div class="hero-visual">
         <div class="security-terminal">
           <div class="terminal-header">
@@ -160,17 +179,11 @@
           </div>
         </div>
       </div>
-      
-       <h3><p class="hero-description">
-          Este sitio funciona como contenedor oficial y documentado de las evidencias académicas del curso
-          <strong>CNO V – Seguridad Informática</strong>, con enfoque en <strong>ciberseguridad</strong>,
-          <strong>pruebas de penetración</strong> y <strong>análisis de vulnerabilidades</strong>.
-        </p></h3> 
-
     </div>
   </section>
 
   <main id="main" class="main" role="main">
+    <!-- PRESENTACIÓN -->
     <section class="section">
       <div class="container">
         <div class="section-header">
@@ -195,6 +208,7 @@
       </div>
     </section>
 
+    <!-- PERFIL -->
     <section class="section">
       <div class="container">
         <div class="section-header">
@@ -244,6 +258,7 @@
         </div>
 
         <div class="card">
+          <p class="muted">Organización por parcial. Aquí irás agregando evidencias conforme avances.</p>
 
           <div class="accordion">
             <details class="acc-item" open data-acc="p1">
@@ -363,5 +378,4 @@
     </div>
   </footer>
 </body>
-
 </html>

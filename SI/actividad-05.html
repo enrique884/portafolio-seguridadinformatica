@@ -1,0 +1,491 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="description" content="Actividad 05 - Cartografiando el pentesting: análisis corporativo de metodologías de seguridad informática" />
+  <title>Actividad 05 | Cartografiando el pentesting</title>
+
+  <link rel="stylesheet" href="assets/css/styles.css" />
+  <script defer src="assets/js/main.js"></script>
+
+  <!-- Extra: tablas + layout (solo para esta actividad) -->
+  <style>
+    .pill-mini{
+      display:inline-flex; align-items:center; gap:.5rem;
+      padding:.35rem .7rem; border-radius:999px;
+      border:1px solid rgba(0,255,136,.20);
+      background: rgba(0,255,136,.06);
+      color: var(--text-secondary);
+      font-family: var(--font-code);
+      font-weight:900; font-size:.78rem;
+      margin:.65rem .45rem 0 0; white-space:nowrap;
+    }
+    .table-wrap{
+      overflow:auto;
+      border-radius:14px;
+      border:1px solid rgba(0,255,136,.18);
+      background: rgba(0,0,0,.18);
+      margin-top:1rem;
+    }
+    .tech-table{
+      width:100%;
+      border-collapse:collapse;
+      min-width:1200px;
+    }
+    .tech-table th,
+    .tech-table td{
+      padding:.85rem;
+      vertical-align:top;
+      border-bottom:1px solid rgba(30,41,59,.75);
+      color: rgba(226,232,240,.88);
+      line-height:1.55;
+    }
+    .tech-table th{
+      position:sticky;
+      top:0;
+      background: rgba(0,255,136,.06);
+      color: rgba(226,232,240,.95);
+      text-align:left;
+      font-family: var(--font-tech);
+      letter-spacing:.4px;
+      z-index:1;
+      white-space:nowrap;
+    }
+    .row-h{
+      width:170px;
+      color: rgba(226,232,240,.95);
+      font-weight:900;
+      font-family: var(--font-code);
+      background: rgba(0,0,0,.25);
+      position:sticky;
+      left:0;
+      z-index:2;
+      border-right:1px solid rgba(30,41,59,.7);
+    }
+    .tech-table td.row-h{z-index:1}
+    .tag{
+      display:inline-flex; align-items:center;
+      padding:.25rem .55rem;
+      border-radius:999px;
+      border:1px solid rgba(0,255,136,.18);
+      background: rgba(0,255,136,.06);
+      font-family: var(--font-code);
+      font-weight:900;
+      font-size:.78rem;
+      color: var(--text-secondary);
+      margin:.25rem .35rem .15rem 0;
+      white-space:nowrap;
+    }
+    .grid-3{
+      display:grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+    .kpi{
+      border-radius:16px;
+      border:1px solid rgba(0,255,136,.16);
+      background: rgba(0,0,0,.18);
+      padding:1rem;
+    }
+    .kpi .k{font-family:var(--font-code);color:var(--text-secondary);font-weight:900}
+    .kpi .v{margin-top:.35rem;font-family:var(--font-tech);font-weight:900;letter-spacing:.5px}
+    .callout{
+      border-radius:16px;
+      border:1px solid rgba(0,212,255,.18);
+      background: rgba(0,0,0,.18);
+      padding:1rem;
+      margin-top:1rem;
+    }
+    .callout .title{
+      font-family:var(--font-code);
+      color: var(--secondary);
+      font-weight:900;
+      margin:0 0 .55rem;
+    }
+    .split{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+    @media (max-width: 980px){
+      .grid-3{grid-template-columns:1fr}
+      .split{grid-template-columns:1fr}
+    }
+  </style>
+</head>
+
+<body>
+<a class="skip-link" href="#contenido">Saltar al contenido principal</a>
+
+<header class="header" id="header" role="banner">
+  <div class="header-container">
+    <nav class="nav" aria-label="Menú principal">
+      <a class="nav-brand" href="index.html">
+        <span class="brand-icon" aria-hidden="true">PF01</span>
+        <span class="brand-text">Portafolio</span>
+      </a>
+
+      <button class="menu-toggle" id="menuToggle" aria-label="Abrir menú">
+        <span></span><span></span><span></span>
+      </button>
+
+      <div class="nav-menu" id="navMenu">
+        <a class="nav-link" href="index.html">Inicio</a>
+        <a class="nav-link active" href="actividades.html">Actividades</a>
+      </div>
+    </nav>
+  </div>
+</header>
+
+<main id="contenido" class="main">
+
+  <!-- HERO -->
+  <section class="section hero hero--sub">
+    <div class="hero-bg">
+      <canvas id="matrixCanvas" aria-hidden="true"></canvas>
+      <div class="grid-overlay" aria-hidden="true"></div>
+      <div class="scan-line" aria-hidden="true"></div>
+    </div>
+
+    <div class="hero-container">
+      <div>
+        <div class="hero-badge">
+          <span class="badge-pulse" aria-hidden="true"></span>
+          <span>ACTIVIDAD 05</span>
+        </div>
+
+        <h1 class="hero-title">
+          <span class="title-word">Cartografiando el pentesting:</span>
+          <span class="title-word highlight">análisis corporativo de metodologías</span>
+        </h1>
+
+        <p class="hero-description">
+          Comparativa técnica entre frameworks y estándares usados en seguridad informática:
+          <b>MITRE ATT&amp;CK</b>, <b>OWASP WSTG</b>, <b>NIST SP 800-115</b>, <b>OSSTMM</b>, <b>PTES</b> e <b>ISSAF</b>.
+          Se revisan descripción, fases, objetivo, escenarios, orientación, autor, vigencia y certificaciones.
+        </p>
+
+        <div class="hero-buttons">
+          <button
+  class="btn btn-primary js-download-pdf"
+  type="button"
+  data-pdf="assets/pdfs/act05.pdf"
+  data-filename="act05.pdf"
+>
+  <span class="btn-shine" aria-hidden="true"></span>
+  Exportar a PDF
+</button>
+
+
+          <a class="btn btn-secondary" href="actividades.html">
+            <span class="btn-shine" aria-hidden="true"></span>
+            Volver a Actividades
+          </a>
+        </div>
+
+        <div class="grid-3" aria-label="Resumen rápido">
+          <div class="kpi">
+            <div class="k">Enfoque</div>
+            <div class="v">Metodologías + estándares</div>
+          </div>
+          <div class="kpi">
+            <div class="k">Uso típico</div>
+            <div class="v">Pentesting / auditoría / SOC</div>
+          </div>
+          <div class="kpi">
+            <div class="k">Salida esperada</div>
+            <div class="v">Hallazgos + reporte</div>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="hero-visual">
+        <div class="security-terminal">
+          <div class="terminal-header">
+            <div class="terminal-dots" aria-hidden="true">
+              <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+            </div>
+            <div class="terminal-title">root@pentest:~$ ACT05</div>
+          </div>
+          <div class="terminal-body">
+            <div class="terminal-line" style="opacity:1;">
+              <span class="prompt">root@pentest:~$</span>
+              <span class="command"> map --frameworks MITRE,OWASP,NIST,OSSTMM,PTES,ISSAF</span>
+            </div>
+            <div class="terminal-line" style="opacity:1;margin-top:.4rem;">
+              <span class="output">✔ seleccionar metodología según contexto: defensa, auditoría o simulación</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTENIDO -->
+  <section class="section">
+    <div class="container">
+
+      <div class="breadcrumbs">
+        <a href="index.html">Inicio</a>
+        <span class="crumb-sep">/</span>
+        <a href="actividades.html">Actividades</a>
+        <span class="crumb-sep">/</span>
+        <span class="crumb-current">Actividad 05</span>
+      </div>
+
+      <article class="card article">
+        <div class="article-head">
+          <div>
+            <div class="article-kicker">Pentesting / Auditoría / SOC</div>
+            <h2 class="article-title">ACTIVIDAD 05 — Cartografiando el pentesting</h2>
+            <p class="article-subtitle">
+              Comparación corporativa de metodologías de seguridad informática con enfoque práctico:
+              qué son, para qué sirven y cuándo conviene elegir cada una. (Contenido del documento.) 
+            </p>
+
+            <span class="pill-mini">1) Introducción</span>
+            <span class="pill-mini">2) Desarrollo técnico</span>
+            <span class="pill-mini">3) Multimedia</span>
+            <span class="pill-mini">4) Reflexión</span>
+            <span class="pill-mini">5) Referencias</span>
+          </div>
+        </div>
+
+        <!-- 1) INTRO -->
+        <section class="article-section">
+          <h2>1) Introducción contextual al tema</h2>
+          <p>
+            El pentesting y las evaluaciones de seguridad se apoyan en metodologías para asegurar repetibilidad,
+            cobertura y calidad del reporte. Sin un marco, las pruebas quedan desordenadas y es más difícil
+            justificar hallazgos y riesgos ante una organización.
+          </p>
+          <p>
+            En esta actividad se comparan seis marcos ampliamente usados, destacando su orientación (defensa/ataque/evaluación),
+            fases, escenarios y vigencia para aplicar el adecuado según el contexto. 
+          </p>
+
+          <div class="callout">
+            <div class="title">Idea clave</div>
+            <p style="margin:0;">
+              Estas metodologías <b>no compiten</b>: se complementan. Un SOC puede usar MITRE para detección,
+              mientras un equipo ofensivo usa PTES/OSSTMM y un equipo de cumplimiento se apoya en NIST SP 800-115.
+            </p>
+          </div>
+        </section>
+
+        <!-- 2) DESARROLLO -->
+        <section class="article-section">
+          <h2>2) Desarrollo técnico de la actividad</h2>
+
+          <div class="media-block">
+            <div class="media-title">2.1 Tabla comparativa (metodologías)</div>
+            <p class="muted" style="margin:.2rem 0 0;">
+            </p>
+
+            <div class="table-wrap">
+              <table class="tech-table" aria-label="Tabla comparativa de metodologías">
+                <thead>
+                  <tr>
+                    <th></th>
+                    <th>MITRE ATT&amp;CK</th>
+                    <th>OWASP WSTG</th>
+                    <th>NIST SP 800-115</th>
+                    <th>OSSTMM</th>
+                    <th>PTES</th>
+                    <th>ISSAF</th>
+                  </tr>
+                </thead>
+
+                <tbody>
+                  <tr>
+                    <td class="row-h">Descripción técnica</td>
+                    <td>Base de conocimiento que modela comportamiento real de adversarios mediante tácticas y técnicas post-explotación. No es guía de pentesting, sino de detección.</td>
+                    <td>Metodología de pruebas para aplicaciones web enfocada en vulnerabilidades más comunes.</td>
+                    <td>Guía gubernamental para evaluación técnica de controles de seguridad en organizaciones.</td>
+                    <td>Metodología científica que mide seguridad mediante métricas verificables (RAV score).</td>
+                    <td>Estándar profesional de ejecución de pentesting completo desde contrato hasta reporte.</td>
+                    <td>Framework detallado para auditorías técnicas con procedimientos paso a paso.</td>
+                  </tr>
+
+                  <tr>
+                    <td class="row-h">Fases</td>
+                    <td>
+                      Reconocimiento<br>Acceso inicial<br>Ejecución<br>Persistencia<br>Escalada privilegios<br>Movimiento lateral<br>Exfiltración
+                    </td>
+                    <td>
+                      Información<br>Configuración<br>Autenticación<br>Autorización<br>Validación<br>Lógica de negocio
+                    </td>
+                    <td>
+                      Planeación<br>Descubrimiento<br>Ataque controlado<br>Reporte
+                    </td>
+                    <td>
+                      Inducción<br>Interacción<br>Investigación<br>Intervención
+                    </td>
+                    <td>
+                      Pre-engagement<br>Inteligencia<br>Modelado de amenazas<br>Explotación<br>Post-explotación<br>Reporte
+                    </td>
+                    <td>
+                      Planeación<br>Evaluación<br>Explotación<br>Reporte
+                    </td>
+                  </tr>
+
+                  <tr>
+                    <td class="row-h">Objetivo principal</td>
+                    <td>Detectar y mapear ataques reales</td>
+                    <td>Encontrar vulnerabilidades web</td>
+                    <td>Verificar eficacia de controles</td>
+                    <td>Medir nivel real de seguridad</td>
+                    <td>Simular ataque real completo</td>
+                    <td>Auditoría de seguridad integral</td>
+                  </tr>
+
+                  <tr>
+                    <td class="row-h">Escenarios</td>
+                    <td>SOC, monitoreo SIEM, respuesta a incidentes</td>
+                    <td>Aplicaciones web, APIs, e-commerce</td>
+                    <td>Auditorías empresariales y cumplimiento</td>
+                    <td>Infraestructura crítica, telecomunicaciones</td>
+                    <td>Pentesting corporativo</td>
+                    <td>Auditorías internas/externas</td>
+                  </tr>
+
+                  <tr>
+                    <td class="row-h">Orientación</td>
+                    <td>Defensa</td>
+                    <td>Ataque</td>
+                    <td>Evaluación</td>
+                    <td>Evaluación</td>
+                    <td>Ataque</td>
+                    <td>Evaluación/Ataque</td>
+                  </tr>
+
+                  <tr>
+                    <td class="row-h">Autor</td>
+                    <td>MITRE Corporation</td>
+                    <td>OWASP Foundation</td>
+                    <td>National Institute of Standards and Technology</td>
+                    <td>ISECOM</td>
+                    <td>PTES Technical Guidelines</td>
+                    <td>OISSG</td>
+                  </tr>
+
+                  <tr>
+                    <td class="row-h">URL</td>
+                    <td><a href="https://attack.mitre.org" target="_blank" rel="noreferrer">https://attack.mitre.org</a></td>
+                    <td><a href="https://owasp.org/www-project-web-security-testing-guide/" target="_blank" rel="noreferrer">OWASP WSTG</a></td>
+                    <td><a href="https://nvlpubs.nist.gov/nistpubs/Legacy/SP/nistspecialpublication800-115.pdf" target="_blank" rel="noreferrer">NIST SP 800-115</a></td>
+                    <td><a href="https://www.isecom.org/OSSTMM.3.pdf" target="_blank" rel="noreferrer">OSSTMM 3</a></td>
+                    <td><a href="http://www.pentest-standard.org" target="_blank" rel="noreferrer">PTES</a></td>
+                    <td><a href="https://www.oissg.org/issaf" target="_blank" rel="noreferrer">ISSAF</a></td>
+                  </tr>
+
+                  <tr>
+                    <td class="row-h">Certificaciones</td>
+                    <td>MITRE ATT&amp;CK Defender</td>
+                    <td>OSWE, CEH</td>
+                    <td>CISSP, CISA</td>
+                    <td>OPST, OPSA</td>
+                    <td>OSCP, PNPT, eJPT</td>
+                    <td>CEH, CHFI</td>
+                  </tr>
+
+                  <tr>
+                    <td class="row-h">Vigencia</td>
+                    <td>V16 – actualizada continuamente</td>
+                    <td>WSTG v4 vigente</td>
+                    <td>SP 800-115 vigente como guía</td>
+                    <td>OSSTMM 3 vigente</td>
+                    <td>V1.1 estándar</td>
+                    <td>V0.2.1 considerado histórico</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="split">
+            <div class="callout">
+              <div class="title">¿Cuál usar y cuándo?</div>
+              <p style="margin:0;">
+                <span class="tag">SOC / detección</span> MITRE ATT&amp;CK<br>
+                <span class="tag">Apps web</span> OWASP WSTG<br>
+                <span class="tag">Cumplimiento</span> NIST SP 800-115<br>
+                <span class="tag">Métricas</span> OSSTMM<br>
+                <span class="tag">Pentest end-to-end</span> PTES<br>
+                <span class="tag">Auditoría detallada</span> ISSAF
+              </p>
+            </div>
+
+            <div class="callout">
+              <div class="title">Buenas prácticas corporativas</div>
+              <p style="margin:0;">
+                Documentar alcance + reglas de engagement, usar checklist por fase,
+                conservar evidencias (capturas/logs), y cerrar con reporte técnico + ejecutivo.
+                Así el pentesting se vuelve “accionable” para la organización.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <!-- 3) MULTIMEDIA -->
+        <section class="article-section">
+           <div class="media-block">
+            <div class="media-title">📌 Material multimedia (recomendado)</div>
+            <div class="media-placeholder">
+              <b>Video:</b>
+              <a class="link-pill" href="https://youtu.be/qny7x-Lqldk?si=e1WlzfHsCnbjThE0" target="_blank" rel="noopener">🎥 Ver video demostrativo</a>
+            </div>
+          </div>
+
+        <!-- 4) REFLEXIÓN -->
+        <section class="article-section">
+          <h2>4) Opinión o reflexión técnica del estudiante</h2>
+          <p>
+            Las metodologías analizadas no compiten entre sí, sino que se complementan dentro de un programa de ciberseguridad.
+            El pentesting proporciona evidencia práctica de vulnerabilidades, mientras que los marcos de evaluación validan controles
+            y los modelos de ataque permiten detectar amenazas reales. :contentReference[oaicite:4]{index=4}
+          </p>
+          <p>
+            Por ello, el profesional de seguridad informática debe seleccionar la metodología adecuada dependiendo del contexto:
+            auditoría, simulación de ataque o monitoreo defensivo. :contentReference[oaicite:5]{index=5}
+          </p>
+        </section>
+
+        <!-- 5) REFERENCIAS -->
+        <section class="article-section">
+          <h2>5) Referencias técnicas</h2>
+          <ul class="list">
+            <li>Cisco Networking Academy. (2026). <i>Ethical Hacker</i>. Cisco Systems. <a href="https://www.netacad.com/" target="_blank" rel="noreferrer">https://www.netacad.com/</a></li>
+            <li>MITRE Corporation. (2024). <i>MITRE ATT&amp;CK framework</i>. <a href="https://attack.mitre.org/" target="_blank" rel="noreferrer">https://attack.mitre.org/</a></li>
+            <li>Open Web Application Security Project (OWASP). (2023). <i>Web Security Testing Guide (WSTG)</i>. <a href="https://owasp.org/www-project-web-security-testing-guide/" target="_blank" rel="noreferrer">https://owasp.org/www-project-web-security-testing-guide/</a></li>
+            <li>National Institute of Standards and Technology. (2008). <i>Technical Guide to Information Security Testing and Assessment (SP 800-115)</i>. <a href="https://nvlpubs.nist.gov/nistpubs/Legacy/SP/nistspecialpublication800-115.pdf" target="_blank" rel="noreferrer">https://nvlpubs.nist.gov/nistpubs/Legacy/SP/nistspecialpublication800-115.pdf</a></li>
+            <li>ISECOM. (2010). <i>Open Source Security Testing Methodology Manual (OSSTMM 3)</i>. <a href="https://www.isecom.org/OSSTMM.3.pdf" target="_blank" rel="noreferrer">https://www.isecom.org/OSSTMM.3.pdf</a></li>
+            <li>Penetration Testing Execution Standard. (2022). <i>PTES Technical Guidelines</i>. <a href="http://www.pentest-standard.org/" target="_blank" rel="noreferrer">http://www.pentest-standard.org/</a></li>
+            <li>Open Information Systems Security Group. (2021). <i>Information Systems Security Assessment Framework (ISSAF)</i>. <a href="https://www.oissg.org/issaf" target="_blank" rel="noreferrer">https://www.oissg.org/issaf</a></li>
+          </ul>
+        </section>
+
+        <div class="article-footer">
+          <button class="link-pill js-export-pdf" type="button">⬇ Exportar a PDF</button>
+          <a class="link-pill" href="actividades.html">↩ Volver al índice</a>
+        </div>
+
+      </article>
+    </div>
+  </section>
+</main>
+
+<footer class="footer">
+  <div class="container footer__inner">
+    <p>© <span class="muted">Portafolio de evidencias</span> | Seguridad Informática</p>
+    <p class="muted">PF01</p>
+  </div>
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,373 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="description" content="Actividad 04 - Mecanismos de defensa en red (iptables / filtrado y control por estado)" />
+  <title>Actividad 04 | Mecanismos de defensa en red</title>
+
+  <link rel="stylesheet" href="assets/css/styles.css" />
+  <script defer src="assets/js/main.js"></script>
+
+  <!-- Extra: bloques y tabla ligera (solo para esta actividad) -->
+  <style>
+    .pill-mini{
+      display:inline-flex; align-items:center; gap:.5rem;
+      padding:.35rem .7rem; border-radius:999px;
+      border:1px solid rgba(0,255,136,.20);
+      background: rgba(0,255,136,.06);
+      color: var(--text-secondary);
+      font-family: var(--font-code);
+      font-weight:900; font-size:.78rem;
+      margin:.65rem .45rem 0 0; white-space:nowrap;
+    }
+    .kblock{
+      border-radius:16px;
+      border:1px solid rgba(0,255,136,.16);
+      background: rgba(0,0,0,.18);
+      padding:1rem;
+      margin-top:1rem;
+    }
+    .kblock h3{
+      margin:.1rem 0 .6rem;
+      font-family:var(--font-tech);
+      letter-spacing:.5px;
+      font-size:1rem;
+    }
+    .callout{
+      border-radius:16px;
+      border:1px solid rgba(0,212,255,.18);
+      background: rgba(0,0,0,.18);
+      padding:1rem;
+      margin-top:1rem;
+    }
+    .callout .title{
+      font-family:var(--font-code);
+      color: var(--secondary);
+      font-weight:900;
+      margin:0 0 .55rem;
+    }
+    .media-img{
+      width:100%;
+      border-radius:16px;
+      border:1px solid rgba(0,255,136,.16);
+      background: rgba(0,0,0,.18);
+      overflow:hidden;
+    }
+    .media-img img{
+      width:100%;
+      height:auto;
+      display:block;
+    }
+    .media-caption{
+      padding:.85rem 1rem;
+      color: rgba(226,232,240,.82);
+      font-family: var(--font-primary);
+    }
+    .split{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+    @media (max-width: 980px){
+      .split{grid-template-columns:1fr}
+    }
+  </style>
+</head>
+
+<body>
+<a class="skip-link" href="#contenido">Saltar al contenido principal</a>
+
+<header class="header" id="header" role="banner">
+  <div class="header-container">
+    <nav class="nav" aria-label="Menú principal">
+      <a class="nav-brand" href="index.html">
+        <span class="brand-icon" aria-hidden="true">PF01</span>
+        <span class="brand-text">Portafolio</span>
+      </a>
+
+      <button class="menu-toggle" id="menuToggle" aria-label="Abrir menú">
+        <span></span><span></span><span></span>
+      </button>
+
+      <div class="nav-menu" id="navMenu">
+        <a class="nav-link" href="index.html">Inicio</a>
+        <a class="nav-link active" href="actividades.html">Actividades</a>
+      </div>
+    </nav>
+  </div>
+</header>
+
+<main id="contenido" class="main">
+
+  <!-- HERO -->
+  <section class="section hero hero--sub">
+    <div class="hero-bg">
+      <canvas id="matrixCanvas" aria-hidden="true"></canvas>
+      <div class="grid-overlay" aria-hidden="true"></div>
+      <div class="scan-line" aria-hidden="true"></div>
+    </div>
+
+    <div class="hero-container">
+      <div>
+        <div class="hero-badge">
+          <span class="badge-pulse" aria-hidden="true"></span>
+          <span>ACTIVIDAD 04</span>
+        </div>
+
+        <h1 class="hero-title">
+          <span class="title-word">Mecanismos</span>
+          <span class="title-word highlight">de defensa en red</span>
+        </h1>
+
+        <p class="hero-description">
+          Configuración de reglas de filtrado para una red local usando <b>iptables</b>,
+          aplicando una política restrictiva (DROP por defecto) y habilitando únicamente
+          servicios necesarios (DNS, correo SMTP, HTTP) con filtrado por estado.
+        </p>
+
+        <div class="hero-buttons">
+          <!-- Exporta esta página a PDF (Print to PDF) -->
+         <button
+  class="btn btn-primary js-download-pdf"
+  type="button"
+  data-pdf="assets/pdfs/act04.pdf"
+  data-filename="act04.pdf"
+>
+  <span class="btn-shine" aria-hidden="true"></span>
+  Exportar a PDF
+</button>
+
+          <a class="btn btn-secondary" href="actividades.html">
+            <span class="btn-shine" aria-hidden="true"></span>
+            Volver a Actividades
+          </a>
+        </div>
+      </div>
+
+      <div class="hero-visual">
+        <div class="security-terminal">
+          <div class="terminal-header">
+            <div class="terminal-dots" aria-hidden="true">
+              <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+            </div>
+            <div class="terminal-title">root@fw:~$ ACT04</div>
+          </div>
+          <div class="terminal-body">
+            <div class="terminal-line" style="opacity:1;">
+              <span class="prompt">root@fw:~$</span>
+              <span class="command">iptables -P FORWARD DROP</span>
+            </div>
+            <div class="terminal-line" style="opacity:1;margin-top:.4rem;">
+              <span class="output">✔ default-deny + allow-list (DNS/SMTP/HTTP) + ESTABLISHED,RELATED</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTENIDO -->
+  <section class="section">
+    <div class="container">
+
+      <div class="breadcrumbs">
+        <a href="index.html">Inicio</a>
+        <span class="crumb-sep">/</span>
+        <a href="actividades.html">Actividades</a>
+        <span class="crumb-sep">/</span>
+        <span class="crumb-current">Actividad 04</span>
+      </div>
+
+      <article class="card article">
+
+        <div class="article-head">
+          <div>
+            <div class="article-kicker">Firewall / Filtrado con estado (state)</div>
+            <h2 class="article-title">ACTIVIDAD 04 — Mecanismos de defensa en red</h2>
+            <p class="article-subtitle">
+              Reglas de iptables basadas en “política restrictiva” y permitiendo únicamente tráfico requerido.
+              (Reglas tomadas del documento original).
+            </p>
+
+            <span class="pill-mini">1) Introducción</span>
+            <span class="pill-mini">2) Desarrollo técnico</span>
+            <span class="pill-mini">3) Multimedia</span>
+            <span class="pill-mini">4) Reflexión</span>
+            <span class="pill-mini">5) Referencias</span>
+          </div>
+        </div>
+
+        <!-- 1) INTRO -->
+        <section class="article-section">
+          <h2>1) Introducción contextual al tema</h2>
+          <p>
+            Un mecanismo esencial de defensa en red es el control de tráfico a través de un firewall.
+            En Linux, <b>iptables</b> permite definir políticas y reglas para aceptar o bloquear paquetes,
+            reduciendo la superficie de ataque. El enfoque recomendado es <b>deny by default</b>:
+            bloquear todo y permitir solo lo necesario.
+          </p>
+          <p>
+            En esta actividad se implementa una política restrictiva y reglas para habilitar servicios típicos:
+            <b>DNS</b> (saliente), <b>SMTP</b> (correo entrante/saliente para un servidor) y <b>HTTP</b> (servidor web y navegación).
+          </p>
+        </section>
+
+        <!-- 2) DESARROLLO -->
+        <section class="article-section">
+          <h2>2) Desarrollo técnico de la actividad</h2>
+
+          <div class="kblock">
+            <h3>2.1 Política restrictiva (DROP por defecto)</h3>
+            <p style="margin:.2rem 0 .8rem;">
+              Se establece una política “default deny” para evitar tráfico no contemplado. 
+            </p>
+            <div class="code-block"><pre><code>iptables -P INPUT DROP
+iptables -P FORWARD DROP
+iptables -P OUTPUT DROP</code></pre></div>
+          </div>
+
+          <div class="kblock">
+            <h3>2.2 Permitir tráfico ESTABLISHED,RELATED</h3>
+            <p style="margin:.2rem 0 .8rem;">
+              Con esto se permite el tráfico de respuesta de conexiones ya establecidas o relacionadas. 
+            </p>
+            <div class="code-block"><pre><code>iptables -A FORWARD -m state --state ESTABLISHED,RELATED -j ACCEPT</code></pre></div>
+
+            <div class="callout">
+              <div class="title">¿Por qué es importante?</div>
+              <p style="margin:0;">
+                Si solo permites “NEW” pero no permites “ESTABLISHED,RELATED”, se romperán respuestas
+                (por ejemplo, el retorno de HTTP/DNS). Este match mantiene la comunicación funcional sin abrir de más.
+              </p>
+            </div>
+          </div>
+
+          <div class="split">
+            <div class="kblock">
+              <h3>2.3 DNS saliente (TCP) desde la red local</h3>
+              <p style="margin:.2rem 0 .8rem;">
+                Permite consultas DNS hacia Internet desde la red 192.1.2.0/24 al puerto 53/TCP. 
+              </p>
+              <div class="code-block"><pre><code>iptables -A FORWARD -p tcp -s 192.1.2.0/24 --dport 53 \
+  -m state --state NEW -j ACCEPT</code></pre></div>
+
+              <p class="muted" style="margin:0;">
+                Nota técnica: comúnmente DNS usa UDP/53; aquí se trabajó TCP/53 según la actividad.
+              </p>
+            </div>
+
+            <div class="kblock">
+              <h3>2.4 Correo entrante (SMTP) hacia servidor</h3>
+              <p style="margin:.2rem 0 .8rem;">
+                Permite correo entrante desde Internet hacia el servidor de correo 192.1.2.10 por 25/TCP. 
+              </p>
+              <div class="code-block"><pre><code>iptables -A FORWARD -p tcp -d 192.1.2.10 --dport 25 \
+  -m state --state NEW -j ACCEPT</code></pre></div>
+            </div>
+          </div>
+
+          <div class="split">
+            <div class="kblock">
+              <h3>2.5 Correo saliente (SMTP) desde servidor</h3>
+              <p style="margin:.2rem 0 .8rem;">
+                Permite que el servidor de correo (192.1.2.10) envíe correo hacia Internet por 25/TCP. 
+              </p>
+              <div class="code-block"><pre><code>iptables -A FORWARD -p tcp -s 192.1.2.10 --dport 25 \
+  -m state --state NEW -j ACCEPT</code></pre></div>
+            </div>
+
+            <div class="kblock">
+              <h3>2.6 HTTP entrante hacia servidor web</h3>
+              <p style="margin:.2rem 0 .8rem;">
+                Permite conexiones HTTP desde Internet hacia el servidor web 192.1.2.11 por 80/TCP. 
+              </p>
+              <div class="code-block"><pre><code>iptables -A FORWARD -p tcp -d 192.1.2.11 --dport 80 \
+  -m state --state NEW -j ACCEPT</code></pre></div>
+            </div>
+          </div>
+
+          <div class="kblock">
+            <h3>2.7 HTTP saliente desde red local hacia Internet</h3>
+            <p style="margin:.2rem 0 .8rem;">
+              Permite que la red local 192.1.2.0/24 navegue (HTTP) hacia Internet por 80/TCP. 
+            </p>
+            <div class="code-block"><pre><code>iptables -A FORWARD -p tcp -s 192.1.2.0/24 --dport 80 \
+  -m state --state NEW -j ACCEPT</code></pre></div>
+
+            <div class="callout">
+              <div class="title">Recomendación práctica (hardening)</div>
+              <p style="margin:0;">
+                En escenarios reales, además de permitir 80/TCP, normalmente se habilita <b>443/TCP (HTTPS)</b>,
+                se agregan reglas de <b>LOG</b> para intentos bloqueados, y se implementa NAT si el firewall es el gateway.
+              </p>
+            </div>
+          </div>
+
+        </section>
+
+        <!-- 3) MULTIMEDIA -->
+        <section class="article-section">
+          <h2>3) Material multimedia</h2>
+
+          <div class="media-block">
+            <div class="media-title">🖼 Evidencia/Diagrama: Servidor</div>
+
+            <!-- ✅ Aquí se integra la imagen que pondrás en la raíz -->
+            <div class="media-img">
+              <!-- Si tu archivo es .jpg cambia servidor.png por servidor.jpg -->
+              <img src="./servidor.png" alt="Diagrama o evidencia del servidor (Actividad 04)" />
+              <div class="media-caption">
+                <b>Figura:</b> Evidencia visual del servidor / topología utilizada en la actividad.
+                <br><span class="muted">Ruta esperada:</span> <code>./servidor.png</code> (en la raíz del proyecto).
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- 4) REFLEXIÓN -->
+        <section class="article-section">
+          <h2>4) Opinión o reflexión técnica del estudiante</h2>
+          <p>
+            La defensa en red más efectiva no es “permitir todo y bloquear lo sospechoso”, sino lo contrario:
+            <b>bloquear todo y permitir solo lo que se necesita</b>. Esta actividad demuestra cómo una política restrictiva
+            combinada con filtrado por estado mantiene funcionalidad y reduce ataques, porque limita puertos expuestos
+            y restringe el tráfico a servicios concretos.
+          </p>
+          <p>
+            En escenarios reales, este enfoque se complementa con segmentación (VLAN/DMZ), monitoreo (LOG/SIEM),
+            y buenas prácticas como usar HTTPS, limitar SMTP, y aplicar NAT en gateways. Una configuración simple pero ordenada
+            puede marcar la diferencia ante escaneo, intentos de explotación y tráfico no autorizado.
+          </p>
+        </section>
+
+        <!-- 5) REFERENCIAS -->
+        <section class="article-section">
+          <h2>5) Referencias técnicas</h2>
+          <ul class="list">
+            <li>Linux man pages: <i>iptables(8)</i> y módulo <i>state</i> / conntrack (NEW, ESTABLISHED, RELATED).</li>
+            <li>Netfilter Project: documentación oficial de tablas, cadenas y flujo de paquetes.</li>
+            <li>Buenas prácticas de firewalling: enfoque “default deny” + allow-list por servicio.</li>
+          </ul>
+        </section>
+
+        <div class="article-footer">
+          <button class="link-pill js-export-pdf" type="button">⬇ Exportar a PDF</button>
+          <a class="link-pill" href="actividades.html">↩ Volver al índice</a>
+        </div>
+
+      </article>
+    </div>
+  </section>
+</main>
+
+<footer class="footer">
+  <div class="container footer__inner">
+    <p>© <span class="muted">Portafolio de evidencias</span> | Seguridad Informática</p>
+    <p class="muted">PF01</p>
+  </div>
+</footer>
+
+</body>
+</html>

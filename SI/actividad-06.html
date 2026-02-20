@@ -1,0 +1,501 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="description" content="Actividad 06 - Implementación de IPSec VPN" />
+  <title>Actividad 06 | Implementación IPSec VPN</title>
+
+  <link rel="stylesheet" href="assets/css/styles.css" />
+  <script defer src="assets/js/main.js"></script>
+
+  <!-- Extra (solo para esta actividad): bloques + imagen -->
+  <style>
+    .pill-mini{
+      display:inline-flex; align-items:center; gap:.5rem;
+      padding:.35rem .7rem; border-radius:999px;
+      border:1px solid rgba(0,255,136,.20);
+      background: rgba(0,255,136,.06);
+      color: var(--text-secondary);
+      font-family: var(--font-code);
+      font-weight:900; font-size:.78rem;
+      margin:.65rem .45rem 0 0; white-space:nowrap;
+    }
+    .kblock{
+      border-radius:16px;
+      border:1px solid rgba(0,255,136,.16);
+      background: rgba(0,0,0,.18);
+      padding:1rem;
+      margin-top:1rem;
+    }
+    .kblock h3{
+      margin:.1rem 0 .6rem;
+      font-family:var(--font-tech);
+      letter-spacing:.5px;
+      font-size:1rem;
+    }
+    .callout{
+      border-radius:16px;
+      border:1px solid rgba(0,212,255,.18);
+      background: rgba(0,0,0,.18);
+      padding:1rem;
+      margin-top:1rem;
+    }
+    .callout .title{
+      font-family:var(--font-code);
+      color: var(--secondary);
+      font-weight:900;
+      margin:0 0 .55rem;
+    }
+    .split{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:1rem;
+      margin-top:1rem;
+    }
+    @media (max-width: 980px){
+      .split{grid-template-columns:1fr}
+    }
+
+    /* Imagen topología */
+    .media-img{
+      width:100%;
+      border-radius:16px;
+      border:1px solid rgba(0,255,136,.16);
+      background: rgba(0,0,0,.18);
+      overflow:hidden;
+      margin-top:.8rem;
+    }
+    .media-img img{
+      width:100%;
+      height:auto;
+      display:block;
+    }
+    .media-caption{
+      padding:.85rem 1rem;
+      color: rgba(226,232,240,.82);
+      font-family: var(--font-primary);
+      border-top:1px solid rgba(0,255,136,.12);
+      background: rgba(0,0,0,.14);
+    }
+    .checklist{
+      margin:.6rem 0 0;
+      padding-left:1.15rem;
+      color: rgba(226,232,240,.82);
+    }
+    .checklist li{margin:.25rem 0}
+  </style>
+</head>
+
+<body>
+<a class="skip-link" href="#contenido">Saltar al contenido principal</a>
+
+<header class="header" id="header" role="banner">
+  <div class="header-container">
+    <nav class="nav" aria-label="Menú principal">
+      <a class="nav-brand" href="index.html">
+        <span class="brand-icon" aria-hidden="true">PF01</span>
+        <span class="brand-text">Portafolio</span>
+      </a>
+
+      <button class="menu-toggle" id="menuToggle" aria-label="Abrir menú">
+        <span></span><span></span><span></span>
+      </button>
+
+      <div class="nav-menu" id="navMenu">
+        <a class="nav-link" href="index.html">Inicio</a>
+        <a class="nav-link active" href="actividades.html">Actividades</a>
+      </div>
+    </nav>
+  </div>
+</header>
+
+<main id="contenido" class="main">
+
+  <!-- HERO -->
+  <section class="section hero hero--sub">
+    <div class="hero-bg">
+      <canvas id="matrixCanvas" aria-hidden="true"></canvas>
+      <div class="grid-overlay" aria-hidden="true"></div>
+      <div class="scan-line" aria-hidden="true"></div>
+    </div>
+
+    <div class="hero-container">
+      <div>
+        <div class="hero-badge">
+          <span class="badge-pulse" aria-hidden="true"></span>
+          <span>ACTIVIDAD 06</span>
+        </div>
+
+        <h1 class="hero-title">
+          <span class="title-word">Implementación</span>
+          <span class="title-word highlight">IPSec VPN</span>
+        </h1>
+
+        <p class="hero-description">
+          En esta práctica se establece un túnel seguro entre dos redes privadas en distintas ubicaciones,
+          implementando <b>IPSec</b> para cifrar la comunicación entre routers a través de Internet, garantizando
+          <b>confidencialidad, integridad y autenticación</b>. 
+        </p>
+
+        <div class="hero-buttons">
+          <button
+  class="btn btn-primary js-download-pdf"
+  type="button"
+  data-pdf="assets/pdfs/act06.pdf"
+  data-filename="act06.pdf"
+>
+  <span class="btn-shine" aria-hidden="true"></span>
+  Exportar a PDF
+</button>
+
+
+          <a class="btn btn-secondary" href="actividades.html">
+            <span class="btn-shine" aria-hidden="true"></span>
+            Volver a Actividades
+          </a>
+        </div>
+
+        <div class="callout">
+          <div class="title">Procedimiento (resumen)</div>
+          <ul class="checklist">
+            <li>Configuración base de routers</li>
+            <li>Definición de tráfico interesante con ACL</li>
+            <li>Negociación de seguridad (Fase 1 y Fase 2)</li>
+            <li>Creación y aplicación del mapa criptográfico</li>
+          </ul>
+        </div>
+
+      </div>
+
+      <div class="hero-visual">
+        <div class="security-terminal">
+          <div class="terminal-header">
+            <div class="terminal-dots" aria-hidden="true">
+              <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+            </div>
+            <div class="terminal-title">root@vpn:~$ IPSec_TUNNEL</div>
+          </div>
+          <div class="terminal-body">
+            <div class="terminal-line" style="opacity:1;">
+              <span class="prompt">router#</span>
+              <span class="command"> show crypto isakmp sa</span>
+            </div>
+            <div class="terminal-line" style="opacity:1;margin-top:.4rem;">
+              <span class="output">✔ SA activa + tráfico cifrado entre 192.168.1.0/24 ↔ 192.168.3.0/24</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTENIDO -->
+  <section class="section">
+    <div class="container">
+
+      <div class="breadcrumbs">
+        <a href="index.html">Inicio</a>
+        <span class="crumb-sep">/</span>
+        <a href="actividades.html">Actividades</a>
+        <span class="crumb-sep">/</span>
+        <span class="crumb-current">Actividad 06</span>
+      </div>
+
+      <article class="card article">
+
+        <div class="article-head">
+          <div>
+            <div class="article-kicker">VPN Site-to-Site · Cisco 1941 · IPSec/IKE</div>
+            <h2 class="article-title">ACTIVIDAD 06 — Implementación IPSec VPN</h2>
+            <p class="article-subtitle">
+              Túnel seguro entre dos LANs a través de un ISP intermediario, usando ACL (tráfico interesante),
+              IKE (Fase 1), IPSec (Fase 2), crypto map y verificación. 
+            </p>
+
+            <span class="pill-mini">1) Introducción</span>
+            <span class="pill-mini">2) Desarrollo técnico</span>
+            <span class="pill-mini">3) Multimedia</span>
+            <span class="pill-mini">4) Reflexión</span>
+            <span class="pill-mini">5) Referencias</span>
+          </div>
+
+        </div>
+
+        <!-- 1) INTRO -->
+        <section class="article-section">
+          <h2>1) Introducción contextual al tema</h2>
+          <p>
+            Esta práctica implementa una VPN site-to-site con IPSec entre dos redes privadas en distintas ubicaciones.
+            IPSec cifra el tráfico “interesante” entre routers a través de Internet y asegura:
+            <b>confidencialidad</b> (cifrado), <b>integridad</b> (hash/HMAC) y <b>autenticación</b> (pre-shared key).
+          </p>
+        </section>
+
+        <!-- 2) DESARROLLO -->
+        <section class="article-section">
+          <h2>2) Desarrollo técnico de la actividad</h2>
+
+          <!-- Escenario de red (aquí va la imagen topologia.png) -->
+          <div class="kblock">
+            <h3>2.1 Escenario de red</h3>
+            <p style="margin:.2rem 0 0;">
+              La topología está compuesta por tres routers: un ISP intermediario y dos routers que representan dos redes LAN distintas.
+              Dispositivos: 3 Routers Cisco 1941 (ISP, R1, R2), 2 Switches 2960, 2 PCs finales. 
+            </p>
+
+            <div class="media-img">
+              <!-- ✅ Imagen en la raíz: topologia.png -->
+              <img src="./topologia.png" alt="Topología de red para IPSec VPN (ISP + R1 + R2 + LANs)" />
+              <div class="media-caption">
+                <b>Figura — Escenario de red:</b> Topología utilizada para el túnel IPSec (R1 ↔ ISP ↔ R2).
+                <br><span class="muted">Ruta esperada:</span> <code>./topologia.png</code> (en la raíz del sitio).
+              </div>
+            </div>
+
+            <div class="callout">
+              <div class="title">Tip rápido</div>
+              <p style="margin:0;">
+                Si no carga, revisa que el nombre sea exactamente <b>topologia.png</b> y que esté en la raíz (junto a tu <code>index.html</code>).
+              </p>
+            </div>
+          </div>
+
+          <div class="kblock">
+            <h3>2.2 Configuración básica (interfaces + ruta por defecto)</h3>
+            <p class="muted" style="margin:.2rem 0 .8rem;">
+              Configuración base tal como aparece en el documento. 
+            </p>
+
+            <div class="split">
+              <div>
+                <div class="code-block"><pre><code>! Router ISP
+enable
+configure terminal
+hostname ISP
+interface g0/0
+ ip address 209.165.100.2 255.255.255.0
+ no shutdown
+interface g0/1
+ ip address 209.165.200.2 255.255.255.0
+ no shutdown
+ip route 0.0.0.0 0.0.0.0 209.165.100.2</code></pre></div>
+              </div>
+
+              <div>
+                <div class="code-block"><pre><code>! Router R1
+enable
+configure terminal
+hostname R1
+interface g0/1
+ ip address 192.168.1.1 255.255.255.0
+ no shutdown
+interface g0/0
+ ip address 209.165.100.1 255.255.255.0
+ no shutdown
+ip route 0.0.0.0 0.0.0.0 209.165.100.2</code></pre></div>
+
+                <div class="code-block" style="margin-top:1rem;"><pre><code>! Router R2
+enable
+configure terminal
+hostname R2
+interface g0/1
+ ip address 192.168.3.1 255.255.255.0
+ no shutdown
+interface g0/0
+ ip address 209.165.200.1 255.255.255.0
+ no shutdown
+ip route 0.0.0.0 0.0.0.0 209.165.100.2</code></pre></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="kblock">
+            <h3>2.3 Activación de características de seguridad (securityk9)</h3>
+            <p class="muted" style="margin:.2rem 0 .8rem;">
+              Habilitar el paquete de seguridad en cada router para poder utilizar IPSec. :contentReference[oaicite:6]{index=6}
+            </p>
+            <div class="code-block"><pre><code>license boot module c1900 technology-package securityk9
+end
+write memory
+reload</code></pre></div>
+          </div>
+
+          <div class="kblock">
+            <h3>2.4 Definición del “tráfico interesante” (ACL 110)</h3>
+            <p class="muted" style="margin:.2rem 0 .8rem;">
+              Se especifica qué tráfico será protegido por la VPN. 
+            </p>
+            <div class="split">
+              <div class="code-block"><pre><code>! En R1
+access-list 110 permit ip 192.168.1.0 0.0.0.255 192.168.3.0 0.0.0.255</code></pre></div>
+              <div class="code-block"><pre><code>! En R2
+access-list 110 permit ip 192.168.3.0 0.0.0.255 192.168.1.0 0.0.0.255</code></pre></div>
+            </div>
+          </div>
+
+          <div class="kblock">
+            <h3>2.5 Fase 1 — IKE / ISAKMP</h3>
+            <p class="muted" style="margin:.2rem 0 .8rem;">
+              Se negocian parámetros iniciales de seguridad (cifrado, hash, autenticación, grupo DH, lifetime). 
+            </p>
+
+            <div class="split">
+              <div class="code-block"><pre><code>! R1
+crypto isakmp policy 15
+ encryption aes
+ hash sha
+ authentication pre-share
+ group 5
+ lifetime 86400
+exit
+crypto isakmp key cisco123 address 209.165.200.1</code></pre></div>
+
+              <div class="code-block"><pre><code>! R2
+crypto isakmp policy 15
+ encryption aes
+ hash sha
+ authentication pre-share
+ group 5
+ lifetime 86400
+exit
+crypto isakmp key cisco123 address 209.165.100.1</code></pre></div>
+            </div>
+
+            <div class="callout">
+              <div class="title">Qué valida Fase 1</div>
+              <p style="margin:0;">
+                Crea el canal IKE seguro para luego negociar IPSec (Fase 2). Si aquí hay mismatch (clave, hash, cifrado),
+                el túnel no sube.
+              </p>
+            </div>
+          </div>
+
+          <div class="kblock">
+            <h3>2.6 Fase 2 — IPSec (Transform-set)</h3>
+            <p class="muted" style="margin:.2rem 0 .8rem;">
+              Define cómo se cifrarán los datos (ESP AES + SHA HMAC).
+            </p>
+            <div class="split">
+              <div class="code-block"><pre><code>! R1
+crypto ipsec transform-set VPN-SET esp-aes esp-sha-hmac</code></pre></div>
+              <div class="code-block"><pre><code>! R2
+crypto ipsec transform-set VPN-SET esp-aes esp-sha-hmac</code></pre></div>
+            </div>
+          </div>
+
+          <div class="kblock">
+            <h3>2.7 Creación del Crypto Map (asociar peer + ACL + cifrado)</h3>
+            <p class="muted" style="margin:.2rem 0 .8rem;">
+              Asocia peers, ACL 110 y transform-set, con PFS group5.
+            </p>
+
+            <div class="split">
+              <div class="code-block"><pre><code>! R1
+crypto map VPN-MAP 10 ipsec-isakmp
+ set peer 209.165.200.1
+ set transform-set VPN-SET
+ set pfs group5
+ match address 110</code></pre></div>
+
+              <div class="code-block"><pre><code>! R2
+crypto map VPN-MAP 10 ipsec-isakmp
+ set peer 209.165.100.1
+ set transform-set VPN-SET
+ set pfs group5
+ match address 110</code></pre></div>
+            </div>
+          </div>
+
+          <div class="kblock">
+            <h3>2.8 Aplicación del Crypto Map en interfaz WAN</h3>
+            <p class="muted" style="margin:.2rem 0 .8rem;">
+              Se aplica el mapa en la interfaz que da a Internet (g0/0).
+            </p>
+
+            <div class="split">
+              <div class="code-block"><pre><code>! R1
+interface g0/0
+ crypto map VPN-MAP</code></pre></div>
+
+              <div class="code-block"><pre><code>! R2
+interface g0/0
+ crypto map VPN-MAP</code></pre></div>
+            </div>
+          </div>
+
+          <div class="kblock">
+            <h3>2.9 Verificación</h3>
+            <p class="muted" style="margin:.2rem 0 .8rem;">
+              Comandos para comprobar que el túnel está activo y que hay tráfico cifrado.
+            </p>
+            <div class="code-block"><pre><code>show crypto isakmp sa
+show crypto ipsec sa
+ping 192.168.3.10</code></pre></div>
+
+            <div class="callout">
+              <div class="title">Resultado esperado</div>
+              <p style="margin:0;">
+                Si la VPN funciona correctamente, el ping entre las redes privadas (LAN1 ↔ LAN2) debe responder,
+                y <code>show crypto ipsec sa</code> debe mostrar contadores incrementando.
+              </p>
+            </div>
+          </div>
+
+        </section>
+
+        <!-- 3) MULTIMEDIA -->
+        <section class="article-section">
+         <div class="media-block">
+            <div class="media-title">📌 Material multimedia (recomendado)</div>
+            <div class="media-placeholder">
+              <b>Video:</b>
+              <a class="link-pill" href="https://youtu.be/B-JfW0L8Qes" target="_blank" rel="noopener">🎥 Ver video demostrativo</a>
+            </div>
+          </div>
+        </section>
+
+        <!-- 4) REFLEXIÓN -->
+        <section class="article-section">
+          <h2>4) Opinión o reflexión técnica del estudiante</h2>
+          <p>
+            La implementación de IPSec VPN demuestra cómo es posible proteger la comunicación entre redes privadas aun cuando el tráfico
+            atraviesa Internet. En escenarios reales, esto es clave para empresas con sucursales o trabajo híbrido, donde se requiere
+            confidencialidad y control sobre los datos en tránsito.
+          </p>
+          <p>
+            Lo más crítico es la consistencia de parámetros (policies, PSK, transform-set y crypto map). Un pequeño mismatch impide que
+            el túnel se establezca. Por eso, la verificación con SA y contadores es parte esencial del despliegue.
+          </p>
+        </section>
+
+        <!-- 5) REFERENCIAS -->
+        <section class="article-section">
+          <h2>5) Referencias técnicas</h2>
+          <ul class="list">
+            <li>Cisco. Documentación de <i>IPSec / IKE / Crypto Map</i> para routers IOS (Site-to-Site VPN).</li>
+            <li>RFCs relacionados: IKE (ISAKMP) e IPSec (ESP/AH) como base conceptual del cifrado y autenticación.</li>
+            <li>Prácticas de laboratorio en redes: ACL como “tráfico interesante” y verificación mediante Security Associations (SA).</li>
+          </ul>
+        </section>
+
+        <div class="article-footer">
+          <button class="link-pill js-export-pdf" type="button">⬇ Exportar a PDF</button>
+          <a class="link-pill" href="actividades.html">↩ Volver al índice</a>
+        </div>
+
+      </article>
+    </div>
+  </section>
+</main>
+
+<footer class="footer">
+  <div class="container footer__inner">
+    <p>© <span class="muted">Portafolio de evidencias</span> | Seguridad Informática</p>
+    <p class="muted">PF01</p>
+  </div>
+</footer>
+
+</body>
+</html>

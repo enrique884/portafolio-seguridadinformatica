@@ -70,7 +70,6 @@ function initMatrix() {
     drops = Array.from({ length: columns }, () => 1);
   });
 
-  // por si algún día quieres detener:
   canvas.dataset.timer = String(timer);
 }
 
@@ -88,53 +87,31 @@ function initParticles() {
     particle.textContent = chars[Math.floor(Math.random() * chars.length)];
     particle.style.left = Math.random() * 100 + '%';
     particle.style.animationDelay = Math.random() * 8 + 's';
-    particle.style.animationDuration = (6 + Math.random() * 4) + 's';
+    particle.style.animationDuration = (6 + Math.random() * 8) + 's';
     container.appendChild(particle);
   }
 }
 
 function initNavigation() {
   const header = document.getElementById('header');
-  const links = document.querySelectorAll('.nav-link[href^="#"], .nav-dropitem[href^="#"]');
+  if (!header) return;
 
-  links.forEach((link) => {
-    link.addEventListener('click', (e) => {
-      const href = link.getAttribute('href');
-      if (!href || href === '#') return;
-      const target = document.querySelector(href);
-      if (!target) return;
-
-      e.preventDefault();
-      const headerHeight = header ? header.offsetHeight : 0;
-      const y = target.getBoundingClientRect().top + window.scrollY - headerHeight - 10;
-
-      window.scrollTo({ top: y, behavior: 'smooth' });
-
-      // cerrar menú mobile si está abierto
-      const navMenu = document.getElementById('navMenu');
-      const menuToggle = document.getElementById('menuToggle');
-      if (navMenu?.classList.contains('active')) {
-        navMenu.classList.remove('active');
-        menuToggle?.classList.remove('active');
-        document.body.style.overflow = '';
-      }
-    });
-  });
+  let lastScrollY = window.scrollY;
 
   window.addEventListener('scroll', () => {
-    if (!header) return;
-    header.classList.toggle('scrolled', window.scrollY > 40);
-  }, { passive: true });
+    const current = window.scrollY;
+    header.classList.toggle('scrolled', current > 10);
+    header.classList.toggle('hide', current > lastScrollY && current > 120);
+    lastScrollY = current;
+  });
 }
 
 function initMobileMenu() {
   const menuToggle = document.getElementById('menuToggle');
   const navMenu = document.getElementById('navMenu');
-
   if (!menuToggle || !navMenu) return;
 
-  menuToggle.addEventListener('click', (e) => {
-    e.stopPropagation();
+  menuToggle.addEventListener('click', () => {
     const open = menuToggle.classList.toggle('active');
     navMenu.classList.toggle('active', open);
     document.body.style.overflow = open ? 'hidden' : '';
@@ -169,8 +146,6 @@ function initDropdownParciales() {
     btn?.setAttribute('aria-expanded', state ? 'true' : 'false');
   }
 
-  // Desktop: hover abre/cierra
-    // Desktop: hover abre/cierra (✅ con delay para evitar "parpadeo")
   let closeTimer = null;
 
   function scheduleClose() {
@@ -191,24 +166,19 @@ function initDropdownParciales() {
   });
 
   dropdown.addEventListener('mouseleave', () => {
-    if (window.innerWidth > 768) {
-      scheduleClose();
-    }
+    if (window.innerWidth > 768) scheduleClose();
   });
 
-  // ✅ si el mouse entra al menú, NO cierres
   menu?.addEventListener('mouseenter', () => {
     if (window.innerWidth > 768) cancelClose();
   });
 
-  // ✅ si sales del menú, ahora sí cierra con delay
   menu?.addEventListener('mouseleave', () => {
     if (window.innerWidth > 768) scheduleClose();
   });
 }
 
 function initHeroAnimations() {
-  // si existe anime, anima; si no, no pasa nada
   if (typeof anime === 'undefined') return;
 
   const words = document.querySelectorAll('.title-word');
@@ -227,45 +197,206 @@ function initHeroAnimations() {
       targets: badge,
       opacity: [0, 1],
       scale: [0.9, 1],
-      delay: 150,
       duration: 700,
-      easing: 'easeOutBack'
+      delay: 100,
+      easing: 'easeOutExpo'
     });
   }
-}
 
-function initContactForm() {
-  const year = document.getElementById('year');
-  if (year) year.textContent = String(new Date().getFullYear());
-
-  const form = document.getElementById('contactForm');
-  const status = document.getElementById('formStatus');
-
-  if (!form) return;
-
-  form.addEventListener('submit', (e) => {
-    e.preventDefault();
-
-    if (status) status.textContent = 'Enviando...';
-
-    // Aquí puedes conectar EmailJS real si ya lo tienes configurado.
-    // Por ahora: simulación de envío.
-    setTimeout(() => {
-      if (status) status.textContent = 'Mensaje enviado (simulación).';
-      form.reset();
-      setTimeout(() => {
-        if (status) status.textContent = '';
-      }, 2500);
-    }, 800);
+  const cards = document.querySelectorAll('.card, .skill-card, .activity-card');
+  anime({
+    targets: cards,
+    opacity: [0, 1],
+    translateY: [22, 0],
+    delay: anime.stagger(100, { start: 300 }),
+    duration: 900,
+    easing: 'easeOutCubic'
   });
 }
 
+function initContactForm() {
+  const form = document.getElementById('contactForm');
+  if (!form) return;
+
+  // Si no usas EmailJS en alguna página, no pasa nada.
+  if (typeof emailjs === 'undefined') return;
+
+  const status = document.getElementById('formStatus');
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    const btn = form.querySelector('button[type="submit"]');
+    const old = btn ? btn.innerHTML : '';
+
+    if (btn) {
+      btn.disabled = true;
+      btn.innerHTML = 'Enviando...';
+    }
+    if (status) status.textContent = '';
+
+    try {
+      // Ajusta a tus IDs reales
+      // emailjs.init('TU_PUBLIC_KEY');
+      // await emailjs.sendForm('TU_SERVICE_ID', 'TU_TEMPLATE_ID', form);
+
+      if (status) status.textContent = 'Mensaje enviado correctamente ✅';
+      form.reset();
+    } catch (err) {
+      console.error(err);
+      if (status) status.textContent = 'No se pudo enviar. Intenta de nuevo.';
+    } finally {
+      if (btn) {
+        btn.disabled = false;
+        btn.innerHTML = old;
+      }
+    }
+  });
+
+  const year = document.getElementById('year');
+  if (year) year.textContent = new Date().getFullYear();
+}
+
+// =========================
+// EXPORT PDF (html2pdf) — por si lo usas en alguna página
+// =========================
+function initExportToPDF() {
+  const buttons = document.querySelectorAll('.js-export-pdf');
+  if (!buttons.length) return;
+
+  buttons.forEach((btn) => {
+    btn.addEventListener('click', async () => {
+      const oldHTML = btn.innerHTML;
+      btn.disabled = true;
+      btn.innerHTML = 'Generando PDF...';
+
+      document.body.classList.add('pdf-export');
+
+      try {
+        if (typeof html2pdf === 'undefined') {
+          throw new Error('html2pdf no está cargado. Debes agregar el CDN antes de main.js');
+        }
+
+        const article = document.querySelector('.card.article');
+        const source = article || document.querySelector('main') || document.body;
+
+        const filenameBase = (document.title || 'actividad')
+          .replace(/[\\/:*?"<>|]/g, '')
+          .replace(/\s+/g, ' ')
+          .trim();
+
+        const options = {
+          margin: [10, 10, 10, 10],
+          filename: `${filenameBase || 'actividad'}.pdf`,
+          image: { type: 'jpeg', quality: 0.98 },
+          html2canvas: {
+            scale: 2,
+            useCORS: true,
+            allowTaint: true,
+            backgroundColor: null,
+            scrollX: 0,
+            scrollY: 0,
+            windowWidth: document.documentElement.clientWidth
+          },
+          jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
+          pagebreak: { mode: ['avoid-all', 'css', 'legacy'] }
+        };
+
+        await html2pdf().set(options).from(source).save();
+
+      } catch (err) {
+        console.error('Error exportando PDF:', err);
+        alert('No se pudo generar el PDF. Abre consola (F12) para ver el error.');
+      } finally {
+        document.body.classList.remove('pdf-export');
+        btn.disabled = false;
+        btn.innerHTML = oldHTML;
+      }
+    });
+  });
+}
+
+// =========================
+// DIRECT PDF DOWNLOAD (sin visualizar)
+// =========================
+function initDownloadPDF() {
+  const triggers = document.querySelectorAll('.js-download-pdf');
+  if (!triggers.length) return;
+
+  const forceDownload = async (url, filename) => {
+    // 1) Intento robusto: fetch -> blob -> objectURL (fuerza descarga)
+    try {
+      const res = await fetch(url, { cache: 'no-store' });
+      if (!res.ok) throw new Error('HTTP ' + res.status);
+      const blob = await res.blob();
+      const objectUrl = URL.createObjectURL(blob);
+
+      const a = document.createElement('a');
+      a.href = objectUrl;
+      a.download = filename;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+
+      setTimeout(() => URL.revokeObjectURL(objectUrl), 8000);
+      return;
+    } catch (e) {
+      // 2) Fallback: download attribute (funciona bien en GitHub Pages cuando es mismo origen)
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = filename;
+      a.rel = 'noopener';
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+    }
+  };
+
+  triggers.forEach((btn) => {
+    btn.addEventListener('click', async () => {
+      const url = btn.getAttribute('data-pdf') || btn.dataset.pdf;
+      if (!url) return;
+
+      const filename =
+        btn.getAttribute('data-filename') ||
+        btn.dataset.filename ||
+        (url.split('/').pop() || 'actividad.pdf');
+
+      // UI feedback leve (sin cambiar tu diseño)
+      const oldHTML = btn.innerHTML;
+      btn.disabled = true;
+      btn.innerHTML = 'Descargando...';
+
+      try {
+        await forceDownload(url, filename);
+      } finally {
+        setTimeout(() => {
+          btn.disabled = false;
+          btn.innerHTML = oldHTML;
+        }, 600);
+      }
+    });
+  });
+}
+
+// =========================
+// INIT
+// =========================
 document.addEventListener('DOMContentLoaded', () => {
+  // Core visuals / UX
   initLoader();
   initMatrix();
   initParticles();
+
+  // Navigation
   initNavigation();
   initMobileMenu();
   initDropdownParciales();
+
+  // Forms
   initContactForm();
+
+  // PDF buttons
+  initExportToPDF();   // si alguna página usa .js-export-pdf + html2pdf
+  initDownloadPDF();   // descarga directa con .js-download-pdf
 });
