@@ -5,8 +5,18 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <meta name="description" content="Actividad 02 - Análisis de servicios de seguridad (X.800 y RFC 4949)" />
   <title>Actividad 02 | X.800 y RFC 4949</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&family=Fira+Code:wght@300;400;500;600;700&family=Orbitron:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
   <link rel="stylesheet" href="assets/css/styles.css" />
+
+  <script defer src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
   <script defer src="assets/js/main.js"></script>
 
   <!-- Estilo extra solo para TABLAS (no rompe tu diseño) -->
@@ -486,7 +496,10 @@
           </ul>
         </section>
 
-        <!-- ❌ ELIMINADO: article-footer (botones duplicados) -->
+        <div class="article-footer">
+          <button class="link-pill js-export-pdf" type="button">⬇ Exportar a PDF</button>
+          <a class="link-pill" href="actividades.html">↩ Volver al índice</a>
+        </div>
       </article>
 
     </div>
@@ -499,48 +512,5 @@
     <p class="muted">PF01</p>
   </div>
 </footer>
-
-<!-- ✅ Script de descarga directa (sin abrir el PDF) -->
-<script>
-  (function () {
-    function forceDownload(url, filename) {
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = filename || 'archivo.pdf';
-      a.rel = 'noopener';
-      document.body.appendChild(a);
-      a.click();
-      a.remove();
-    }
-
-    async function forceDownloadBlob(url, filename) {
-      const res = await fetch(url, { cache: 'no-store' });
-      if (!res.ok) return false;
-      const blob = await res.blob();
-      const blobUrl = URL.createObjectURL(blob);
-      forceDownload(blobUrl, filename);
-      setTimeout(() => URL.revokeObjectURL(blobUrl), 2000);
-      return true;
-    }
-
-    document.addEventListener('DOMContentLoaded', () => {
-      const btn = document.querySelector('.js-download-pdf');
-      if (!btn) return;
-
-      btn.addEventListener('click', async () => {
-        const url = btn.getAttribute('data-pdf');
-        const filename = btn.getAttribute('data-filename') || 'act02.pdf';
-        if (!url) return;
-
-        // Intento rápido (download)
-        forceDownload(url, filename);
-
-        // Fallback: fuerza descarga con blob (evita que se abra inline)
-        try { await forceDownloadBlob(url, filename); } catch (e) {}
-      });
-    });
-  })();
-</script>
-
 </body>
 </html>
