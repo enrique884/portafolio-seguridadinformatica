@@ -1,0 +1,1098 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="description" content="ROAD TO HALL OF FAME - SQL Injection" />
+  <title>ROAD TO HALL OF FAME | SQL Injection</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&family=Fira+Code:wght@300;400;500;600;700&family=Orbitron:wght@400;500;600;700;800;900&display=swap"
+    rel="stylesheet"
+  />
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+  />
+
+  <link rel="stylesheet" href="assets/css/styles.css" />
+
+  <script defer src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+  <script defer src="assets/js/main.js"></script>
+
+  <style>
+    .pill-mini{
+      display:inline-flex;
+      align-items:center;
+      gap:.5rem;
+      padding:.35rem .7rem;
+      border-radius:999px;
+      border:1px solid rgba(0,255,136,.20);
+      background:rgba(0,255,136,.06);
+      color:var(--text-secondary);
+      font-family:var(--font-code);
+      font-weight:900;
+      font-size:.78rem;
+      margin:.65rem .45rem 0 0;
+      white-space:nowrap;
+    }
+
+    .tag-pr{
+      display:inline-flex;
+      align-items:center;
+      gap:.45rem;
+      background:rgba(255,212,59,.95);
+      color:#111;
+      padding:.28rem .72rem;
+      border-radius:999px;
+      font-weight:900;
+      font-size:.8rem;
+      margin-right:.45rem;
+      font-family:var(--font-code);
+    }
+
+    .kblock{
+      border-radius:16px;
+      border:1px solid rgba(0,255,136,.16);
+      background:rgba(0,0,0,.18);
+      padding:1rem;
+      margin-top:1rem;
+    }
+
+    .kblock h3{
+      margin:.1rem 0 .6rem;
+      font-family:var(--font-tech);
+      letter-spacing:.5px;
+      font-size:1rem;
+      color:var(--primary);
+    }
+
+    .callout{
+      border-radius:16px;
+      border:1px solid rgba(0,212,255,.18);
+      background:rgba(0,0,0,.18);
+      padding:1rem;
+      margin-top:1rem;
+    }
+
+    .callout .title{
+      font-family:var(--font-code);
+      color:var(--secondary);
+      font-weight:900;
+      margin:0 0 .55rem;
+    }
+
+    .grid-2{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:1rem;
+      margin-top:1rem;
+    }
+
+    .grid-3{
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:1rem;
+      margin-top:1rem;
+    }
+
+    .kpi{
+      border-radius:16px;
+      border:1px solid rgba(0,255,136,.16);
+      background:rgba(0,0,0,.18);
+      padding:1rem;
+    }
+
+    .kpi .k{
+      font-family:var(--font-code);
+      color:var(--text-secondary);
+      font-weight:900;
+      font-size:.78rem;
+    }
+
+    .kpi .v{
+      margin-top:.35rem;
+      font-family:var(--font-tech);
+      font-weight:900;
+      letter-spacing:.5px;
+      font-size:1rem;
+    }
+
+    .labs-stack{
+      display:flex;
+      flex-direction:column;
+      gap:1.15rem;
+      margin-top:1rem;
+    }
+
+    .download-box{
+      margin-top:1rem;
+      border-radius:16px;
+      padding:1rem;
+      border:1px dashed rgba(255,212,59,.35);
+      background:rgba(255,212,59,.05);
+    }
+
+    .checklist{
+      margin:.45rem 0 0;
+      padding-left:1.15rem;
+      color:rgba(226,232,240,.82);
+    }
+
+    .checklist li{
+      margin:.3rem 0;
+    }
+
+    .lab-viewer{
+      --lab-accent: var(--primary);
+      --lab-bg: rgba(5,8,16,.96);
+      --lab-panel: rgba(8,14,24,.94);
+      --lab-border: rgba(0,255,136,.16);
+      --lab-text: var(--text-primary);
+      --lab-muted: var(--text-secondary);
+
+      width:100%;
+      border:1px solid var(--lab-border);
+      border-radius:22px;
+      background:
+        radial-gradient(circle at top left, rgba(0,255,136,.06), transparent 28%),
+        linear-gradient(180deg, rgba(255,255,255,.015), rgba(255,255,255,.01)),
+        var(--lab-bg);
+      box-shadow:0 18px 40px rgba(0,0,0,.35);
+      padding:1.2rem;
+      overflow:hidden;
+    }
+
+    .lab-viewer-header{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:1rem;
+      margin-bottom:1rem;
+    }
+
+    .lab-viewer-kicker{
+      display:inline-block;
+      font-size:.7rem;
+      letter-spacing:1.8px;
+      text-transform:uppercase;
+      color:var(--lab-accent);
+      margin-bottom:.35rem;
+      font-family:var(--font-body);
+      font-weight:800;
+    }
+
+    .lab-viewer-title{
+      margin:0;
+      color:var(--lab-text);
+      font-family:var(--font-tech);
+      font-size:1.18rem;
+      letter-spacing:.3px;
+      line-height:1.35;
+    }
+
+    .lab-viewer-controls{
+      display:flex;
+      gap:.6rem;
+      flex:0 0 auto;
+    }
+
+    .lab-nav-btn{
+      width:42px;
+      height:42px;
+      border-radius:12px;
+      border:1px solid var(--lab-border);
+      background:rgba(255,255,255,.02);
+      color:var(--lab-text);
+      cursor:pointer;
+      transition:.25s ease;
+      font-size:1rem;
+    }
+
+    .lab-nav-btn:hover{
+      background:rgba(0,255,136,.08);
+      color:var(--lab-accent);
+      border-color:rgba(0,255,136,.35);
+      transform:translateY(-1px);
+    }
+
+    .lab-stage{
+      display:flex;
+      flex-direction:column;
+      gap:1rem;
+    }
+
+    .lab-main-image-wrap{
+      position:relative;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      min-height:560px;
+      width:100%;
+      padding:1rem;
+      border:1px solid rgba(0,255,136,.12);
+      border-radius:20px;
+      background:
+        linear-gradient(180deg, rgba(255,255,255,.03), rgba(255,255,255,.01)),
+        rgba(0,0,0,.3);
+      overflow:hidden;
+      cursor:pointer;
+    }
+
+    .lab-main-image{
+      width:100%;
+      height:100%;
+      max-height:520px;
+      object-fit:contain;
+      object-position:center;
+      display:block;
+      border-radius:14px;
+      background:#030712;
+    }
+
+    .lab-image-hint{
+      position:absolute;
+      left:14px;
+      bottom:14px;
+      padding:.45rem .7rem;
+      border-radius:999px;
+      background:rgba(0,0,0,.55);
+      color:#e5e7eb;
+      font-size:.78rem;
+      border:1px solid rgba(0,255,136,.12);
+      backdrop-filter:blur(6px);
+      font-family:var(--font-body);
+    }
+
+    .lab-info-panel{
+      border:1px solid rgba(0,255,136,.12);
+      border-radius:20px;
+      background:var(--lab-panel);
+      padding:1rem 1.1rem;
+      transition:all .25s ease;
+    }
+
+    .lab-info-top{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:.75rem;
+      margin-bottom:.9rem;
+    }
+
+    .lab-info-badge{
+      padding:.38rem .7rem;
+      border-radius:999px;
+      background:rgba(0,255,136,.08);
+      color:var(--lab-accent);
+      font-size:.75rem;
+      letter-spacing:.8px;
+      text-transform:uppercase;
+      font-family:var(--font-code);
+      font-weight:800;
+    }
+
+    .lab-info-counter{
+      color:var(--lab-muted);
+      font-size:.9rem;
+      font-family:var(--font-code);
+      font-weight:700;
+    }
+
+    .lab-info-title{
+      margin:0 0 .55rem;
+      color:var(--lab-text);
+      font-family:var(--font-tech);
+      font-size:1.05rem;
+      line-height:1.4;
+    }
+
+    .lab-info-text{
+      margin:0;
+      color:#d1d5db;
+      line-height:1.7;
+      font-size:.95rem;
+    }
+
+    .lab-thumbs{
+      display:flex;
+      gap:.7rem;
+      overflow-x:auto;
+      margin-top:1rem;
+      padding-bottom:.3rem;
+      scrollbar-width:thin;
+    }
+
+    .lab-thumb{
+      flex:0 0 auto;
+      width:95px;
+      height:68px;
+      border-radius:14px;
+      overflow:hidden;
+      border:1px solid transparent;
+      background:rgba(255,255,255,.03);
+      cursor:pointer;
+      transition:.25s ease;
+      position:relative;
+    }
+
+    .lab-thumb img{
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      filter:grayscale(100%) brightness(.78);
+      transition:.25s ease;
+      display:block;
+    }
+
+    .lab-thumb.active{
+      border-color:rgba(0,255,136,.4);
+      box-shadow:0 0 0 1px rgba(0,255,136,.12);
+    }
+
+    .lab-thumb.active img,
+    .lab-thumb:hover img{
+      filter:grayscale(0%) brightness(1);
+      transform:scale(1.04);
+    }
+
+    .lab-thumb::after{
+      content:"";
+      position:absolute;
+      left:0;
+      right:0;
+      bottom:0;
+      height:3px;
+      background:var(--lab-accent);
+      opacity:0;
+      transition:.25s ease;
+    }
+
+    .lab-thumb.active::after{
+      opacity:1;
+    }
+
+    .lab-info-panel.is-collapsed .lab-info-title,
+    .lab-info-panel.is-collapsed .lab-info-text{
+      display:none;
+    }
+
+    @media (max-width: 980px){
+      .grid-2,
+      .grid-3{
+        grid-template-columns:1fr;
+      }
+    }
+
+    @media (max-width: 768px){
+      .lab-viewer{
+        padding:.95rem;
+      }
+
+      .lab-viewer-header{
+        flex-direction:column;
+        align-items:flex-start;
+      }
+
+      .lab-main-image-wrap{
+        min-height:340px;
+      }
+
+      .lab-main-image{
+        max-height:300px;
+      }
+
+      .lab-thumb{
+        width:82px;
+        height:58px;
+      }
+
+      .lab-image-hint{
+        font-size:.72rem;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <a class="skip-link" href="#contenido">Saltar al contenido principal</a>
+
+  <header class="header" id="header" role="banner">
+    <div class="header-container">
+      <nav class="nav" aria-label="Menú principal">
+        <a class="nav-brand" href="index.html">
+          <span class="brand-icon" aria-hidden="true">PF01</span>
+          <span class="brand-text">Portafolio</span>
+        </a>
+
+        <button class="menu-toggle" id="menuToggle" aria-label="Abrir menú">
+          <span></span><span></span><span></span>
+        </button>
+
+        <div class="nav-menu" id="navMenu">
+          <a class="nav-link" href="index.html">Inicio</a>
+          <a class="nav-link" href="actividades.html">Actividades</a>
+          <a class="nav-link" href="proyectos.html"><span class="nav-text">Proyectos</span></a>
+          <a class="nav-link active" href="sql-injection.html">ROAD TO HALL OF FAME</a>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <main id="contenido" class="main">
+
+    <section class="section hero hero--sub">
+      <div class="hero-bg">
+        <canvas id="matrixCanvas" aria-hidden="true"></canvas>
+        <div class="grid-overlay" aria-hidden="true"></div>
+        <div class="scan-line" aria-hidden="true"></div>
+      </div>
+
+      <div class="hero-container">
+        <div>
+          <div class="hero-badge">
+            <span class="badge-pulse" aria-hidden="true"></span>
+            <span>ROAD TO HALL OF FAME</span>
+          </div>
+
+          <h1 class="hero-title">
+            <span class="title-word">SQL Injection</span>
+            <span class="title-word highlight">Roadmap de laboratorios</span>
+          </h1>
+
+          <p class="hero-description">
+            Este submódulo presenta una ruta visual, organizada y profesional de aprendizaje
+            sobre vulnerabilidades de SQL Injection, integrando los 18 laboratorios de la
+            Actividad 08 con estructura clara, espacio para evidencia técnica y
+            acceso al documento completo en PDF.
+          </p>
+
+          <div class="hero-buttons">
+            <a class="btn btn-secondary" href="index.html">
+              <span class="btn-shine" aria-hidden="true"></span>
+              Volver al inicio
+            </a>
+          </div>
+        </div>
+
+        <div class="hero-visual">
+          <div class="security-terminal">
+            <div class="terminal-header">
+              <div class="terminal-dots" aria-hidden="true">
+                <span class="dot red"></span>
+                <span class="dot yellow"></span>
+                <span class="dot green"></span>
+              </div>
+              <div class="terminal-title">root@sql-labs:~$ SQLI_ROADMAP</div>
+            </div>
+
+            <div class="terminal-body">
+              <div class="terminal-line" style="opacity:1;">
+                <span class="prompt">root@sql-labs:~$</span>
+                <span class="command"> load --labs 18 --module sql-injection</span>
+              </div>
+              <div class="terminal-line" style="opacity:1;margin-top:.45rem;">
+                <span class="output">[OK] 18 laboratorios estructurados · evidencias · PDF completo</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <article class="card article">
+
+          <section class="article-section">
+            <h2><span class="tag-pr">SQLi</span> Introducción del submódulo</h2>
+
+            <p>
+              La inyección SQL es una de las vulnerabilidades más conocidas y relevantes en
+              seguridad web. Se presenta cuando una aplicación construye consultas a una base
+              de datos sin validar adecuadamente la entrada del usuario, permitiendo alterar
+              la lógica de la consulta y obtener acceso indebido a información o funcionalidades.
+            </p>
+
+            <p>
+              Este submódulo organiza visualmente los 18 laboratorios de la Actividad 08
+              en un formato claro, profesional y navegable. La intención es presentar el
+              contenido con buena visibilidad para las capturas y una documentación técnica
+              ordenada dentro del portafolio digital.
+            </p>
+
+            <div class="pill-mini">🧪 18 laboratorios</div>
+            <div class="pill-mini">🖼️ Evidencia visual</div>
+            <div class="pill-mini">🗂️ Navegación manual</div>
+            <div class="pill-mini">📄 Descarga PDF</div>
+          </section>
+
+          <section class="article-section">
+            <h2>1) Objetivo del submódulo</h2>
+
+            <div class="kblock">
+              <h3>Propósito</h3>
+              <p>
+                Integrar una sección especializada de SQL Injection dentro del apartado
+                ROAD TO HALL OF FAME, estructurando visualmente los laboratorios de la
+                Actividad 08 con claridad, consistencia gráfica, navegación funcional
+                y una presentación web profesional.
+              </p>
+            </div>
+
+            <div class="grid-3">
+              <div class="kpi">
+                <div class="k">Enfoque</div>
+                <div class="v">Galería manual</div>
+              </div>
+              <div class="kpi">
+                <div class="k">Contenido</div>
+                <div class="v">18 laboratorios</div>
+              </div>
+              <div class="kpi">
+                <div class="k">Entrega</div>
+                <div class="v">Módulo web + PDF</div>
+              </div>
+            </div>
+          </section>
+
+          <section class="article-section">
+            <h2>2) Laboratorios</h2>
+
+            <div class="callout">
+              <p class="title">Cómo usar esta sección</p>
+              <p>
+                Cada laboratorio incluye una imagen principal, miniaturas, navegación manual
+                y un panel de descripción. Al dar clic sobre la imagen principal, puedes
+                mostrar u ocultar la descripción correspondiente. Solo reemplaza los textos
+                de ejemplo por tu explicación real de cada evidencia.
+              </p>
+            </div>
+
+            <div class="labs-stack" id="labsContainer"></div>
+          </section>
+
+          <section class="article-section">
+            <h2>3) Descarga del documento completo</h2>
+
+            <div class="download-box">
+              <p>
+                Desde este botón se podrá descargar el documento completo correspondiente a la
+                Actividad 08 en formato PDF.
+              </p>
+
+              <div class="hero-buttons" style="margin-top:1rem;">
+                <button
+                  class="btn btn-primary js-download-pdf"
+                  type="button"
+                  data-pdf="assets/pdfs/act08.pdf"
+                  data-filename="act08.pdf"
+                >
+                  <span class="btn-shine" aria-hidden="true"></span>
+                  Descargar PDF completo
+                </button>
+              </div>
+            </div>
+          </section>
+
+          <section class="article-section">
+            <h2>4) Conclusión</h2>
+            <p>
+              Esta sección de SQL Injection está diseñada para cumplir una doble función:
+              organizar visualmente la Actividad 08 y presentar el contenido con una estructura
+              más profesional, clara y navegable. Cuando sustituyas los textos de ejemplo por
+              el contenido real de tus 18 laboratorios, ya tendrás un módulo web sólido y
+              alineado con la evaluación.
+            </p>
+          </section>
+
+          <div class="article-footer">
+            <a class="link-pill" href="index.html">↩ Volver a Inicio</a>
+          </div>
+
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer__inner">
+      <p>© <span class="muted">Portafolio de evidencias</span> | Seguridad Informática</p>
+      <p class="muted">PF01</p>
+    </div>
+  </footer>
+
+ <script>
+  const labImageCounts = {
+    1: 7,
+    2: 6,
+    3: 5,
+    4: 4,
+    5: 5,
+    6: 6,
+    7: 5,
+    8: 5,
+    9: 4,
+    10: 6,
+    11: 6,
+    12: 4,
+    13: 4,
+    14: 4,
+    15: 6,
+    16: 2,
+    17: 2,
+    18: 4
+  };
+
+  const labTitles = {
+    1: {
+      title: "Lab: SQL injection vulnerability in WHERE clause allowing retrieval of hidden data",
+      subtitle: "Retrieving hidden data",
+      level: "Apprentice",
+      type: "SQL Injection Clásica en cláusula WHERE",
+      objective: "Explotar la vulnerabilidad en el filtro de categorías de productos para recuperar datos ocultos.",
+      steps: [
+        "Acceso al laboratorio",
+        "Identificación del parámetro vulnerable",
+        "Prueba inicial de inyección",
+        "Validación del comportamiento",
+        "Ajuste del payload",
+        "Confirmación de la vulnerabilidad",
+        "Resultado final"
+      ]
+    },
+    2: {
+      title: "Lab: SQL injection vulnerability allowing login bypass",
+      subtitle: "Subverting application logic",
+      level: "Apprentice",
+      type: "SQL Injection clásica (Bypass de autenticación)",
+      objective: "Evitar el mecanismo de autenticación e iniciar sesión como usuario administrador sin conocer la contraseña.",
+      steps: [
+        "Ingreso al laboratorio",
+        "Análisis del formulario de login",
+        "Prueba de credenciales manipuladas",
+        "Ejecución del payload",
+        "Acceso no autorizado",
+        "Resultado final"
+      ]
+    },
+    3: {
+      title: "Lab: SQL injection attack, querying the database type and version on Oracle",
+      subtitle: "",
+      level: "Apprentice",
+      type: "In-band (UNION based) SQLi: Inyección SQL basada en el operador UNION para recuperar datos adicionales de la base de datos dentro de la misma respuesta HTTP.",
+      objective: "Determinar el tipo y la versión de la base de datos mediante una inyección SQL en el filtro de categorías de productos, mostrando la información directamente en la página web.",
+      steps: [
+        "Inicio del laboratorio",
+        "Reconocimiento del parámetro",
+        "Provocación del error SQL",
+        "Análisis de la respuesta",
+        "Resultado final"
+      ]
+    },
+    4: {
+      title: "Lab: SQL injection attack, listing the database contents on Oracle",
+      subtitle: "",
+      level: "Practitioner",
+      type: "In-band (UNION based) SQLi: Inyección SQL que utiliza el operador UNION para extraer información detallada del esquema de la base de datos (tablas y columnas) y recuperar datos sensibles.",
+      objective: "Identificar los nombres de las tablas y columnas dentro de una base de datos Oracle para extraer las credenciales (usuario y contraseña) de la tabla de usuarios y lograr iniciar sesión como administrador.",
+      steps: [
+        "Acceso al entorno",
+        "Prueba con ORDER BY",
+        "Identificación de columnas",
+        "Resultado final"
+      ]
+    },
+    5: {
+      title: "Lab: SQL injection UNION attack, determining the number of columns returned by the query",
+      subtitle: "Determining the number of columns required",
+      level: "Practitioner",
+      type: "In-Band – UNION Based",
+      objective: "Determinar el número de columnas que devuelve la consulta original para poder construir un ataque UNION válido.",
+      steps: [
+        "Inicio del laboratorio",
+        "Detección del número de columnas",
+        "Prueba de compatibilidad UNION",
+        "Extracción de datos visibles",
+        "Resultado final"
+      ]
+    },
+    6: {
+      title: "Lab: SQL injection UNION attack, finding a column containing text",
+      subtitle: "Finding columns with a useful data type",
+      level: "Practitioner",
+      type: "In-Band – UNION Based",
+      objective: "Identificar qué columna permite mostrar datos tipo texto para poder extraer información útil.",
+      steps: [
+        "Ingreso al laboratorio",
+        "Identificación del punto vulnerable",
+        "Construcción de la consulta UNION",
+        "Obtención de datos",
+        "Validación de credenciales",
+        "Resultado final"
+      ]
+    },
+    7: {
+      title: "Lab: SQL injection UNION attack, retrieving data from other tables",
+      subtitle: "Using a SQL injection UNION attack to retrieve interesting data",
+      level: "Practitioner",
+      type: "In-Band Union-Based",
+      objective: "Extraer datos desde otras tablas.",
+      steps: [
+        "Acceso al laboratorio",
+        "Reconocimiento del parámetro vulnerable",
+        "Prueba de extracción",
+        "Visualización de información",
+        "Resultado final"
+      ]
+    },
+    8: {
+      title: "Lab: SQL injection UNION attack, retrieving multiple values in a single column",
+      subtitle: "Retrieving multiple values within a single column",
+      level: "Practitioner",
+      type: "In-Band Union-Based",
+      objective: "El objetivo es extraer múltiples valores dentro de una sola columna visible de la aplicación.",
+      steps: [
+        "Ingreso al laboratorio",
+        "Manipulación del filtro",
+        "Prueba del payload",
+        "Confirmación del comportamiento",
+        "Resultado final"
+      ]
+    },
+    9: {
+      title: "Lab: SQL injection attack, querying the database type and version on MySQL and Microsoft",
+      subtitle: "Examining the database",
+      level: "Practitioner",
+      type: "In-Band Union-based",
+      objective: "El objetivo es identificar el tipo y la versión del motor de base de datos (MySQL o Microsoft SQL Server) para obtener información del entorno que permita adaptar ataques posteriores.",
+      steps: [
+        "Inicio del laboratorio",
+        "Generación del error controlado",
+        "Lectura del mensaje SQL",
+        "Resultado final"
+      ]
+    },
+    10: {
+      title: "Lab: SQL injection attack, listing the database contents on non-Oracle databases",
+      subtitle: "Examining the database",
+      level: "Practicante",
+      type: "In-Band Union-based",
+      objective: "El objetivo es enumerar la estructura interna de la base de datos, incluyendo nombres de tablas y columnas, para identificar dónde se almacena información sensible (como credenciales de usuarios).",
+      steps: [
+        "Acceso al entorno",
+        "Reconocimiento del parámetro",
+        "Cálculo de columnas",
+        "Construcción del UNION",
+        "Extracción de usuarios",
+        "Resultado final"
+      ]
+    },
+    11: {
+      title: "Lab: Blind SQL injection with conditional responses",
+      subtitle: "Exploiting blind SQL injection by triggering conditional responses",
+      level: "Practicante",
+      type: "Inyección ciega booleana",
+      objective: "Explotar una inyección SQL ciega para deducir la contraseña del usuario administrator.",
+      steps: [
+        "Inicio del laboratorio",
+        "Identificación del punto vulnerable",
+        "Confirmación del número de columnas",
+        "Consulta sobre users",
+        "Obtención de credenciales",
+        "Resultado final"
+      ]
+    },
+    12: {
+      title: "Lab: Blind SQL injection with conditional errors",
+      subtitle: "Error-based SQL injection",
+      level: "Practicante",
+      type: "Inyección SQL Ciega Basada en Errores",
+      objective: "Explotar una inyección SQL ciega induciendo errores condicionales para extraer la contraseña del usuario administrator y acceder a su cuenta.",
+      steps: [
+        "Ingreso al laboratorio",
+        "Prueba condicional verdadera",
+        "Prueba condicional falsa",
+        "Resultado final"
+      ]
+    },
+    13: {
+      title: "Lab: Visible error-based SQL injection",
+      subtitle: "Error-based SQL injection",
+      level: "Practicante",
+      type: "Inyección SQL Basada en Errores Visibles",
+      objective: "Explotar una vulnerabilidad de inyección SQL para extraer la contraseña del usuario administrator, forzando a la base de datos a revelar esta información dentro de un mensaje de error detallado.",
+      steps: [
+        "Inicio del laboratorio",
+        "Construcción de condición",
+        "Interpretación de respuestas",
+        "Resultado final"
+      ]
+    },
+    14: {
+      title: "Lab: Blind SQL injection with time delays",
+      subtitle: "Exploiting blind SQL injection with time delays",
+      level: "Practicante",
+      type: "Inyección SQL Ciega Basada en Tiempos",
+      objective: "Confirmar la existencia de una vulnerabilidad de inyección SQL ciega forzando a la base de datos a ejecutar un retardo de tiempo de 10 segundos en su respuesta.",
+      steps: [
+        "Acceso al laboratorio",
+        "Prueba sobre contenido condicional",
+        "Validación del comportamiento",
+        "Resultado final"
+      ]
+    },
+    15: {
+      title: "Lab: Blind SQL injection with time delays and information retrieval",
+      subtitle: "Exploiting blind SQL injection by triggering time delays",
+      level: "Practicante",
+      type: "Inyección SQL Ciega Basada en Tiempos",
+      objective: "Explotar una vulnerabilidad de inyección SQL basada en tiempos para extraer la contraseña del usuario administrator induciendo retrasos condicionales en el tiempo de respuesta del servidor.",
+      steps: [
+        "Ingreso al entorno",
+        "Identificación del campo objetivo",
+        "Prueba carácter por carácter",
+        "Reconstrucción de datos",
+        "Validación del valor obtenido",
+        "Resultado final"
+      ]
+    },
+    16: {
+      title: "Lab: Blind SQL injection with out-of-band interaction",
+      subtitle: "Exploiting blind SQL injection using out-of-band (OAST) techniques",
+      level: "Practitioner",
+      type: "Blind SQL injection (Out-of-band / OAST): Inyección SQL a ciegas que utiliza técnicas fuera de banda para provocar una interacción de red externa (DNS/HTTP).",
+      objective: "Explotar una vulnerabilidad de inyección SQL en la cookie de rastreo para forzar al servidor a realizar una consulta DNS hacia el servidor de Burp Collaborator, confirmando así la vulnerabilidad mediante una interacción externa.",
+      steps: [
+        "Ejecución de prueba temporal",
+        "Resultado final"
+      ]
+    },
+    17: {
+      title: "Lab: Blind SQL injection with out-of-band data exfiltration",
+      subtitle: "Exploiting blind SQL injection using out-of-band (OAST) techniques",
+      level: "Practitioner",
+      type: "Blind SQL injection (Out-of-band / OAST) con Exfiltración de Datos: Inyección SQL a ciegas que utiliza técnicas fuera de banda para extraer información sensible y enviarla a un servidor externo controlado por el atacante.",
+      objective: "Explotar una vulnerabilidad de inyección SQL en la cookie de rastreo para extraer la contraseña del usuario mediante una consulta DNS al servidor de Burp Collaborator, y posteriormente iniciar sesión con dicha credencial.",
+      steps: [
+        "Análisis del tiempo de respuesta",
+        "Resultado final"
+      ]
+    },
+    18: {
+      title: "Lab: SQL injection with filter bypass via XML encoding",
+      subtitle: "SQL injection in different contexts",
+      level: "Practitioner",
+      type: "UNION based SQLi con evasión de WAF/filtros mediante ofuscación.",
+      objective: "Explotar una vulnerabilidad de inyección SQL en la función de 'Stock Check' para recuperar las credenciales del usuario administrador de la tabla users y posteriormente iniciar sesión en su cuenta.",
+      steps: [
+        "Inicio del laboratorio",
+        "Construcción de la extracción",
+        "Validación de datos",
+        "Resultado final"
+      ]
+    }
+  };
+    function makeStepText(labNumber, stepNumber, totalSteps) {
+      const formattedLab = String(labNumber).padStart(2, "0");
+
+      if (stepNumber === 1) {
+        return `Captura inicial del laboratorio ${formattedLab}, donde se observa el entorno de trabajo y el inicio de la práctica. Sustituye este texto por tu descripción real de la evidencia mostrada.`;
+      }
+
+      if (stepNumber === totalSteps) {
+        return `Resultado final del laboratorio ${formattedLab}. Aquí puedes describir el hallazgo, la validación obtenida, el acceso logrado o la evidencia final del ejercicio.`;
+      }
+
+      return `Descripción de la evidencia ${stepNumber} del laboratorio ${formattedLab}. Sustituye este texto por la explicación técnica real de lo que hiciste, el payload aplicado y el comportamiento observado.`;
+    }
+
+      function buildLabData(labNumber, totalImages) {
+    const images = [];
+    const labConfig = labTitles[labNumber];
+    const title = labConfig?.title || `Laboratorio ${String(labNumber).padStart(2, "0")}`;
+    const steps = labConfig?.steps || [];
+
+    for (let i = 0; i < totalImages; i++) {
+      const suffix = i === 0 ? "" : `.${i}`;
+      const src = `assets/lab${labNumber}${suffix}.png`;
+
+      images.push({
+        src,
+        alt: `${title} imagen ${i + 1}`,
+        step: steps[i] || (i === totalImages - 1 ? "Resultado final" : `Paso ${i + 1}`),
+        text: makeStepText(labNumber, i + 1, totalImages)
+      });
+    }
+
+    return {
+      id: `lab${labNumber}Viewer`,
+      title,
+      subtitle: labConfig?.subtitle || "",
+      level: labConfig?.level || "",
+      type: labConfig?.type || "",
+      objective: labConfig?.objective || "",
+      images
+    };
+  }
+
+    const labGalleriesData = Array.from({ length: 18 }, (_, index) => {
+      const labNumber = index + 1;
+      return buildLabData(labNumber, labImageCounts[labNumber]);
+    });
+
+     function createLabViewerHTML(config) {
+    return `
+      <section class="lab-viewer" id="${config.id}">
+        <div class="lab-viewer-header">
+          <div>
+            <span class="lab-viewer-kicker">ROAD TO HALL OF FAME</span>
+            <h3 class="lab-viewer-title">${config.title}</h3>
+
+            <div class="lab-meta">
+              ${config.subtitle ? `<p class="lab-meta-subtitle">${config.subtitle}</p>` : ""}
+
+              ${config.level ? `
+                <div class="lab-meta-line">
+                  <span class="lab-meta-label">Nivel:</span>
+                  <span class="lab-meta-value">${config.level}</span>
+                </div>
+              ` : ""}
+
+              ${config.type ? `
+                <div class="lab-meta-line">
+                  <span class="lab-meta-label">Tipo:</span>
+                  <span class="lab-meta-value">${config.type}</span>
+                </div>
+              ` : ""}
+
+              ${config.objective ? `
+                <div class="lab-meta-line">
+                  <span class="lab-meta-label">Objetivo:</span>
+                  <span class="lab-meta-value">${config.objective}</span>
+                </div>
+              ` : ""}
+            </div>
+          </div>
+
+          <div class="lab-viewer-controls">
+            <button type="button" class="lab-nav-btn prev" aria-label="Imagen anterior">
+              &#10094;
+            </button>
+            <button type="button" class="lab-nav-btn next" aria-label="Imagen siguiente">
+              &#10095;
+            </button>
+          </div>
+        </div>
+
+        <div class="lab-stage">
+          <button type="button" class="lab-main-image-wrap" aria-label="Mostrar descripción de la imagen">
+            <img class="lab-main-image" src="${config.images[0].src}" alt="${config.images[0].alt}">
+            <span class="lab-image-hint">Click en la imagen para mostrar / ocultar descripción</span>
+          </button>
+
+          <div class="lab-info-panel">
+            <div class="lab-info-top">
+              <span class="lab-info-badge">Evidencia</span>
+              <span class="lab-info-counter">1 / ${config.images.length}</span>
+            </div>
+
+            <h4 class="lab-info-title">${config.images[0].step}</h4>
+            <p class="lab-info-text">${config.images[0].text}</p>
+          </div>
+        </div>
+
+        <div class="lab-thumbs"></div>
+      </section>
+    `;
+  }
+
+    function createLabGallery(viewerId, config) {
+      const viewer = document.getElementById(viewerId);
+      if (!viewer) return;
+
+      const mainImage = viewer.querySelector(".lab-main-image");
+      const mainWrap = viewer.querySelector(".lab-main-image-wrap");
+      const infoPanel = viewer.querySelector(".lab-info-panel");
+      const infoCounter = viewer.querySelector(".lab-info-counter");
+      const infoTitle = viewer.querySelector(".lab-info-title");
+      const infoText = viewer.querySelector(".lab-info-text");
+      const thumbsContainer = viewer.querySelector(".lab-thumbs");
+      const prevBtn = viewer.querySelector(".lab-nav-btn.prev");
+      const nextBtn = viewer.querySelector(".lab-nav-btn.next");
+
+      let current = 0;
+      let infoVisible = true;
+
+      function renderThumbs() {
+        thumbsContainer.innerHTML = "";
+
+        config.images.forEach((item, index) => {
+          const btn = document.createElement("button");
+          btn.type = "button";
+          btn.className = "lab-thumb";
+          btn.setAttribute("aria-label", `${config.title} miniatura ${index + 1}`);
+          btn.innerHTML = `<img src="${item.src}" alt="${item.alt}">`;
+
+          btn.addEventListener("click", () => {
+            current = index;
+            update();
+          });
+
+          thumbsContainer.appendChild(btn);
+        });
+      }
+
+      function update() {
+        const item = config.images[current];
+        const thumbs = viewer.querySelectorAll(".lab-thumb");
+
+        mainImage.src = item.src;
+        mainImage.alt = item.alt;
+        infoCounter.textContent = `${current + 1} / ${config.images.length}`;
+        infoTitle.textContent = item.step;
+        infoText.textContent = item.text;
+
+        thumbs.forEach((thumb, index) => {
+          thumb.classList.toggle("active", index === current);
+        });
+      }
+
+      prevBtn.addEventListener("click", () => {
+        current = (current - 1 + config.images.length) % config.images.length;
+        update();
+      });
+
+      nextBtn.addEventListener("click", () => {
+        current = (current + 1) % config.images.length;
+        update();
+      });
+
+      mainWrap.addEventListener("click", () => {
+        infoVisible = !infoVisible;
+        infoPanel.classList.toggle("is-collapsed", !infoVisible);
+      });
+
+      renderThumbs();
+      update();
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+      const labsContainer = document.getElementById("labsContainer");
+
+      labGalleriesData.forEach((config) => {
+        labsContainer.insertAdjacentHTML("beforeend", createLabViewerHTML(config));
+      });
+
+      labGalleriesData.forEach((config) => {
+        createLabGallery(config.id, config);
+      });
+    });
+  </script>
+</body>
+</html>

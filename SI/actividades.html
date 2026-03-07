@@ -32,7 +32,9 @@
         </a>
 
         <div class="nav-menu" id="navMenu">
-          <a class="nav-link" href="index.html#contenido"><span class="nav-text">Inicio</span></a>
+          <a class="nav-link" href="index.html#contenido">
+            <span class="nav-text">Inicio</span>
+          </a>
 
           <a class="nav-link active" href="actividades.html">
             <span class="nav-text">Actividades</span>
@@ -51,7 +53,31 @@
             </div>
           </div>
 
-          <a class="nav-link" href="index.html#contacto"><span class="nav-text">Contacto</span></a>
+          <a class="nav-link" href="proyectos.html">
+            <span class="nav-text">Proyectos</span>
+          </a>
+
+          <div class="nav-dropdown" id="hofDropdown">
+            <button
+              class="nav-link nav-dropbtn"
+              type="button"
+              aria-expanded="false"
+              aria-controls="hofMenu"
+            >
+              <span class="nav-text">ROAD TO HALL OF FAME</span>
+              <i class="fas fa-chevron-down"></i>
+            </button>
+
+            <div class="nav-dropmenu" id="hofMenu" role="menu">
+              <a class="nav-dropitem" href="sql-injection.html" role="menuitem">
+                SQL Injection
+              </a>
+            </div>
+          </div>
+
+          <a class="nav-link" href="index.html#contacto">
+            <span class="nav-text">Contacto</span>
+          </a>
         </div>
 
         <div class="nav-actions">
@@ -114,8 +140,12 @@
                 <span class="prompt">root@portfolio:~$</span>
                 <span class="command">ls -la ./actividades</span>
               </div>
-              <div class="terminal-line" style="opacity:1"><span class="output">6 artículos publicados</span></div>
-              <div class="terminal-line" style="opacity:1"><span class="output">Formato: técnico + export PDF</span></div>
+              <div class="terminal-line" style="opacity:1">
+                <span class="output">8 artículos publicados</span>
+              </div>
+              <div class="terminal-line" style="opacity:1">
+                <span class="output">Formato: técnico + export PDF</span>
+              </div>
             </div>
           </div>
         </div>
@@ -190,6 +220,26 @@
             </div>
             <h3 class="activity-title">Implementación de IPSec VPN</h3>
             <p class="activity-excerpt">Diseño, configuración y pruebas de túneles IPSec, incluyendo parámetros, cifrado y verificación.</p>
+            <span class="activity-cta">Abrir artículo <i class="fas fa-arrow-right"></i></span>
+          </a>
+
+          <a class="activity-card" href="actividad-07.html">
+            <div class="activity-top">
+              <span class="activity-kicker">ACTIVIDAD 07</span>
+              <span class="activity-tag"><i class="fas fa-user-secret"></i> Dark Web</span>
+            </div>
+            <h3 class="activity-title">La caída del mayor traficante de la dark web (OxyMonster)</h3>
+            <p class="activity-excerpt">Análisis de mercados ilícitos, reputación criminal, escrow, mixers y evidencia digital que permitió vincular a OxyMonster.</p>
+            <span class="activity-cta">Abrir artículo <i class="fas fa-arrow-right"></i></span>
+          </a>
+
+          <a class="activity-card" href="sql-injection.html">
+            <div class="activity-top">
+              <span class="activity-kicker">ACTIVIDAD 08</span>
+              <span class="activity-tag"><i class="fas fa-database"></i> SQL Injection</span>
+            </div>
+            <h3 class="activity-title">Road to Hall of Fame: SQL Injection Labs</h3>
+            <p class="activity-excerpt">Ruta práctica de laboratorios de SQL Injection con enfoque en explotación, análisis técnico y documentación de evidencia.</p>
             <span class="activity-cta">Abrir artículo <i class="fas fa-arrow-right"></i></span>
           </a>
         </div>

@@ -1,0 +1,440 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="description" content="Actividad 07 - La caída del mayor traficante de la dark web (OxyMonster)" />
+  <title>Actividad 07 | OxyMonster y la dark web</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&family=Fira+Code:wght@300;400;500;600;700&family=Orbitron:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <link rel="stylesheet" href="assets/css/styles.css" />
+
+  <script defer src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+  <script defer src="assets/js/main.js"></script>
+
+  <style>
+    .pill-mini{
+      display:inline-flex;
+      align-items:center;
+      gap:.5rem;
+      padding:.35rem .7rem;
+      border-radius:999px;
+      border:1px solid rgba(0,255,136,.20);
+      background: rgba(0,255,136,.06);
+      color: var(--text-secondary);
+      font-family: var(--font-code);
+      font-weight:900;
+      font-size:.78rem;
+      margin:.65rem .45rem 0 0;
+      white-space:nowrap;
+    }
+
+    .kblock{
+      border-radius:16px;
+      border:1px solid rgba(0,255,136,.16);
+      background: rgba(0,0,0,.18);
+      padding:1rem;
+      margin-top:1rem;
+    }
+
+    .kblock h3{
+      margin:.1rem 0 .6rem;
+      font-family:var(--font-tech);
+      letter-spacing:.5px;
+      font-size:1rem;
+    }
+
+    .callout{
+      border-radius:16px;
+      border:1px solid rgba(0,212,255,.18);
+      background: rgba(0,0,0,.18);
+      padding:1rem;
+      margin-top:1rem;
+    }
+
+    .callout .title{
+      font-family:var(--font-code);
+      color: var(--secondary);
+      font-weight:900;
+      margin:0 0 .55rem;
+    }
+
+    .qa-list{
+      display:grid;
+      gap:1rem;
+      margin-top:1rem;
+    }
+
+    .qa-item{
+      border-radius:16px;
+      border:1px solid rgba(0,255,136,.16);
+      background: rgba(0,0,0,.18);
+      padding:1rem;
+    }
+
+    .qa-item h3{
+      margin:.1rem 0 .55rem;
+      font-family:var(--font-tech);
+      font-size:1rem;
+      color:var(--primary);
+      letter-spacing:.4px;
+    }
+
+    .qa-item p{
+      margin:.35rem 0 0;
+      color: rgba(226,232,240,.88);
+      line-height:1.65;
+    }
+
+    .grid-2{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:1rem;
+      margin-top:1rem;
+    }
+
+    .media-note{
+      margin-top:1rem;
+      padding:1rem;
+      border-radius:14px;
+      border:1px dashed rgba(255,212,59,.28);
+      background: rgba(255,212,59,.05);
+      color: rgba(226,232,240,.88);
+    }
+
+    .ref-list{
+      list-style:none;
+      padding-left:0;
+      margin:1rem 0 0;
+    }
+
+    .ref-list li{
+      padding-left:1.6rem;
+      text-indent:-1.6rem;
+      margin:.8rem 0;
+      color: rgba(226,232,240,.88);
+      line-height:1.7;
+    }
+
+    @media (max-width: 980px){
+      .grid-2{grid-template-columns:1fr}
+    }
+  </style>
+</head>
+
+<body>
+<a class="skip-link" href="#contenido">Saltar al contenido principal</a>
+
+<header class="header" id="header" role="banner">
+  <div class="header-container">
+    <nav class="nav" aria-label="Menú principal">
+      <a class="nav-brand" href="index.html">
+        <span class="brand-icon" aria-hidden="true">PF01</span>
+        <span class="brand-text">Portafolio</span>
+      </a>
+
+      <button class="menu-toggle" id="menuToggle" aria-label="Abrir menú">
+        <span></span><span></span><span></span>
+      </button>
+
+      <div class="nav-menu" id="navMenu">
+        <a class="nav-link" href="index.html">Inicio</a>
+        <a class="nav-link active" href="actividades.html">Actividades</a>
+      </div>
+    </nav>
+  </div>
+</header>
+
+<main id="contenido" class="main">
+
+  <section class="section hero hero--sub">
+    <div class="hero-bg">
+      <canvas id="matrixCanvas" aria-hidden="true"></canvas>
+      <div class="grid-overlay" aria-hidden="true"></div>
+      <div class="scan-line" aria-hidden="true"></div>
+    </div>
+
+    <div class="hero-container">
+      <div>
+        <div class="hero-badge">
+          <span class="badge-pulse" aria-hidden="true"></span>
+          <span>ACTIVIDAD 07</span>
+        </div>
+
+        <h1 class="hero-title">
+          <span class="title-word">La caída del mayor traficante</span>
+          <span class="title-word highlight">de la dark web (OxyMonster)</span>
+        </h1>
+
+        <p class="hero-description">
+          Actividad basada en el análisis de un video sobre la investigación y captura
+          de “OxyMonster”, abordando mercados ilícitos en la dark web, trazabilidad,
+          errores operativos y evidencia digital utilizada para su vinculación.
+        </p>
+
+        <div class="hero-buttons">
+          <button
+            class="btn btn-primary js-download-pdf"
+            type="button"
+            data-pdf="assets/pdfs/act07.pdf"
+            data-filename="act07.pdf"
+          >
+            <span class="btn-shine" aria-hidden="true"></span>
+            Exportar a PDF
+          </button>
+
+          <a class="btn btn-secondary" href="actividades.html">
+            <span class="btn-shine" aria-hidden="true"></span>
+            Volver a Actividades
+          </a>
+        </div>
+      </div>
+
+      <div class="hero-visual">
+        <div class="security-terminal">
+          <div class="terminal-header">
+            <div class="terminal-dots" aria-hidden="true">
+              <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+            </div>
+            <div class="terminal-title">root@darkweb-case:~$ OXYMONSTER_CASE</div>
+          </div>
+          <div class="terminal-body">
+            <div class="terminal-line" style="opacity:1;">
+              <span class="prompt">root@darkweb-case:~$</span>
+              <span class="command"> analyze --market dream --actor oxymonster</span>
+            </div>
+            <div class="terminal-line" style="opacity:1;margin-top:.45rem;">
+              <span class="output">[OK] mercados ilícitos · escrow · mixer · evidencia digital · captura</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <article class="card article">
+
+        <section class="article-section">
+          <h2>Introducción</h2>
+          <p>
+            Esta actividad analiza el caso de “OxyMonster”, identificado como una figura relevante
+            dentro de los mercados criminales de la dark web. A partir del video y del cuestionario
+            resuelto, se estudian elementos como el funcionamiento de plataformas ilícitas, la
+            reputación de vendedores, el uso de sistemas de protección de pagos, el lavado de activos
+            mediante criptomonedas y los errores de seguridad operacional que finalmente facilitaron
+            su detención.
+          </p>
+
+          <div class="pill-mini">📺 Basado en análisis de video</div>
+          <div class="pill-mini">🕵️ Caso: OxyMonster</div>
+          <div class="pill-mini">🌐 Tema central: dark web y trazabilidad</div>
+        </section>
+
+        <section class="article-section">
+          <h2>Desarrollo de preguntas y respuestas</h2>
+
+          <div class="qa-list">
+
+            <div class="qa-item">
+              <h3>1. ¿Qué policía inició las investigaciones?</h3>
+              <p>
+                De acuerdo con la hoja resuelta, las investigaciones fueron iniciadas por
+                fuerzas de seguridad de Estados Unidos. Esto muestra la participación de
+                agencias con capacidad de rastreo internacional en delitos relacionados con
+                la dark web.
+              </p>
+            </div>
+
+            <div class="qa-item">
+              <h3>2. ¿Cómo se llamaba la operación para cerrar mercado principal?</h3>
+              <p>
+                La operación se identificó como <strong>Bayoneta</strong>. Este dato es importante
+                porque refleja que el cierre de mercados criminales suele realizarse mediante
+                operaciones coordinadas y planificadas entre distintas autoridades.
+              </p>
+            </div>
+
+            <div class="qa-item">
+              <h3>3. ¿Cuál era el principal mercado malicioso que existía?</h3>
+              <p>
+                La respuesta registrada es <strong>Silk Road</strong>. Este mercado es ampliamente
+                reconocido por haber sido uno de los primeros referentes del comercio ilícito
+                en la dark web, especialmente vinculado con narcóticos y otros productos ilegales.
+              </p>
+            </div>
+
+            <div class="qa-item">
+              <h3>4. ¿Cómo conseguían reputación en Dream Market?</h3>
+              <p>
+                La hoja indica que la reputación se obtenía mediante buenos comentarios y
+                recomendaciones dentro del mercado. Esto revela que incluso en entornos
+                criminales existen sistemas internos de confianza y validación para atraer
+                compradores y aparentar credibilidad.
+              </p>
+            </div>
+
+            <div class="qa-item">
+              <h3>5. ¿Cuál era la principal droga en venta en ese momento?</h3>
+              <p>
+                La principal sustancia señalada fue el <strong>fentanilo</strong>, lo cual subraya
+                la gravedad del caso por tratarse de una droga de alto impacto sanitario y
+                mortalidad elevada.
+              </p>
+            </div>
+
+            <div class="qa-item">
+              <h3>6. ¿En qué consiste el sistema “Escrow”?</h3>
+              <p>
+                Se explicó que consiste en retener el dinero hasta confirmar la compra.
+                En otras palabras, funciona como un mecanismo de depósito temporal que
+                “protege” la transacción dentro del mercado hasta que el comprador da
+                conformidad, lo que reduce disputas y aumenta la sensación de seguridad
+                criminal dentro de la plataforma. 
+              </p>
+            </div>
+
+            <div class="qa-item">
+              <h3>7. ¿En qué consiste el proceso “The Mixer”?</h3>
+              <p>
+                Según la respuesta escrita, el mixer consiste en convertir las criptomonedas
+                en pequeñas transacciones. Este proceso busca dificultar el rastreo del dinero,
+                fragmentando los movimientos para ocultar el origen de los fondos. 
+              </p>
+            </div>
+
+            <div class="qa-item">
+              <h3>8. ¿Desde cuándo inició sus actividades “OxyMonster”?</h3>
+              <p>
+                La hoja señala <strong>mayo de 2015</strong>. Esta fecha permite ubicar el inicio
+                de su actividad criminal dentro del periodo de crecimiento de varios mercados
+                oscuros posteriores a Silk Road. 
+              </p>
+            </div>
+
+            <div class="qa-item">
+              <h3>9. ¿Cuánto tiempo tardó en obtener el rol de administrador “OxyMonster”?</h3>
+              <p>
+                La respuesta anotada es <strong>7 meses</strong>. Esto sugiere un ascenso rápido
+                dentro de la estructura del mercado, probablemente debido a confianza acumulada,
+                reputación y participación constante.
+              </p>
+            </div>
+
+            <div class="qa-item">
+              <h3>10. ¿Cuál fue el error de OxyMonster para lograr su detención?</h3>
+              <p>
+                Se indica que tenía una dirección para recibir bitcoin, incluso vinculada a
+                LocalBitcoins, y que esto permitió pedir información de identificación.
+                Este punto evidencia un error de seguridad operacional: dejar rastros que
+                conectaran la identidad digital con procesos verificables del mundo real. 
+              </p>
+            </div>
+
+            <div class="qa-item">
+              <h3>11. ¿Cuál fue el nombre real de “OxyMonster”?</h3>
+              <p>
+                En la hoja aparece el nombre <strong>Gal Vallerius</strong>. Este dato es clave
+                porque muestra la transición de un alias criminal hacia la identificación
+                personal verificable.
+              </p>
+            </div>
+
+            <div class="qa-item">
+              <h3>12. ¿Cómo lograron vincular a “OxyMonster” para conseguir la orden de arresto?</h3>
+              <p>
+                Se menciona que compartía apellido y que tenía numerosos comentarios y
+                publicaciones en Instagram, los cuales fueron comparados con su actividad
+                en Dream Market. Esto destaca la importancia de la correlación de huellas
+                digitales abiertas en redes sociales con evidencia criminal.
+              </p>
+            </div>
+
+            <div class="qa-item">
+              <h3>13. ¿Cuál fue la prueba definitiva para vincular a “OxyMonster” con los delitos?</h3>
+              <p>
+                La respuesta escrita indica que se revisaron dispositivos, se encontró una
+                billetera de bitcoin, código PGP y la clave pública asociada con Dream Market.
+                Esto constituye evidencia digital directa que vincula al sospechoso con la
+                operación del mercado y con actividades de conspiración para traficar drogas.
+              </p>
+            </div>
+
+          </div>
+        </section>
+
+        <section class="article-section">
+          <h2>Análisis técnico del caso</h2>
+
+          <div class="grid-2">
+            <div class="kblock">
+              <h3>Aspectos clave observados</h3>
+              <ul class="checklist">
+                <li>Uso de plataformas de la dark web para comercio ilícito.</li>
+                <li>Importancia de la reputación dentro de mercados criminales.</li>
+                <li>Aplicación de escrow como método de confianza entre delincuentes.</li>
+                <li>Uso de mixers para dificultar trazabilidad financiera.</li>
+                <li>Errores de OPSEC que terminan exponiendo la identidad real.</li>
+              </ul>
+            </div>
+
+            <div class="callout">
+              <p class="title">Interpretación</p>
+              <p>
+                El caso demuestra que, aunque los mercados de la dark web intentan blindarse
+                mediante anonimato, reputación y criptomonedas, siguen siendo vulnerables a
+                investigaciones basadas en evidencia digital, correlación de identidades y errores
+                humanos en la seguridad operacional.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <section class="article-section">
+          <h2>Conclusión</h2>
+          <p>
+            La actividad evidencia cómo las investigaciones contra actores de la dark web no se
+            basan únicamente en tecnología avanzada, sino también en errores operativos, trazas
+            financieras y vínculos entre identidades digitales y personales. El caso de OxyMonster
+            muestra que la combinación de análisis forense, inteligencia y seguimiento de evidencia
+            puede desarticular estructuras criminales aparentemente protegidas por anonimato. 
+          </p>
+        </section>
+
+        <section class="article-section">
+          <h2>Referencia de evidencia</h2>
+          <ul class="ref-list">
+            <li>
+              Documento de actividad con preguntas y respuestas sobre el caso
+              <em>“La caída del mayor traficante de la dark web (OxyMonster)”</em>,
+              hoja escaneada entregada como evidencia académica.
+            </li>
+          </ul>
+        </section>
+
+        <div class="article-footer">
+          <a class="link-pill" href="actividades.html">↩ Volver a Actividades</a>
+        </div>
+
+      </article>
+    </div>
+  </section>
+</main>
+
+<footer class="footer">
+  <div class="container footer__inner">
+    <p>© <span class="muted">Portafolio de evidencias</span> | Seguridad Informática</p>
+    <p class="muted">PF01</p>
+  </div>
+</footer>
+
+</body>
+</html>

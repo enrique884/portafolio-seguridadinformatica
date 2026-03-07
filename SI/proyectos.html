@@ -1,0 +1,454 @@
+<!doctype html>
+<html lang="es" dir="ltr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes" />
+  <meta name="description" content="Proyectos - Seguridad Informática." />
+  <title>Portafolio | Proyectos</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&family=Fira+Code:wght@300;400;500;600;700&family=Orbitron:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <link rel="stylesheet" href="assets/css/styles.css" />
+
+  <script defer src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+  <script defer src="assets/js/main.js"></script>
+
+  <style>
+    .project-grid{
+      display:grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 1.25rem;
+      margin-top: 2rem;
+    }
+
+    .project-card{
+      position:relative;
+      overflow:hidden;
+      border-radius: 22px;
+      border: 1px solid rgba(0,255,136,.16);
+      background:
+        linear-gradient(180deg, rgba(255,255,255,.02), rgba(255,255,255,0)),
+        rgba(15,20,25,.72);
+      backdrop-filter: blur(12px);
+      box-shadow: 0 20px 60px rgba(0,0,0,.35);
+      transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease;
+    }
+
+    .project-card:hover{
+      transform: translateY(-6px);
+      border-color: rgba(0,255,136,.28);
+      box-shadow: 0 24px 70px rgba(0,0,0,.45), 0 0 24px rgba(0,255,136,.10);
+    }
+
+    .project-card::before{
+      content:"";
+      position:absolute;
+      inset:0;
+      background:
+        radial-gradient(circle at top right, rgba(0,212,255,.12), transparent 32%),
+        radial-gradient(circle at bottom left, rgba(0,255,136,.10), transparent 30%);
+      pointer-events:none;
+    }
+
+    .project-card__inner{
+      position:relative;
+      z-index:1;
+      padding: 1.25rem;
+    }
+
+    .project-top{
+      display:flex;
+      align-items:flex-start;
+      justify-content:space-between;
+      gap:1rem;
+      margin-bottom:1rem;
+    }
+
+    .project-code{
+      display:inline-flex;
+      align-items:center;
+      gap:.45rem;
+      padding:.42rem .8rem;
+      border-radius:999px;
+      border:1px solid rgba(0,255,136,.20);
+      background: rgba(0,255,136,.08);
+      color: var(--text-secondary);
+      font-family: var(--font-code);
+      font-size:.8rem;
+      font-weight:900;
+      letter-spacing:.4px;
+    }
+
+    .project-icon{
+      width:52px;
+      height:52px;
+      display:grid;
+      place-items:center;
+      border-radius:16px;
+      border:1px solid rgba(0,212,255,.18);
+      background: rgba(0,212,255,.08);
+      color: var(--secondary);
+      font-size:1.2rem;
+      flex: 0 0 auto;
+    }
+
+    .project-title{
+      margin:0;
+      font-family: var(--font-tech);
+      font-size:1.15rem;
+      line-height:1.25;
+      letter-spacing:.5px;
+    }
+
+    .project-subtitle{
+      margin:.65rem 0 0;
+      color: rgba(226,232,240,.78);
+      line-height:1.6;
+    }
+
+    .project-tags{
+      display:flex;
+      flex-wrap:wrap;
+      gap:.55rem;
+      margin-top:1rem;
+    }
+
+    .project-tag{
+      display:inline-flex;
+      align-items:center;
+      padding:.33rem .7rem;
+      border-radius:999px;
+      border:1px solid rgba(0,255,136,.16);
+      background: rgba(0,255,136,.06);
+      color: var(--text-secondary);
+      font-family: var(--font-code);
+      font-size:.76rem;
+      font-weight:800;
+    }
+
+    .project-meta{
+      display:grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap:.85rem;
+      margin-top:1.1rem;
+    }
+
+    .project-kpi{
+      border-radius:14px;
+      border:1px solid rgba(0,255,136,.12);
+      background: rgba(0,0,0,.16);
+      padding:.85rem;
+    }
+
+    .project-kpi .k{
+      font-family:var(--font-code);
+      font-size:.72rem;
+      color: var(--text-secondary);
+      font-weight:900;
+    }
+
+    .project-kpi .v{
+      margin-top:.35rem;
+      font-family:var(--font-tech);
+      font-size:.9rem;
+      font-weight:900;
+      color: var(--text-primary);
+      letter-spacing:.4px;
+    }
+
+    .project-actions{
+      display:flex;
+      gap:.8rem;
+      flex-wrap:wrap;
+      margin-top:1.2rem;
+    }
+
+    .section-heading{
+      display:flex;
+      align-items:end;
+      justify-content:space-between;
+      gap:1rem;
+      flex-wrap:wrap;
+      margin-bottom:1rem;
+    }
+
+    .section-heading h2{
+      margin:0;
+      font-family: var(--font-tech);
+      letter-spacing:.7px;
+      font-size:1.2rem;
+    }
+
+    .section-heading p{
+      margin:.35rem 0 0;
+      color: var(--text-secondary);
+    }
+
+    @media (max-width: 820px){
+      .project-meta{
+        grid-template-columns:1fr;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <a class="skip-link" href="#contenido">Saltar al contenido principal</a>
+
+  <header class="header" id="header" role="banner">
+    <div class="header-container">
+      <nav class="nav" aria-label="Menú principal">
+        <a class="nav-brand" href="index.html#contenido" aria-label="Ir al inicio">
+          <span class="brand-icon"><i class="fas fa-shield-alt"></i></span>
+          <span class="brand-text">PF01</span>
+        </a>
+
+        <div class="nav-menu" id="navMenu">
+          <a class="nav-link" href="index.html#contenido"><span class="nav-text">Inicio</span></a>
+          <a class="nav-link" href="actividades.html"><span class="nav-text">Actividades</span></a>
+
+          <div class="nav-dropdown" id="parcialesDropdown">
+            <button class="nav-link nav-dropbtn" type="button" aria-expanded="false" aria-controls="parcialesMenu">
+              <span class="nav-text">Parciales</span>
+              <i class="fas fa-chevron-down"></i>
+            </button>
+            <div class="nav-dropmenu" id="parcialesMenu" role="menu">
+              <a class="nav-dropitem" href="index.html#parciales" data-open="p1" role="menuitem">Parcial 1</a>
+              <a class="nav-dropitem" href="index.html#parciales" data-open="p2" role="menuitem">Parcial 2</a>
+              <a class="nav-dropitem" href="index.html#parciales" data-open="p3" role="menuitem">Parcial 3</a>
+              <a class="nav-dropitem" href="index.html#parciales" data-open="final" role="menuitem">Final</a>
+            </div>
+          </div>
+
+          <a class="nav-link active" href="proyectos.html"><span class="nav-text">Proyectos</span></a>
+          <div class="nav-dropdown" id="hofDropdown">
+  <button
+    class="nav-link nav-dropbtn"
+    type="button"
+    aria-expanded="false"
+    aria-controls="hofMenu"
+  >
+    <span class="nav-text">ROAD TO HALL OF FAME</span>
+    <i class="fas fa-chevron-down"></i>
+  </button>
+
+  <div class="nav-dropmenu" id="hofMenu" role="menu">
+    <a class="nav-dropitem" href="sql-injection.html" role="menuitem">
+      SQL Injection
+    </a>
+  </div>
+</div>
+          <a class="nav-link" href="index.html#contacto"><span class="nav-text">Contacto</span></a>
+        </div>
+
+        <div class="nav-actions">
+          <button class="menu-toggle" id="menuToggle" type="button" aria-label="Abrir menú">
+            <span></span><span></span><span></span>
+          </button>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main" class="main" role="main">
+    <section class="section hero hero--sub" id="contenido">
+      <div class="hero-bg" aria-hidden="true">
+        <canvas id="matrixCanvas"></canvas>
+        <div class="grid-overlay"></div>
+        <div class="scan-line"></div>
+        <div class="hack-particles" id="hackParticles"></div>
+      </div>
+
+      <div class="hero-container">
+        <div class="hero-content">
+          <div class="hero-badge">
+            <div class="badge-pulse"></div>
+            <i class="fas fa-diagram-project"></i>
+            <span>ÍNDICE DE PROYECTOS</span>
+          </div>
+
+          <h1 class="hero-title">
+            <span class="title-word">Proyectos del curso</span>
+            <span class="title-word highlight">CNO V – Seguridad Informática</span>
+          </h1>
+
+          <p class="hero-description">
+            Aquí se concentran los proyectos integradores del portafolio. Cada proyecto se documenta
+            con enfoque técnico, estructura profesional, evidencia digital y desarrollo práctico.
+          </p>
+
+          <div class="hero-buttons">
+            <a class="btn btn-secondary" href="index.html#contenido">
+              <span>Volver al Inicio</span>
+              <i class="fas fa-arrow-left"></i>
+              <div class="btn-shine"></div>
+            </a>
+          </div>
+        </div>
+
+        <div class="hero-visual">
+          <div class="security-terminal">
+            <div class="terminal-header">
+              <div class="terminal-dots" aria-hidden="true">
+                <span class="dot red"></span>
+                <span class="dot yellow"></span>
+                <span class="dot green"></span>
+              </div>
+              <div class="terminal-title">root@portfolio:~$ PROJECT_INDEX</div>
+            </div>
+
+            <div class="terminal-body">
+              <div class="terminal-line" style="opacity:1;">
+                <span class="prompt">root@portfolio:~$</span>
+                <span class="command"> ls /projects --category security</span>
+              </div>
+
+              <div class="terminal-line" style="opacity:1; margin-top:.45rem;">
+                <span class="output">✔ PR02 cargado · ingeniería social · phishing awareness · score system</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="breadcrumbs">
+          <a href="index.html">Inicio</a>
+          <span class="crumb-sep">/</span>
+          <span class="crumb-current">Proyectos</span>
+        </div>
+
+        <div class="section-heading">
+          <div>
+            <h2>Listado de proyectos</h2>
+          </div>
+        </div>
+<div class="project-grid">
+
+          <article class="project-card">
+            <div class="project-card__inner">
+              <div class="project-top">
+                <span class="project-code">
+                  <i class="fas fa-terminal"></i>
+                  PR01
+                </span>
+
+                <div class="project-icon" aria-hidden="true">
+                  <i class="fas fa-fish"></i>
+                </div>
+              </div>
+
+              <h3 class="project-title">De la teoría a la práctica: walkthrough en acción (guía y video).</h3>
+
+              <p class="project-subtitle">
+                Proyecto enfocado en demostrar la capacidad de aplicar conocimientos teóricos de seguridad informática en un entorno práctico, mediante la realización de un walkthrough detallado y la explicación de las técnicas y metodologías utilizadas para vulnerar una máquina virtual.
+              </p>
+
+              <div class="project-tags">
+                <span class="project-tag">Entorno Preparado</span>
+                <span class="project-tag">Reconocimiento</span>
+                <span class="project-tag">Enumeraciòn</span>
+                <span class="project-tag">Explotaciòn</span>
+              </div>
+
+              <div class="project-meta">
+                <div class="project-kpi">
+                  <div class="k">Tipo</div>
+                  <div class="v">Proyecto Parcial</div>
+                </div>
+                <div class="project-kpi">
+                  <div class="k">Estado</div>
+                  <div class="v">Desarrollado</div>
+                </div>
+                <div class="project-kpi">
+                  <div class="k">Entrega</div>
+                  <div class="v">Portafolio web</div>
+                </div>
+              </div>
+
+              <div class="project-actions">
+                <a class="btn btn-primary" href="proyecto-01.html">
+                  <span>Ver PR01</span>
+                  <i class="fas fa-arrow-right"></i>
+                  <div class="btn-shine"></div>
+                </a>
+              </div>
+            </div>
+          </article>
+
+        </div>
+        <div class="project-grid">
+
+          <article class="project-card">
+            <div class="project-card__inner">
+              <div class="project-top">
+                <span class="project-code">
+                  <i class="fas fa-terminal"></i>
+                  PR02
+                </span>
+
+                <div class="project-icon" aria-hidden="true">
+                  <i class="fas fa-fish"></i>
+                </div>
+              </div>
+
+              <h3 class="project-title">El eslabón más débil: diseño ético de una campaña de ingeniería social</h3>
+
+              <p class="project-subtitle">
+                Proyecto enfocado en la investigación comparativa de plataformas de simulación de phishing,
+                el diseño de un <strong>Phishing Quiz</strong> con 10 escenarios y un sistema de puntuación global.
+              </p>
+
+              <div class="project-tags">
+                <span class="project-tag">Ingeniería social</span>
+                <span class="project-tag">Phishing Quiz</span>
+                <span class="project-tag">Ética digital</span>
+                <span class="project-tag">Scoreboard</span>
+              </div>
+
+              <div class="project-meta">
+                <div class="project-kpi">
+                  <div class="k">Tipo</div>
+                  <div class="v">Proyecto Parcial</div>
+                </div>
+                <div class="project-kpi">
+                  <div class="k">Estado</div>
+                  <div class="v">En desarrollo</div>
+                </div>
+                <div class="project-kpi">
+                  <div class="k">Entrega</div>
+                  <div class="v">Portafolio web</div>
+                </div>
+              </div>
+
+              <div class="project-actions">
+                <a class="btn btn-primary" href="proyecto-02.html">
+                  <span>Ver PR02</span>
+                  <i class="fas fa-arrow-right"></i>
+                  <div class="btn-shine"></div>
+                </a>
+              </div>
+            </div>
+          </article>
+
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer__inner">
+      <p>© <span class="muted">Portafolio de evidencias</span> | Seguridad Informática</p>
+      <p class="muted">PF01</p>
+    </div>
+  </footer>
+</body>
+</html>

@@ -1,0 +1,1233 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="description" content="Proyecto PR02 - El eslabón más débil: diseño ético de una campaña de ingeniería social" />
+  <title>Proyecto PR02 | Ingeniería Social</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&family=Fira+Code:wght@300;400;500;600;700&family=Orbitron:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <link rel="stylesheet" href="assets/css/styles.css" />
+
+  <script defer src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+  <script defer src="assets/js/main.js"></script>
+
+  <style>
+    .table-wrap{
+      overflow:auto;
+      border-radius:14px;
+      border:1px solid rgba(0,255,136,.18);
+      background: rgba(0,0,0,.18);
+      margin-top:1rem;
+    }
+
+    .tech-table{
+      width:100%;
+      border-collapse:collapse;
+      min-width:1320px;
+    }
+
+    .tech-table th,
+    .tech-table td{
+      padding:.85rem;
+      vertical-align:top;
+      border-bottom:1px solid rgba(30,41,59,.75);
+      color: rgba(226,232,240,.88);
+      line-height:1.58;
+    }
+
+    .tech-table th{
+      position:sticky;
+      top:0;
+      background: rgba(0,255,136,.06);
+      color: rgba(226,232,240,.95);
+      text-align:left;
+      font-family: var(--font-tech);
+      letter-spacing:.4px;
+      z-index:1;
+      white-space:nowrap;
+    }
+
+    .row-h{
+      width:210px;
+      color: rgba(226,232,240,.95);
+      font-weight:900;
+      font-family: var(--font-code);
+      background: rgba(0,0,0,.25);
+      position:sticky;
+      left:0;
+      z-index:2;
+      border-right:1px solid rgba(30,41,59,.7);
+    }
+
+    .tech-table td.row-h{z-index:1}
+
+    .pill-mini{
+      display:inline-flex;
+      align-items:center;
+      gap:.5rem;
+      padding:.35rem .7rem;
+      border-radius:999px;
+      border:1px solid rgba(0,255,136,.20);
+      background: rgba(0,255,136,.06);
+      color: var(--text-secondary);
+      font-family: var(--font-code);
+      font-weight:900;
+      font-size:.78rem;
+      margin:.65rem .45rem 0 0;
+      white-space:nowrap;
+    }
+
+    .tag-pr{
+      display:inline-flex;
+      align-items:center;
+      gap:.45rem;
+      background: rgba(255,212,59,.95);
+      color:#111;
+      padding:.28rem .72rem;
+      border-radius:999px;
+      font-weight:900;
+      font-size:0.8rem;
+      margin-right:.45rem;
+      font-family:var(--font-code);
+    }
+
+    .kblock{
+      border-radius:16px;
+      border:1px solid rgba(0,255,136,.16);
+      background: rgba(0,0,0,.18);
+      padding:1rem;
+      margin-top:1rem;
+    }
+
+    .kblock h3{
+      margin:.1rem 0 .6rem;
+      font-family:var(--font-tech);
+      letter-spacing:.5px;
+      font-size:1rem;
+      color: var(--primary);
+    }
+
+    .callout{
+      border-radius:16px;
+      border:1px solid rgba(0,212,255,.18);
+      background: rgba(0,0,0,.18);
+      padding:1rem;
+      margin-top:1rem;
+    }
+
+    .callout .title{
+      font-family:var(--font-code);
+      color: var(--secondary);
+      font-weight:900;
+      margin:0 0 .55rem;
+    }
+
+    .grid-2{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:1rem;
+      margin-top:1rem;
+    }
+
+    .grid-3{
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:1rem;
+      margin-top:1rem;
+    }
+
+    .kpi{
+      border-radius:16px;
+      border:1px solid rgba(0,255,136,.16);
+      background: rgba(0,0,0,.18);
+      padding:1rem;
+    }
+
+    .kpi .k{
+      font-family:var(--font-code);
+      color:var(--text-secondary);
+      font-weight:900;
+      font-size:.78rem;
+    }
+
+    .kpi .v{
+      margin-top:.35rem;
+      font-family:var(--font-tech);
+      font-weight:900;
+      letter-spacing:.5px;
+      font-size:1rem;
+    }
+
+    .list-tight li{margin:.35rem 0}
+
+    .media-note{
+      margin-top:1rem;
+      padding:1rem;
+      border-radius:14px;
+      border:1px dashed rgba(255,212,59,.28);
+      background: rgba(255,212,59,.05);
+      color: rgba(226,232,240,.88);
+    }
+
+    .ref-list{
+      list-style:none;
+      padding-left:0;
+      margin:1rem 0 0;
+    }
+
+    .ref-list li{
+      padding-left:1.6rem;
+      text-indent:-1.6rem;
+      margin:.8rem 0;
+      color: rgba(226,232,240,.88);
+      line-height:1.7;
+    }
+
+    .ref-list a{
+      color: var(--secondary);
+      text-decoration:none;
+      word-break: break-word;
+    }
+
+    .ref-list a:hover{
+      text-decoration:underline;
+    }
+
+    .citation-note{
+      margin-top:1rem;
+      font-size:.92rem;
+      color: rgba(148,163,184,.95);
+    }
+
+    .platform-grid{
+      display:grid;
+      grid-template-columns:repeat(2,1fr);
+      gap:1rem;
+      margin-top:1rem;
+    }
+
+    .platform-card{
+      position:relative;
+      overflow:hidden;
+      border-radius:18px;
+      border:1px solid rgba(0,255,136,.16);
+      background:
+        linear-gradient(180deg, rgba(255,255,255,.02), rgba(255,255,255,0)),
+        rgba(0,0,0,.18);
+      padding:1rem;
+    }
+
+    .platform-card::before{
+      content:"";
+      position:absolute;
+      inset:0;
+      background:
+        radial-gradient(circle at top right, rgba(0,212,255,.10), transparent 34%),
+        radial-gradient(circle at bottom left, rgba(0,255,136,.08), transparent 32%);
+      pointer-events:none;
+    }
+
+    .platform-card > *{
+      position:relative;
+      z-index:1;
+    }
+
+    .platform-head{
+      display:flex;
+      align-items:flex-start;
+      justify-content:space-between;
+      gap:1rem;
+      margin-bottom:.85rem;
+    }
+
+    .platform-title-wrap{
+      display:flex;
+      align-items:center;
+      gap:.8rem;
+    }
+
+    .platform-icon{
+      width:50px;
+      height:50px;
+      border-radius:14px;
+      display:grid;
+      place-items:center;
+      font-size:1.15rem;
+      color: var(--secondary);
+      border:1px solid rgba(0,212,255,.22);
+      background: rgba(0,212,255,.08);
+      box-shadow: 0 0 18px rgba(0,212,255,.08);
+      flex:0 0 auto;
+    }
+
+    .platform-name{
+      margin:0;
+      font-family:var(--font-tech);
+      font-size:1rem;
+      letter-spacing:.4px;
+      color: rgba(226,232,240,.98);
+    }
+
+    .platform-badge{
+      display:inline-flex;
+      align-items:center;
+      gap:.4rem;
+      padding:.28rem .6rem;
+      border-radius:999px;
+      border:1px solid rgba(0,255,136,.18);
+      background: rgba(0,255,136,.06);
+      color: var(--text-secondary);
+      font-family:var(--font-code);
+      font-size:.72rem;
+      font-weight:900;
+      white-space:nowrap;
+    }
+
+    .platform-summary{
+      color: rgba(226,232,240,.84);
+      line-height:1.65;
+      margin:.3rem 0 .9rem;
+    }
+
+    .platform-metrics{
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:.65rem;
+      margin-top:.8rem;
+    }
+
+    .platform-mini{
+      border-radius:12px;
+      border:1px solid rgba(0,255,136,.12);
+      background: rgba(0,0,0,.16);
+      padding:.75rem;
+    }
+
+    .platform-mini .label{
+      font-family:var(--font-code);
+      color: var(--text-secondary);
+      font-size:.7rem;
+      font-weight:900;
+    }
+
+    .platform-mini .value{
+      margin-top:.28rem;
+      color: rgba(226,232,240,.95);
+      font-weight:800;
+      line-height:1.35;
+      font-size:.85rem;
+    }
+
+    .platform-points{
+      margin:.9rem 0 0;
+      padding-left:1rem;
+    }
+
+    .platform-points li{
+      margin:.3rem 0;
+      color: rgba(226,232,240,.84);
+    }
+
+    .platform-footer{
+      margin-top:.85rem;
+      padding-top:.8rem;
+      border-top:1px solid rgba(0,255,136,.10);
+      color: rgba(148,163,184,.95);
+      font-size:.9rem;
+    }
+
+    .platform-footer strong{
+      color: rgba(226,232,240,.95);
+    }
+
+    @media (max-width: 1100px){
+      .platform-grid{
+        grid-template-columns:1fr;
+      }
+    }
+
+    @media (max-width: 980px){
+      .grid-2,
+      .grid-3{
+        grid-template-columns:1fr;
+      }
+
+      .platform-metrics{
+        grid-template-columns:1fr;
+      }
+    }
+  </style>
+</head>
+
+<body>
+<a class="skip-link" href="#contenido">Saltar al contenido principal</a>
+
+<header class="header" id="header" role="banner">
+  <div class="header-container">
+    <nav class="nav" aria-label="Menú principal">
+      <a class="nav-brand" href="index.html">
+        <span class="brand-icon" aria-hidden="true">PF01</span>
+        <span class="brand-text">Portafolio</span>
+      </a>
+
+      <button class="menu-toggle" id="menuToggle" aria-label="Abrir menú">
+        <span></span><span></span><span></span>
+      </button>
+
+      <div class="nav-menu" id="navMenu">
+        <a class="nav-link" href="index.html">Inicio</a>
+        <a class="nav-link" href="actividades.html">Actividades</a>
+        <a class="nav-link active" href="proyectos.html">Proyectos</a>
+      </div>
+    </nav>
+  </div>
+</header>
+
+<main id="contenido" class="main">
+
+  <section class="section hero hero--sub">
+    <div class="hero-bg">
+      <canvas id="matrixCanvas" aria-hidden="true"></canvas>
+      <div class="grid-overlay" aria-hidden="true"></div>
+      <div class="scan-line" aria-hidden="true"></div>
+    </div>
+
+    <div class="hero-container">
+      <div>
+        <div class="hero-badge">
+          <span class="badge-pulse" aria-hidden="true"></span>
+          <span>PROYECTO PR02</span>
+        </div>
+
+        <h1 class="hero-title">
+          <span class="title-word">El eslabón más débil:</span>
+          <span class="title-word highlight">diseño ético de una campaña de ingeniería social</span>
+        </h1>
+
+        <p class="hero-description">
+          Proyecto integrador enfocado en el análisis comparativo de plataformas profesionales de
+          simulación de phishing, el diseño de una experiencia educativa ética y la construcción
+          posterior de un sistema de evaluación orientado a concientización y reducción del riesgo humano.
+        </p>
+
+        <div class="hero-buttons">
+          <a class="btn btn-secondary" href="proyectos.html">
+            <span class="btn-shine" aria-hidden="true"></span>
+            Volver a Proyectos
+          </a>
+        </div>
+      </div>
+
+      <div class="hero-visual">
+        <div class="security-terminal">
+          <div class="terminal-header">
+            <div class="terminal-dots" aria-hidden="true">
+              <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+            </div>
+            <div class="terminal-title">root@phishing-lab:~$ PR02_ANALYSIS</div>
+          </div>
+          <div class="terminal-body">
+            <div class="terminal-line" style="opacity:1;">
+              <span class="prompt">root@phishing-lab:~$</span>
+              <span class="command"> init --project pr02 --module comparative-research</span>
+            </div>
+            <div class="terminal-line" style="opacity:1;margin-top:.45rem;">
+              <span class="output">[OK] PR02-01 cargado · 8 plataformas · enfoque ético · documentación técnica</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <article class="card article">
+
+        <section class="article-section">
+          <h2><span class="tag-pr">PR02-01</span> Investigación comparativa de plataformas</h2>
+
+          <p>
+            Esta primera fase del proyecto PR02 se centra en la investigación comparativa de plataformas
+            profesionales de simulación de phishing con el propósito de identificar sus capacidades técnicas,
+            métricas de medición, enfoque de entrenamiento, nivel de personalización y criterios éticos de uso.
+            El resultado de esta etapa servirá como base para diseñar una simulación propia orientada a
+            concientización, sin captura real de credenciales, con retroalimentación formativa y con un sistema
+            de puntuación centrado en la mejora del usuario.
+          </p>
+
+          <div class="pill-mini">📌 Entregable: análisis comparativo + fichas descriptivas + tabla técnica</div>
+          <div class="pill-mini">🛡️ Enfoque: ético, educativo y orientado a concientización</div>
+          <div class="pill-mini">🎯 Base del PR02: diseño posterior del Phishing Quiz</div>
+        </section>
+
+        <section class="article-section">
+          <h2>1) Objetivo general y objetivos específicos</h2>
+
+          <div class="kblock">
+            <h3>Objetivo general</h3>
+            <p>
+              Diseñar, implementar y evaluar de manera ética una simulación educativa de phishing,
+              sustentada en el análisis comparativo de plataformas profesionales del mercado,
+              con el propósito de medir el nivel de reconocimiento de amenazas de ingeniería social
+              en usuarios, interpretar los resultados mediante un sistema de puntuación global
+              y reflexionar sobre la gestión responsable del riesgo humano en seguridad informática.
+            </p>
+          </div>
+
+          <div class="grid-2">
+            <div class="kblock">
+              <h3>Objetivos específicos</h3>
+              <ul class="list list-tight">
+                <li>
+                  <strong>Analizar y comparar</strong> plataformas profesionales de simulación de phishing
+                  (Hoxhunt, Proofpoint, KnowBe4, Cofense, Phished, NINJIO, Mimecast e Infosec IQ),
+                  identificando sus capacidades técnicas, métricas de medición, enfoques de entrenamiento
+                  y controles éticos.
+                </li>
+                <li>
+                  <strong>Documentar fichas descriptivas</strong> de cada plataforma para comprender
+                  su valor real dentro de programas de concientización y gestión del riesgo humano.
+                </li>
+                <li>
+                  <strong>Construir una tabla técnica comparativa</strong> que sirva como base para el
+                  diseño del Phishing Quiz y del sistema de score del PR02.
+                </li>
+                <li>
+                  <strong>Definir criterios de diseño ético</strong> para que la simulación propia del
+                  proyecto tenga un propósito educativo, respete la privacidad y no capture credenciales reales.
+                </li>
+              </ul>
+            </div>
+
+            <div class="callout">
+              <p class="title">Propósito académico de esta fase</p>
+              <p>
+                PR02-01 no consiste solo en describir herramientas comerciales. Su propósito real es
+                justificar técnicamente qué elementos vale la pena adaptar al proyecto propio y cuáles
+                deben ser limitados o descartados para conservar un enfoque formativo, responsable y útil
+                dentro de un entorno académico.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <section class="article-section">
+          <h2>2) Marco teórico y fundamentación técnica</h2>
+
+          <p>
+            La ingeniería social es una categoría de ataque que aprovecha elementos psicológicos y de
+            comportamiento humano para inducir acciones inseguras. En lugar de explotar únicamente
+            vulnerabilidades técnicas, el atacante manipula factores como la urgencia, la autoridad,
+            la confianza, la curiosidad o el miedo para lograr que la persona haga clic, descargue un
+            archivo, revele información o ejecute un proceso que comprometa a la organización.
+          </p>
+
+          <p>
+            Dentro de este conjunto de técnicas, el phishing es uno de los mecanismos más frecuentes
+            y efectivos. NIST describe el phishing como el uso de mensajes convincentes para engañar
+            a las personas y lograr que abran enlaces dañinos, descarguen software malicioso o entreguen
+            información sensible. Además, la guía <em>NIST Phish Scale User Guide</em> explica que la
+            dificultad humana de un correo de phishing puede y debe analizarse dentro de programas de
+            concientización, lo que refuerza la necesidad de medir no solo el clic, sino también el
+            contexto y la complejidad del engaño.
+          </p>
+
+          <p>
+            Debido a que una parte importante del riesgo se concentra en el comportamiento del usuario,
+            las organizaciones han incorporado plataformas de concientización y simulación de phishing
+            como parte de sus programas de seguridad. Estas plataformas recrean escenarios controlados
+            que imitan campañas reales de engaño con el objetivo de medir la capacidad del usuario para
+            identificar, resistir y, en muchos casos, reportar intentos sospechosos.
+          </p>
+
+          <p>
+            El valor técnico de estas plataformas no se reduce a contar clics. Programas maduros incluyen
+            analítica sobre usuarios vulnerables, tasas de reporte, reincidencia, campañas personalizadas,
+            módulos formativos posteriores al fallo, segmentación por roles, contenido contextual y
+            mecanismos de aprendizaje continuo. CISA también destaca la importancia de enseñar a reconocer
+            y reportar phishing, dejando claro que el entrenamiento debe reforzar juicio crítico y cultura
+            de seguridad, no solo castigar errores.
+          </p>
+
+          <p>
+            Desde una perspectiva ética, una campaña de simulación no debe convertirse en una práctica
+            invasiva o punitiva. Por eso, en este proyecto se adopta un enfoque explícitamente educativo:
+            consentimiento informado, propósito académico, retroalimentación inmediata, minimización de datos
+            y prohibición total de captura real de credenciales.
+          </p>
+
+          <div class="grid-3">
+            <div class="kpi">
+              <div class="k">Riesgo central</div>
+              <div class="v">Factor humano</div>
+            </div>
+            <div class="kpi">
+              <div class="k">Respuesta técnica</div>
+              <div class="v">Simulación + métricas + formación</div>
+            </div>
+            <div class="kpi">
+              <div class="k">Límite ético</div>
+              <div class="v">No capturar credenciales reales</div>
+            </div>
+          </div>
+
+          <div class="callout">
+            <p class="title">Idea central del marco teórico</p>
+            <p>
+              El objetivo de esta investigación no es premiar la sofisticación comercial de una plataforma,
+              sino identificar qué prácticas realmente contribuyen a reducir el riesgo humano de forma medible,
+              educativa y responsable.
+            </p>
+          </div>
+        </section>
+
+        <section class="article-section">
+          <h2>3) Metodología de análisis comparativo</h2>
+
+          <p>
+            Para elaborar esta investigación se revisaron fuentes oficiales de cada proveedor, priorizando
+            páginas de producto, documentación institucional y materiales técnicos publicados directamente
+            por las plataformas analizadas. También se incluyeron referencias institucionales de NIST y
+            CISA para el marco general sobre phishing, entrenamiento y medición de dificultad en simulaciones.
+          </p>
+
+          <p>
+            La comparación se organizó alrededor de criterios homogéneos con el fin de evitar un análisis
+            puramente descriptivo. Se buscó valorar no solo qué hace cada plataforma, sino cómo lo hace,
+            qué mide, qué tipo de aprendizaje promueve y qué tan viable resulta adaptar sus principios
+            a un proyecto académico.
+          </p>
+
+          <div class="grid-2">
+            <div class="kblock">
+              <h3>Criterios técnicos de comparación</h3>
+              <ul class="list list-tight">
+                <li>Tipo de simulación de phishing ofrecida.</li>
+                <li>Capacidad de personalización de campañas y escenarios.</li>
+                <li>Métricas de evaluación del comportamiento del usuario.</li>
+                <li>Existencia de retroalimentación posterior al fallo o al reporte.</li>
+                <li>Integración con correo, panel administrativo o ecosistemas empresariales.</li>
+              </ul>
+            </div>
+
+            <div class="kblock">
+              <h3>Criterios éticos y pedagógicos</h3>
+              <ul class="list list-tight">
+                <li>Orientación formativa frente a enfoque correctivo o punitivo.</li>
+                <li>Tratamiento del error como oportunidad de aprendizaje.</li>
+                <li>Respeto a la privacidad y minimización de datos.</li>
+                <li>Capacidad para adaptarse a un entorno académico.</li>
+                <li>Valor como referencia para diseñar una simulación ética propia.</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="media-note">
+            <strong>Resultado esperado de la metodología:</strong> una tabla comparativa sólida,
+            fichas analíticas individuales y una conclusión crítica que justifique las decisiones
+            de diseño del proyecto completo.
+          </div>
+        </section>
+
+        <section class="article-section">
+          <h2>4) Tabla técnica comparativa de plataformas</h2>
+
+          <div class="table-wrap">
+            <table class="tech-table" aria-label="Tabla comparativa de plataformas de simulación de phishing">
+              <thead>
+                <tr>
+                  <th>Plataforma</th>
+                  <th>Enfoque principal</th>
+                  <th>Capacidades técnicas destacadas</th>
+                  <th>Métricas / analítica</th>
+                  <th>Modelo de entrenamiento</th>
+                  <th>Integración / contexto de uso</th>
+                  <th>Fortaleza principal</th>
+                  <th>Limitación observada</th>
+                  <th>Valor para el PR02</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td class="row-h">Hoxhunt</td>
+                  <td>Human Risk Management y phishing training adaptativo</td>
+                  <td>Simulaciones personalizadas, automatización, IA, gamificación</td>
+                  <td>Report rate, tiempo de reacción, progreso conductual</td>
+                  <td>Microaprendizaje continuo</td>
+                  <td>Programas permanentes y medibles</td>
+                  <td>Transforma el awareness en hábito progresivo</td>
+                  <td>Menor detalle público sobre algunos componentes internos</td>
+                  <td>Inspirar entrenamiento progresivo y feedback frecuente</td>
+                </tr>
+                <tr>
+                  <td class="row-h">Proofpoint</td>
+                  <td>Mitigación del riesgo humano ligada a seguridad del correo</td>
+                  <td>Simulaciones, evaluaciones, culture assessments, usuarios vulnerables</td>
+                  <td>Tasa de clics, exposición, evaluaciones, perfiles de riesgo</td>
+                  <td>Entrenamiento personalizado según rol y vulnerabilidad</td>
+                  <td>Entornos corporativos maduros</td>
+                  <td>Integra defensa técnica y awareness</td>
+                  <td>Puede ser complejo para una práctica escolar</td>
+                  <td>Tomar su lógica de segmentación y priorización</td>
+                </tr>
+                <tr>
+                  <td class="row-h">KnowBe4</td>
+                  <td>Security awareness training con simulated phishing a gran escala</td>
+                  <td>Biblioteca amplia, simulaciones, landing pages, recomendaciones con IA</td>
+                  <td>Phish-prone percentage, reportes, evolución por usuario</td>
+                  <td>Capacitación estructurada, escalable y recurrente</td>
+                  <td>Programas formales de concientización</td>
+                  <td>Madurez funcional y amplitud de contenido</td>
+                  <td>Puede exceder lo necesario para un proyecto escolar</td>
+                  <td>Base para métricas claras y campañas escalables</td>
+                </tr>
+                <tr>
+                  <td class="row-h">Cofense</td>
+                  <td>Awareness ligado a reconocimiento y reporte</td>
+                  <td>Simulaciones dinámicas, contenido multi-canal, real-time threat reporting</td>
+                  <td>Participación, velocidad de reporte, analítica de campañas</td>
+                  <td>Entrenamiento centrado en detectar y reportar</td>
+                  <td>Organizaciones donde el usuario forma parte de la defensa</td>
+                  <td>Fortalece la cultura de reporte</td>
+                  <td>Menor enfoque narrativo o gamificado</td>
+                  <td>Incorporar la acción de reportar además de no caer</td>
+                </tr>
+                <tr>
+                  <td class="row-h">Phished</td>
+                  <td>Automatización y personalización del awareness</td>
+                  <td>Automated phishing simulations, entorno seguro, rutas por perfil</td>
+                  <td>First-time clickers, repeat offenders, usuarios que entregan datos</td>
+                  <td>Entrenamiento contextual y automatizado</td>
+                  <td>Programas con baja carga operativa</td>
+                  <td>Buen equilibrio entre automatización y personalización</td>
+                  <td>Menor presencia institucional que otros líderes</td>
+                  <td>Inspirar score adaptativo según comportamiento</td>
+                </tr>
+                <tr>
+                  <td class="row-h">NINJIO</td>
+                  <td>Cybersecurity awareness con storytelling y coaching</td>
+                  <td>Microlearning, audiovisual, biblioteca actualizada, coaching</td>
+                  <td>Progreso, participación, engagement</td>
+                  <td>Narrativa y susceptibilidades humanas</td>
+                  <td>Equipos que requieren mayor recordación</td>
+                  <td>Muy alto valor didáctico</td>
+                  <td>No se centra tanto en simulación clásica</td>
+                  <td>Mejorar la parte educativa del PR02</td>
+                </tr>
+                <tr>
+                  <td class="row-h">Mimecast</td>
+                  <td>Awareness training vinculado a riesgo humano y correo seguro</td>
+                  <td>Phishing simulations, personalized risk scores, módulos breves</td>
+                  <td>Riesgo individual y organizacional, baseline questions</td>
+                  <td>Formación breve y continua</td>
+                  <td>Entornos con énfasis fuerte en email security</td>
+                  <td>Relaciona aprendizaje con conducta observable</td>
+                  <td>Su mayor valor crece con integración a su ecosistema</td>
+                  <td>Incorporar score individual y contenidos breves</td>
+                </tr>
+                <tr>
+                  <td class="row-h">Infosec IQ</td>
+                  <td>Security awareness y phishing simulations con enfoque de cultura</td>
+                  <td>Plantillas, campañas, role-based training, in-the-moment training</td>
+                  <td>Phish rate, cumplimiento, progreso, cultura</td>
+                  <td>Aprendizaje por teachable moments</td>
+                  <td>Organizaciones que equilibran cultura y cumplimiento</td>
+                  <td>Buena combinación entre simulación, formación y cultura</td>
+                  <td>Puede resultar más robusto de lo necesario</td>
+                  <td>Tomar la capacitación inmediata tras la respuesta</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <section class="article-section">
+          <h2>5) Fichas descriptivas y análisis individual de las 8 plataformas</h2>
+
+          <div class="platform-grid">
+
+            <article class="platform-card">
+              <div class="platform-head">
+                <div class="platform-title-wrap">
+                  <div class="platform-icon"><i class="fas fa-brain"></i></div>
+                  <div>
+                    <h3 class="platform-name">Hoxhunt</h3>
+                    <span class="platform-badge"><i class="fas fa-wave-square"></i> Riesgo humano</span>
+                  </div>
+                </div>
+              </div>
+              <p class="platform-summary">
+              Hoxhunt se posiciona alrededor del concepto de Human Risk Management, lo cual
+              implica que no limita la concientización a un curso aislado, sino que la presenta como
+              un proceso continuo de medición y cambio de comportamiento. Sus materiales oficiales
+              destacan simulaciones adaptativas, automatización y una experiencia gamificada orientada
+              a que los usuarios desarrollen el hábito de identificar y reportar ataques.
+              </p>
+              <div class="platform-metrics">
+                <div class="platform-mini">
+                  <div class="label">Fortaleza</div>
+                  <div class="value">Cambio progresivo de conducta</div>
+                </div>
+                <div class="platform-mini">
+                  <div class="label">Modelo</div>
+                  <div class="value">Microaprendizaje continuo</div>
+                </div>
+                <div class="platform-mini">
+                  <div class="label">Aporte</div>
+                  <div class="value">Feedback frecuente</div>
+                </div>
+              </div>
+              <p>
+              Analisis: Hoxhunt aporta dos ideas importantes: primero, que el éxito de una campaña
+              no debe medirse únicamente por el número de clics erróneos, sino también por la mejora
+              progresiva del usuario; y segundo, que la retroalimentación continua puede generar
+              engagement sin sacrificar el valor técnico del entrenamiento.
+            </p>
+              <div class="platform-footer">
+                <strong>Lectura crítica:</strong> útil para adoptar entrenamiento progresivo y menos punitivo.
+              </div>
+            </article>
+
+            <article class="platform-card">
+              <div class="platform-head">
+                <div class="platform-title-wrap">
+                  <div class="platform-icon"><i class="fas fa-shield-halved"></i></div>
+                  <div>
+                    <h3 class="platform-name">Proofpoint</h3>
+                    <span class="platform-badge"><i class="fas fa-filter-circle-xmark"></i> Correo seguro</span>
+                  </div>
+                </div>
+              </div>
+              <p class="platform-summary">
+              Proofpoint integra las simulaciones de phishing dentro de una estrategia más amplia de
+              mitigación del riesgo humano. Su documentación resalta que la plataforma permite
+              identificar usuarios vulnerables, aplicar evaluaciones y asociar la formación con roles,
+              vulnerabilidades y privilegios de negocio. Esta visión rebasa el awareness genérico y se
+              acerca a un modelo de priorización por riesgo
+              </p>
+              <div class="platform-metrics">
+                <div class="platform-mini">
+                  <div class="label">Fortaleza</div>
+                  <div class="value">Segmentación por riesgo</div>
+                </div>
+                <div class="platform-mini">
+                  <div class="label">Modelo</div>
+                  <div class="value">Entrenamiento por rol</div>
+                </div>
+                <div class="platform-mini">
+                  <div class="label">Aporte</div>
+                  <div class="value">Priorización de usuarios</div>
+                </div>
+              </div>
+              <p>
+              Analisis: Proofpoint resulta valioso porque demuestra que una campaña de
+              concientización puede apoyarse en segmentación y análisis diferencial. Como límite, su
+              fuerte orientación a entornos corporativos complejos hace que no todos sus componentes
+              sean trasladables de forma literal a un ejercicio académico.
+            </p>
+              <div class="platform-footer">
+                <strong>Lectura crítica:</strong> excelente referencia metodológica, aunque más corporativa que académica.
+              </div>
+            </article>
+
+            <article class="platform-card">
+              <div class="platform-head">
+                <div class="platform-title-wrap">
+                  <div class="platform-icon"><i class="fas fa-layer-group"></i></div>
+                  <div>
+                    <h3 class="platform-name">KnowBe4</h3>
+                    <span class="platform-badge"><i class="fas fa-chart-line"></i> Métricas claras</span>
+                  </div>
+                </div>
+              </div>
+              <p class="platform-summary">
+              KnowBe4 es una de las referencias más conocidas del sector por la amplitud de su
+              biblioteca y por su enfoque escalable de simulated phishing y security awareness training.
+              Su propuesta se caracteriza por facilitar campañas periódicas, landing pages, reportes
+              claros y seguimiento del llamado Phish-prone Percentage, una métrica ampliamente
+              difundida dentro de sus materiales.
+              </p>
+              <div class="platform-metrics">
+                <div class="platform-mini">
+                  <div class="label">Fortaleza</div>
+                  <div class="value">Madurez funcional</div>
+                </div>
+                <div class="platform-mini">
+                  <div class="label">Modelo</div>
+                  <div class="value">Campañas recurrentes</div>
+                </div>
+                <div class="platform-mini">
+                  <div class="label">Aporte</div>
+                  <div class="value">Indicadores simples</div>
+                </div>
+              </div>
+              <p>
+              Analisis: Su principal contribución es metodológica, enseña cómo estructurar campañas con
+              métricas comprensibles, seguimiento continuo y una relación clara entre simulación,
+              evaluación y aprendizaje posterior. También sirve como referencia para justificar el uso
+              de indicadores simples pero interpretables dentro del proyecto.</p>
+              <div class="platform-footer">
+                <strong>Lectura crítica:</strong> muy útil como base de estructura y reporte.
+              </div>
+            </article>
+
+            <article class="platform-card">
+              <div class="platform-head">
+                <div class="platform-title-wrap">
+                  <div class="platform-icon"><i class="fas fa-bullhorn"></i></div>
+                  <div>
+                    <h3 class="platform-name">Cofense</h3>
+                    <span class="platform-badge"><i class="fas fa-flag"></i> Cultura de reporte</span>
+                  </div>
+                </div>
+              </div>
+              <p class="platform-summary">
+              Cofense destaca por su énfasis en convertir al usuario en un defensor activo. Su solución
+              de Security Awareness Training se apoya en simulaciones relevantes, análisis de campañas,
+              contenido dinámico y reporte en tiempo real. Este enfoque tiene una diferencia clave:
+              no se queda en evaluar quién cayó, sino que promueve la capacidad de reconocer y reportar
+              amenazas que superan los filtros tradicionales.
+              </p>
+              <div class="platform-metrics">
+                <div class="platform-mini">
+                  <div class="label">Fortaleza</div>
+                  <div class="value">Reporte oportuno</div>
+                </div>
+                <div class="platform-mini">
+                  <div class="label">Modelo</div>
+                  <div class="value">Usuario como sensor</div>
+                </div>
+                <div class="platform-mini">
+                  <div class="label">Aporte</div>
+                  <div class="value">Acción defensiva</div>
+                </div>
+              </div>
+              <p>
+              Analisis: Esa lógica resulta especialmente útil, porque permite diseñar una experiencia
+              en la que el participante no solo “evite equivocarse”, sino que también aprenda a actuar
+              correctamente ante una señal de sospecha. En términos pedagógicos, eso enriquece más el
+              aprendizaje que un simple sistema binario de acierto o error.
+            </p>
+              <div class="platform-footer">
+                <strong>Lectura crítica:</strong> ideal para incorporar la acción de reportar dentro del PR02.
+              </div>
+            </article>
+
+            <article class="platform-card">
+              <div class="platform-head">
+                <div class="platform-title-wrap">
+                  <div class="platform-icon"><i class="fas fa-robot"></i></div>
+                  <div>
+                    <h3 class="platform-name">Phished</h3>
+                    <span class="platform-badge"><i class="fas fa-gears"></i> Automatización</span>
+                  </div>
+                </div>
+              </div>
+              <p class="platform-summary">
+              Phished enfatiza la automatización y la personalización del entrenamiento. Sus páginas
+              oficiales destacan simulaciones realistas, sesiones gamificadas, entorno seguro y rutas
+              diferenciadas para distintos perfiles de usuarios, como quienes fallan por primera vez,
+              reinciden o entregan datos de riesgo. Esto revela una lógica de intervención mucho más
+              personalizada que la de un examen uniforme para todos.
+              </p>
+              <div class="platform-metrics">
+                <div class="platform-mini">
+                  <div class="label">Fortaleza</div>
+                  <div class="value">Personalización por perfil</div>
+                </div>
+                <div class="platform-mini">
+                  <div class="label">Modelo</div>
+                  <div class="value">Automatizado y continuo</div>
+                </div>
+                <div class="platform-mini">
+                  <div class="label">Aporte</div>
+                  <div class="value">Score adaptativo</div>
+                </div>
+              </div>
+               <p>
+              Analisis: Esta plataforma aporta la idea de que el sistema de score puede ir más allá
+              de una calificación final. También puede servir para detectar patrones y adaptar la
+              retroalimentación según el tipo de error o el comportamiento observado.
+            </p>
+              <div class="platform-footer">
+                <strong>Lectura crítica:</strong> muy útil para que el score del PR02 no sea plano.
+              </div>
+            </article>
+
+            <article class="platform-card">
+              <div class="platform-head">
+                <div class="platform-title-wrap">
+                  <div class="platform-icon"><i class="fas fa-film"></i></div>
+                  <div>
+                    <h3 class="platform-name">NINJIO</h3>
+                    <span class="platform-badge"><i class="fas fa-clapperboard"></i> Storytelling</span>
+                  </div>
+                </div>
+              </div>
+              <p class="platform-summary">
+              NINJIO aporta una perspectiva distinta a la simulación clásica: utiliza storytelling,
+              microlearning, contenidos audiovisuales y coaching adaptativo para reforzar el aprendizaje.
+              Su propuesta reconoce que la concientización no depende solo del realismo técnico del
+              ataque, sino también de la capacidad del contenido para ser recordado, comentado y
+              relacionado con situaciones reales del entorno laboral.
+              </p>
+              <div class="platform-metrics">
+                <div class="platform-mini">
+                  <div class="label">Fortaleza</div>
+                  <div class="value">Valor didáctico</div>
+                </div>
+                <div class="platform-mini">
+                  <div class="label">Modelo</div>
+                  <div class="value">Narrativa breve</div>
+                </div>
+                <div class="platform-mini">
+                  <div class="label">Aporte</div>
+                  <div class="value">Mejor UX educativa</div>
+                </div>
+              </div>
+             <p>
+              Analisis: Esta visión es especialmente valiosa porque recuerda que un ejercicio bien
+              diseñado debe enseñar, no solo evaluar. La calidad de la explicación posterior al error
+              puede ser tan importante como la dificultad del escenario presentado.
+            </p>
+              <div class="platform-footer">
+                <strong>Lectura crítica:</strong> clave para no convertir el proyecto en un simple examen técnico.
+              </div>
+            </article>
+
+            <article class="platform-card">
+              <div class="platform-head">
+                <div class="platform-title-wrap">
+                  <div class="platform-icon"><i class="fas fa-envelope-open-text"></i></div>
+                  <div>
+                    <h3 class="platform-name">Mimecast</h3>
+                    <span class="platform-badge"><i class="fas fa-ranking-star"></i> Risk score</span>
+                  </div>
+                </div>
+              </div>
+              <p class="platform-summary">
+              Mimecast vincula la awareness training con el riesgo humano observable. Sus materiales
+              oficiales describen personalized risk scores, preguntas base para medir progreso, módulos
+              cortos y simulaciones rápidas de phishing y spear phishing. También relaciona la formación
+              con comportamientos inseguros y con estándares o temas recurrentes de seguridad.
+              </p>
+              <div class="platform-metrics">
+                <div class="platform-mini">
+                  <div class="label">Fortaleza</div>
+                  <div class="value">Score individual</div>
+                </div>
+                <div class="platform-mini">
+                  <div class="label">Modelo</div>
+                  <div class="value">Formación breve</div>
+                </div>
+                <div class="platform-mini">
+                  <div class="label">Aporte</div>
+                  <div class="value">Evaluación por riesgo</div>
+                </div>
+              </div>
+              <p>
+              Analisis: Mimecast ofrece una referencia clara para estructurar la evaluación por
+              puntaje y para diseñar contenido breve, práctico y conectado con la decisión concreta del
+              usuario. Su idea de combinar prueba, score y explicación inmediata resulta especialmente
+              útil para el sistema que se desarrollará después.
+            </p>
+              <div class="platform-footer">
+                <strong>Lectura crítica:</strong> muy valioso para traducir respuestas en métricas entendibles.
+              </div>
+            </article>
+
+            <article class="platform-card">
+              <div class="platform-head">
+                <div class="platform-title-wrap">
+                  <div class="platform-icon"><i class="fas fa-lightbulb"></i></div>
+                  <div>
+                    <h3 class="platform-name">Infosec IQ</h3>
+                    <span class="platform-badge"><i class="fas fa-bolt"></i> Teachable moment</span>
+                  </div>
+                </div>
+              </div>
+              <p class="platform-summary">
+              Infosec IQ combina phishing simulations, role-based training y refuerzo inmediato del
+              aprendizaje. Sus páginas oficiales destacan simulaciones con miles de plantillas, editores
+              personalizables y módulos que pueden activarse justo después de un fallo, aprovechando el
+              llamado teachable moment. Esta filosofía convierte el error en una oportunidad
+              formativa y no en un punto final de evaluación.
+              </p>
+              <div class="platform-metrics">
+                <div class="platform-mini">
+                  <div class="label">Fortaleza</div>
+                  <div class="value">Feedback inmediato</div>
+                </div>
+                <div class="platform-mini">
+                  <div class="label">Modelo</div>
+                  <div class="value">Teachable moments</div>
+                </div>
+                <div class="platform-mini">
+                  <div class="label">Aporte</div>
+                  <div class="value">Aprender después del error</div>
+                </div>
+              </div>
+              <p>
+              Analisis: Infosec IQ aporta una base muy valiosa para la retroalimentación posterior a
+              cada escenario. Su enfoque ayuda a justificar que cada respuesta del usuario debe generar
+              una explicación breve, clara y útil, de modo que la evaluación funcione también como
+              entrenamiento.
+            </p>
+              <div class="platform-footer">
+                <strong>Lectura crítica:</strong> ideal para que cada respuesta del usuario enseñe algo útil.
+              </div>
+            </article>
+
+          </div>
+        </section>
+
+        <section class="article-section">
+          <h2>6) Análisis crítico comparativo</h2>
+
+          <p>
+            El análisis de las ocho plataformas permite observar una evolución clara del mercado.
+            Las soluciones más maduras ya no entienden la simulación de phishing como una simple
+            campaña para “contar errores”, sino como una herramienta de gestión del riesgo humano.
+            Esto significa que el enfoque se desplaza de la detección aislada del fallo hacia la
+            medición, el aprendizaje continuo y la reducción sostenida de conductas inseguras.
+          </p>
+
+          <p>
+            Sin embargo, no todas las plataformas priorizan los mismos elementos. Proofpoint,
+            Cofense, Mimecast e Infosec IQ muestran una relación muy cercana entre awareness,
+            seguridad del correo, analítica y respuesta operativa. Esto las vuelve especialmente
+            valiosas en organizaciones que ya poseen procesos maduros y necesitan integrar al usuario
+            en la defensa diaria. En contraste, Hoxhunt, Phished y NINJIO destacan más por el lado
+            conductual, pedagógico y adaptativo, enfocándose en engagement, personalización y cambio
+            de hábitos.
+          </p>
+
+          <p>
+            KnowBe4 ocupa un punto intermedio muy relevante: combina amplitud de contenido, madurez
+            funcional, simulated phishing y reportes claros, lo que explica por qué suele tomarse
+            como referencia del sector. No obstante, el análisis comparativo demuestra que ninguna
+            plataforma debe copiarse de forma literal. Cada una resuelve mejor ciertos problemas y
+            refleja un contexto de uso particular.
+          </p>
+
+          <p>
+            Desde una perspectiva ética, el punto más importante es que una simulación de phishing
+            puede ser útil o contraproducente según cómo se implemente. Si se convierte en un sistema
+            de vigilancia, castigo o humillación pública, pierde valor pedagógico. Si en cambio se
+            diseña como una oportunidad para reconocer señales, razonar decisiones y recibir
+            retroalimentación, entonces fortalece genuinamente la cultura de seguridad.
+          </p>
+
+          <div class="callout">
+            <p class="title">Conclusión crítica de la comparación</p>
+            <p>
+              La mejor decisión no es imitar una sola plataforma comercial, sino integrar
+              cuatro elementos esenciales: escenarios realistas, métricas comprensibles, retroalimentación
+              inmediata y límites éticos explícitos. Esa combinación aporta más valor académico y
+              profesional que una simple réplica superficial de cualquier herramienta del mercado.
+            </p>
+          </div>
+        </section>
+
+        <section class="article-section">
+          <h2>7) Conclusiones</h2>
+
+          <p>
+            El estudio comparativo de Hoxhunt, Proofpoint, KnowBe4, Cofense, Phished, NINJIO, Mimecast
+            e Infosec IQ permite concluir que las plataformas modernas de simulación de phishing ya no
+            se limitan a probar si un usuario hace clic en un enlace falso. Su tendencia actual es
+            integrar simulación, analítica, personalización y entrenamiento continuo para impulsar
+            cambios medibles de comportamiento.
+          </p>
+
+          <p>
+            También se concluye que la calidad de un programa de concientización no depende únicamente
+            de la cantidad de funciones comerciales disponibles. Un programa sólido necesita objetivos
+            claros, métricas interpretables, experiencia pedagógica y límites éticos bien definidos.
+            Esto es especialmente importante en contextos académicos, donde el valor del ejercicio no
+            reside solo en reproducir prácticas del mercado, sino en comprender críticamente cómo
+            adaptarlas de forma responsable.
+          </p>
+
+          <p>
+            Finalmente, PR02-01 demuestra que el proyecto propio debe recuperar lo mejor de varias
+            aproximaciones: la medición del comportamiento, la cultura de reporte, el microaprendizaje,
+            el teachable moment, la experiencia narrativa y el respeto por la privacidad del usuario.
+            Bajo esa lógica, el PR02 puede desarrollarse como una experiencia educativa coherente,
+            profesional y alineada con buenas prácticas reales del sector.
+          </p>
+        </section>
+
+        <section class="article-section">
+          <h2>8) Referencias en formato APA 7</h2>
+
+          <ul class="ref-list">
+            <li>Cybersecurity and Infrastructure Security Agency. (s. f.). <em>Recognize and report phishing</em>. CISA. <a href="https://www.cisa.gov/secure-our-world/recognize-and-report-phishing" target="_blank" rel="noopener noreferrer">https://www.cisa.gov/secure-our-world/recognize-and-report-phishing</a></li>
+
+            <li>Cybersecurity and Infrastructure Security Agency. (s. f.). <em>Teach employees to avoid phishing</em>. CISA. <a href="https://www.cisa.gov/audiences/small-and-medium-businesses/secure-your-business/teach-employees-avoid-phishing" target="_blank" rel="noopener noreferrer">https://www.cisa.gov/audiences/small-and-medium-businesses/secure-your-business/teach-employees-avoid-phishing</a></li>
+
+            <li>Cofense. (s. f.). <em>PhishMe security awareness training (SAT) platform</em>. Cofense. <a href="https://cofense.com/phishme-security-awareness-training-%28sat%29-platform" target="_blank" rel="noopener noreferrer">https://cofense.com/phishme-security-awareness-training-%28sat%29-platform</a></li>
+
+            <li>Cofense. (2025). <em>Cofense security awareness training</em> [PDF]. Cofense. <a href="https://cofense.com/getmedia/f93e9838-4967-4a25-aea0-f6907850bf29/Cofense_Security_Awareness_Training.pdf" target="_blank" rel="noopener noreferrer">https://cofense.com/getmedia/f93e9838-4967-4a25-aea0-f6907850bf29/Cofense_Security_Awareness_Training.pdf</a></li>
+
+            <li>Hoxhunt. (s. f.). <em>No.1 phishing training for employees</em>. Hoxhunt. <a href="https://hoxhunt.com/product/phishing-training" target="_blank" rel="noopener noreferrer">https://hoxhunt.com/product/phishing-training</a></li>
+
+            <li>Hoxhunt. (s. f.). <em>The Hoxhunt human risk management platform</em>. Hoxhunt. <a href="https://hoxhunt.com/" target="_blank" rel="noopener noreferrer">https://hoxhunt.com/</a></li>
+
+            <li>Infosec Institute. (s. f.). <em>Infosec IQ: Security awareness training & phishing simulations</em>. Infosec. <a href="https://www.infosecinstitute.com/iq/" target="_blank" rel="noopener noreferrer">https://www.infosecinstitute.com/iq/</a></li>
+
+            <li>Infosec Institute. (s. f.). <em>Phishing simulator: 2000+ realistic templates</em>. Infosec. <a href="https://www.infosecinstitute.com/iq/phishing-simulations/" target="_blank" rel="noopener noreferrer">https://www.infosecinstitute.com/iq/phishing-simulations/</a></li>
+
+            <li>KnowBe4. (s. f.). <em>Security awareness training</em>. KnowBe4. <a href="https://www.knowbe4.com/products/security-awareness-training" target="_blank" rel="noopener noreferrer">https://www.knowbe4.com/products/security-awareness-training</a></li>
+
+            <li>KnowBe4. (s. f.). <em>Security awareness training features</em>. KnowBe4. <a href="https://www.knowbe4.com/products/security-awareness-training/features" target="_blank" rel="noopener noreferrer">https://www.knowbe4.com/products/security-awareness-training/features</a></li>
+
+            <li>Mimecast. (s. f.). <em>Security awareness training</em>. Mimecast. <a href="https://www.mimecast.com/content/security-awareness-training/" target="_blank" rel="noopener noreferrer">https://www.mimecast.com/content/security-awareness-training/</a></li>
+
+            <li>Mimecast. (s. f.). <em>What is phishing training?</em> Mimecast. <a href="https://www.mimecast.com/content/phishing-training/" target="_blank" rel="noopener noreferrer">https://www.mimecast.com/content/phishing-training/</a></li>
+
+            <li>National Institute of Standards and Technology. (2021, October 22). <em>Phishing</em>. NIST. <a href="https://www.nist.gov/itl/smallbusinesscyber/guidance-topic/phishing" target="_blank" rel="noopener noreferrer">https://www.nist.gov/itl/smallbusinesscyber/guidance-topic/phishing</a></li>
+
+            <li>National Institute of Standards and Technology. (2023, November). <em>NIST Phish Scale user guide</em> (NIST TN 2276). U.S. Department of Commerce. <a href="https://csrc.nist.gov/pubs/tn/2276/final" target="_blank" rel="noopener noreferrer">https://csrc.nist.gov/pubs/tn/2276/final</a></li>
+
+            <li>NINJIO. (s. f.). <em>NINJIO AWARE security awareness training for employees</em>. NINJIO. <a href="https://ninjio.com/aware/" target="_blank" rel="noopener noreferrer">https://ninjio.com/aware/</a></li>
+
+            <li>NINJIO. (s. f.). <em>NINJIO: Cybersecurity awareness training & human risk management</em>. NINJIO. <a href="https://ninjio.com/" target="_blank" rel="noopener noreferrer">https://ninjio.com/</a></li>
+
+            <li>Phished. (s. f.). <em>Phished Academy security awareness training</em>. Phished. <a href="https://phished.io/phished-academy" target="_blank" rel="noopener noreferrer">https://phished.io/phished-academy</a></li>
+
+            <li>Phished. (s. f.). <em>Security awareness training</em>. Phished. <a href="https://phished.io/security-awareness-training" target="_blank" rel="noopener noreferrer">https://phished.io/security-awareness-training</a></li>
+
+            <li>Proofpoint. (s. f.). <em>Assess – Phishing simulations, assessments & tests</em>. Proofpoint. <a href="https://www.proofpoint.com/us/products/security-awareness-training/phishing-simulations" target="_blank" rel="noopener noreferrer">https://www.proofpoint.com/us/products/security-awareness-training/phishing-simulations</a></li>
+
+            <li>Proofpoint. (s. f.). <em>Mitigate human risk</em>. Proofpoint. <a href="https://www.proofpoint.com/us/products/mitigate-human-risk" target="_blank" rel="noopener noreferrer">https://www.proofpoint.com/us/products/mitigate-human-risk</a></li>
+          </ul>
+        </section>
+
+        <div class="article-footer">
+          <a class="link-pill" href="proyectos.html">↩ Volver a Proyectos</a>
+        </div>
+
+      </article>
+    </div>
+  </section>
+</main>
+
+<footer class="footer">
+  <div class="container footer__inner">
+    <p>© <span class="muted">Portafolio de evidencias</span> | Seguridad Informática</p>
+    <p class="muted">PF01</p>
+  </div>
+</footer>
+
+</body>
+</html>
