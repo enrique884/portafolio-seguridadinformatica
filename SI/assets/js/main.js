@@ -26,7 +26,28 @@ function initLoader() {
     if (loaderPercent) loaderPercent.textContent = Math.floor(progress) + '%';
   }, 80);
 }
+function initHallOfFameDropdown() {
+  const dropdown = document.getElementById('hofDropdown');
+  if (!dropdown) return;
 
+  const button = dropdown.querySelector('.nav-dropbtn');
+  const menu = dropdown.querySelector('.nav-dropmenu');
+  if (!button || !menu) return;
+
+  button.addEventListener('click', (e) => {
+    e.preventDefault();
+
+    const isOpen = dropdown.classList.toggle('is-open');
+    button.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+  });
+
+  document.addEventListener('click', (e) => {
+    if (!dropdown.contains(e.target)) {
+      dropdown.classList.remove('is-open');
+      button.setAttribute('aria-expanded', 'false');
+    }
+  });
+}
 function initMatrix() {
   const canvas = document.getElementById('matrixCanvas');
   if (!canvas) return;
@@ -256,7 +277,6 @@ function initContactForm() {
   const year = document.getElementById('year');
   if (year) year.textContent = new Date().getFullYear();
 }
-
 // =========================
 // EXPORT PDF (html2pdf) — por si lo usas en alguna página
 // =========================
@@ -395,7 +415,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Forms
   initContactForm();
-
+initHallOfFameDropdown();
   // PDF buttons
   initExportToPDF();   // si alguna página usa .js-export-pdf + html2pdf
   initDownloadPDF();   // descarga directa con .js-download-pdf
