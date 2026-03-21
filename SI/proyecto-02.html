@@ -364,6 +364,601 @@
         grid-template-columns:1fr;
       }
     }
+  
+
+    .quiz-shell{
+      margin-top:1rem;
+      border-radius:22px;
+      border:1px solid rgba(0,255,136,.16);
+      background:
+        linear-gradient(180deg, rgba(255,255,255,.02), rgba(255,255,255,0)),
+        rgba(0,0,0,.18);
+      padding:1.15rem;
+      overflow:hidden;
+      position:relative;
+    }
+
+    .quiz-shell::before{
+      content:"";
+      position:absolute;
+      inset:0;
+      pointer-events:none;
+      background:
+        radial-gradient(circle at top right, rgba(0,212,255,.08), transparent 28%),
+        radial-gradient(circle at bottom left, rgba(0,255,136,.08), transparent 32%);
+    }
+
+    .quiz-shell > *{position:relative;z-index:1}
+
+    .quiz-topbar{
+      display:flex;
+      align-items:flex-start;
+      justify-content:space-between;
+      gap:1rem;
+      margin-bottom:1rem;
+    }
+
+    .quiz-kicker{
+      margin:0 0 .25rem;
+      font-family:var(--font-code);
+      font-size:.76rem;
+      font-weight:900;
+      letter-spacing:.8px;
+      color:var(--text-secondary);
+      text-transform:uppercase;
+    }
+
+    .quiz-title{
+      margin:0;
+      font-family:var(--font-tech);
+      letter-spacing:.5px;
+      color:rgba(226,232,240,.98);
+    }
+
+    .quiz-scorebox{
+      min-width:220px;
+      text-align:center;
+      border-radius:14px;
+      padding:.85rem 1rem;
+      border:1px solid rgba(0,212,255,.18);
+      background:rgba(0,212,255,.08);
+      color:rgba(226,232,240,.96);
+      font-family:var(--font-code);
+      font-weight:900;
+      font-size:.88rem;
+    }
+
+    .quiz-progress-wrap{
+      height:10px;
+      border-radius:999px;
+      overflow:hidden;
+      background:rgba(255,255,255,.06);
+      border:1px solid rgba(0,255,136,.12);
+      margin-bottom:1rem;
+    }
+
+    .quiz-progress-bar{
+      height:100%;
+      width:10%;
+      border-radius:999px;
+      background:linear-gradient(90deg, rgba(0,255,136,.9), rgba(0,212,255,.9));
+      transition:width .35s ease;
+    }
+
+    .quiz-meta{
+      display:flex;
+      flex-wrap:wrap;
+      gap:.6rem;
+      margin-bottom:1rem;
+    }
+
+    .quiz-chip{
+      display:inline-flex;
+      align-items:center;
+      gap:.4rem;
+      padding:.38rem .75rem;
+      border-radius:999px;
+      border:1px solid rgba(0,255,136,.16);
+      background:rgba(0,255,136,.06);
+      color:rgba(226,232,240,.9);
+      font-family:var(--font-code);
+      font-weight:800;
+      font-size:.76rem;
+    }
+
+    .scenario-card{
+      display:grid;
+      gap:1rem;
+    }
+
+    .scenario-window{
+      border-radius:20px;
+      overflow:hidden;
+      border:1px solid rgba(0,255,136,.16);
+      background:rgba(5,10,18,.86);
+      box-shadow:0 16px 40px rgba(0,0,0,.18);
+    }
+
+    .scenario-window__top{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:1rem;
+      padding:.9rem 1rem;
+      border-bottom:1px solid rgba(255,255,255,.06);
+      background:rgba(255,255,255,.03);
+    }
+
+    .scenario-window__title{
+      font-family:var(--font-code);
+      color:rgba(226,232,240,.88);
+      font-size:.82rem;
+      font-weight:900;
+      letter-spacing:.4px;
+    }
+
+    .scenario-window__body{padding:1rem}
+
+    .scenario-header{
+      display:flex;
+      align-items:flex-start;
+      justify-content:space-between;
+      gap:1rem;
+      margin-bottom:1rem;
+    }
+
+    .scenario-label{
+      margin:0 0 .35rem;
+      color:var(--text-secondary);
+      font-size:.78rem;
+      font-family:var(--font-code);
+      font-weight:900;
+      text-transform:uppercase;
+      letter-spacing:.7px;
+    }
+
+    .scenario-subject{
+      margin:0;
+      font-size:1.15rem;
+      line-height:1.35;
+      color:rgba(226,232,240,.98);
+    }
+
+    .scenario-badge{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      white-space:nowrap;
+      border-radius:999px;
+      padding:.38rem .7rem;
+      font-family:var(--font-code);
+      font-weight:900;
+      font-size:.74rem;
+      background:rgba(255,212,59,.92);
+      color:#111;
+    }
+
+    .scenario-grid{
+      display:grid;
+      grid-template-columns:minmax(0,1.7fr) minmax(260px,.9fr);
+      gap:1rem;
+    }
+
+    .scenario-main,
+    .signal-panel,
+    .decision-panel,
+    .feedback-panel,
+    .quiz-result{
+      border-radius:16px;
+      border:1px solid rgba(0,255,136,.12);
+      background:rgba(0,0,0,.18);
+    }
+
+    .scenario-main{padding:1rem}
+
+    .message-meta{
+      display:grid;
+      gap:.5rem;
+      margin-bottom:1rem;
+    }
+
+    .meta-row{
+      display:grid;
+      grid-template-columns:110px 1fr;
+      gap:.75rem;
+      font-size:.92rem;
+    }
+
+    .meta-key{
+      font-family:var(--font-code);
+      color:var(--text-secondary);
+      font-weight:900;
+    }
+
+    .meta-value{
+      color:rgba(226,232,240,.9);
+      line-height:1.55;
+      word-break:break-word;
+    }
+
+    .message-preview{
+      padding:1rem;
+      border-radius:14px;
+      border:1px solid rgba(255,255,255,.06);
+      background:rgba(255,255,255,.02);
+      color:rgba(226,232,240,.92);
+      line-height:1.75;
+      white-space:pre-line;
+    }
+
+    .signal-panel{
+      padding:1rem;
+    }
+
+    .signal-panel h5,
+    .feedback-signals h5{
+      margin:.1rem 0 .8rem;
+      color:rgba(226,232,240,.96);
+      font-family:var(--font-tech);
+      letter-spacing:.35px;
+      font-size:.95rem;
+    }
+
+    .signal-list,
+    .feedback-signals ul{
+      margin:0;
+      padding-left:1rem;
+      color:rgba(226,232,240,.86);
+      line-height:1.7;
+    }
+
+    .decision-panel,
+    .feedback-panel,
+    .quiz-result{
+      padding:1rem;
+    }
+
+    .decision-question{
+      margin:0 0 .9rem;
+      font-size:1rem;
+      font-weight:800;
+      color:rgba(226,232,240,.96);
+    }
+
+    .decision-actions{
+      display:flex;
+      flex-wrap:wrap;
+      gap:.8rem;
+    }
+
+    .quiz-action{min-width:170px}
+
+    .feedback-panel{display:grid;gap:.9rem}
+
+    .feedback-state{
+      font-family:var(--font-tech);
+      font-size:1.05rem;
+      font-weight:900;
+      letter-spacing:.45px;
+    }
+
+    .feedback-state.is-ok{color:#69f0ae}
+    .feedback-state.is-bad{color:#ff8a80}
+
+    .feedback-text{
+      margin:0;
+      color:rgba(226,232,240,.9);
+      line-height:1.7;
+    }
+
+    .quiz-result{
+      margin-top:1rem;
+      display:grid;
+      gap:1rem;
+    }
+
+    .quiz-result__top{
+      display:flex;
+      align-items:flex-start;
+      justify-content:space-between;
+      gap:1rem;
+      flex-wrap:wrap;
+    }
+
+    .quiz-result__score{
+      padding:.85rem 1rem;
+      border-radius:14px;
+      background:rgba(255,212,59,.1);
+      border:1px solid rgba(255,212,59,.18);
+      font-family:var(--font-tech);
+      font-weight:900;
+      color:rgba(255,255,255,.96);
+    }
+
+    .quiz-result p{margin:0;color:rgba(226,232,240,.9);line-height:1.7}
+
+    @media (max-width: 980px){
+      .quiz-topbar,
+      .quiz-result__top,
+      .scenario-header{
+        flex-direction:column;
+        align-items:flex-start;
+      }
+
+      .quiz-scorebox{min-width:0;width:100%}
+      .scenario-grid{grid-template-columns:1fr}
+      .meta-row{grid-template-columns:1fr}
+      .quiz-action{width:100%}
+    }
+
+
+
+    .preview-shell{
+      border-radius:16px;
+      overflow:hidden;
+      border:1px solid rgba(255,255,255,.06);
+      background:linear-gradient(180deg, rgba(255,255,255,.03), rgba(255,255,255,.01));
+    }
+
+    .preview-top{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:.8rem;
+      padding:.75rem .9rem;
+      border-bottom:1px solid rgba(255,255,255,.06);
+      background:rgba(255,255,255,.03);
+      font-family:var(--font-code);
+      color:rgba(226,232,240,.82);
+      font-size:.76rem;
+      font-weight:800;
+    }
+
+    .preview-body{padding:1rem}
+    .preview-body p{margin:.25rem 0;color:rgba(226,232,240,.9);line-height:1.65}
+    .preview-caption{
+      margin-top:.8rem;
+      padding:.55rem .75rem;
+      border-radius:12px;
+      border:1px dashed rgba(255,212,59,.22);
+      background:rgba(255,212,59,.05);
+      color:rgba(255,255,255,.84);
+      font-size:.85rem;
+    }
+
+    .mail-card{display:grid;gap:.9rem}
+    .mail-head{display:grid;gap:.55rem}
+    .mail-line{display:grid;grid-template-columns:92px 1fr;gap:.75rem;font-size:.92rem}
+    .mail-key{font-family:var(--font-code);font-weight:900;color:var(--text-secondary)}
+    .mail-value{color:rgba(226,232,240,.92);word-break:break-word}
+    .mail-subjectline{margin:.2rem 0 0;font-size:1.05rem;font-weight:900;color:rgba(255,255,255,.97)}
+    .mail-actions{display:flex;flex-wrap:wrap;gap:.55rem;margin-top:.2rem}
+    .ui-btn{
+      display:inline-flex;align-items:center;justify-content:center;
+      padding:.68rem 1rem;border-radius:12px;border:1px solid rgba(0,212,255,.22);
+      background:rgba(0,212,255,.08);color:rgba(230,248,255,.96);font-weight:800;text-decoration:none;
+    }
+    .ui-btn.alt{border-color:rgba(0,255,136,.18);background:rgba(0,255,136,.08)}
+    .ui-btn.warn{border-color:rgba(255,212,59,.2);background:rgba(255,212,59,.09);color:#ffe7a8}
+
+    .sms-thread{display:grid;gap:.7rem;max-width:420px}
+    .sms-bubble{
+      padding:.8rem .95rem;border-radius:16px;line-height:1.55;
+      border:1px solid rgba(255,255,255,.06);background:rgba(255,255,255,.04);color:rgba(226,232,240,.92)
+    }
+    .sms-bubble.out{justify-self:end;background:rgba(0,212,255,.09);border-color:rgba(0,212,255,.18)}
+
+    .portal-shell{padding:1.1rem;background:linear-gradient(180deg, rgba(11,18,32,.96), rgba(8,14,24,.98))}
+    .portal-brand{display:flex;align-items:center;gap:.7rem;margin-bottom:1rem;font-weight:900;color:#f1f5f9}
+    .portal-logo{width:38px;height:38px;border-radius:10px;display:grid;place-items:center;background:rgba(255,255,255,.08);font-family:var(--font-tech)}
+    .portal-card{
+      max-width:420px;padding:1rem;border-radius:18px;margin:0 auto;
+      border:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.04);backdrop-filter:blur(8px)
+    }
+    .field{display:grid;gap:.35rem;margin-top:.75rem}
+    .field label{font-size:.84rem;color:rgba(226,232,240,.86);font-weight:700}
+    .field input{height:44px;border-radius:12px;border:1px solid rgba(255,255,255,.12);background:rgba(4,8,16,.92);color:#fff;padding:0 .85rem}
+    .portal-note{margin-top:.75rem;font-size:.82rem;color:#cbd5e1}
+    .portal-url{display:inline-flex;align-items:center;gap:.5rem;margin-bottom:.9rem;padding:.4rem .7rem;border-radius:999px;background:rgba(255,255,255,.05);font-family:var(--font-code);font-size:.72rem;color:#bfdbfe}
+
+    .chat-app{display:grid;grid-template-columns:90px 1fr;min-height:280px}
+    .chat-sidebar{border-right:1px solid rgba(255,255,255,.06);padding:.85rem;background:rgba(255,255,255,.02)}
+    .chat-sidepill{margin-bottom:.55rem;padding:.55rem .65rem;border-radius:10px;background:rgba(255,255,255,.04);font-size:.8rem;color:rgba(226,232,240,.84)}
+    .chat-main{padding:1rem;display:grid;gap:.9rem}
+    .chat-head{display:flex;align-items:center;justify-content:space-between;gap:1rem;padding-bottom:.75rem;border-bottom:1px solid rgba(255,255,255,.06)}
+    .avatar{width:42px;height:42px;border-radius:50%;display:grid;place-items:center;background:rgba(0,255,136,.1);border:1px solid rgba(0,255,136,.18);font-weight:900;color:#d1fae5}
+    .chat-msg{max-width:620px;padding:.85rem .95rem;border-radius:16px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.06);color:rgba(226,232,240,.92);line-height:1.65}
+    .chat-tag{font-family:var(--font-code);font-size:.72rem;color:var(--text-secondary)}
+
+    .auth-card{max-width:420px;margin:0 auto;padding:1rem;border-radius:18px;border:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.04);display:grid;gap:.85rem}
+    .auth-badge{display:inline-flex;align-items:center;gap:.45rem;padding:.35rem .65rem;border-radius:999px;background:rgba(0,255,136,.08);border:1px solid rgba(0,255,136,.18);font-family:var(--font-code);font-size:.74rem;color:#d1fae5}
+    .auth-row{display:flex;justify-content:space-between;gap:1rem;font-size:.9rem;color:rgba(226,232,240,.9)}
+    .auth-actions{display:flex;gap:.65rem;flex-wrap:wrap}
+
+    .doc-preview{display:grid;gap:.9rem}
+    .doc-toolbar{display:flex;justify-content:space-between;gap:.75rem;flex-wrap:wrap;padding:.75rem .9rem;border-radius:12px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06)}
+    .doc-sheet{padding:1rem;border-radius:14px;background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.06)}
+    .doc-line{height:10px;border-radius:999px;background:rgba(255,255,255,.08);margin:.45rem 0}
+    .doc-line.w-80{width:80%}.doc-line.w-60{width:60%}.doc-line.w-40{width:40%}
+
+    .legend-mini{display:flex;gap:.5rem;flex-wrap:wrap;margin-top:.85rem}
+    .legend-mini span{padding:.3rem .6rem;border-radius:999px;font-family:var(--font-code);font-size:.7rem;font-weight:900;border:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.03);color:rgba(226,232,240,.8)}
+
+    @media (max-width: 980px){
+      .mail-line{grid-template-columns:1fr}
+      .chat-app{grid-template-columns:1fr}
+      .chat-sidebar{display:none}
+    }
+
+
+    .score-hub{
+      margin-top:1rem;
+      display:grid;
+      gap:1rem;
+    }
+
+    .score-register,
+    .score-dashboard,
+    .ranking-panel,
+    .attempts-panel{
+      border-radius:18px;
+      border:1px solid rgba(0,255,136,.16);
+      background:rgba(0,0,0,.18);
+      padding:1rem;
+    }
+
+    .score-register h3,
+    .score-dashboard h3,
+    .ranking-panel h3,
+    .attempts-panel h3{
+      margin:.1rem 0 .75rem;
+      font-family:var(--font-tech);
+      letter-spacing:.45px;
+      color:rgba(226,232,240,.98);
+    }
+
+    .score-register p,
+    .score-dashboard p,
+    .ranking-panel p,
+    .attempts-panel p{
+      color:rgba(226,232,240,.88);
+      line-height:1.65;
+    }
+
+    .alias-row{
+      display:flex;
+      flex-wrap:wrap;
+      gap:.75rem;
+      align-items:center;
+      margin-top:.85rem;
+    }
+
+    .alias-input{
+      flex:1 1 260px;
+      min-width:220px;
+      height:46px;
+      border-radius:12px;
+      border:1px solid rgba(0,255,136,.16);
+      background:rgba(4,8,16,.92);
+      color:#fff;
+      padding:0 .9rem;
+      font-family:var(--font-code);
+      font-weight:800;
+    }
+
+    .status-line{
+      margin-top:.8rem;
+      padding:.8rem .95rem;
+      border-radius:14px;
+      border:1px solid rgba(0,212,255,.18);
+      background:rgba(0,212,255,.08);
+      color:rgba(226,232,240,.94);
+      font-family:var(--font-code);
+      font-size:.82rem;
+      font-weight:800;
+    }
+
+    .status-line.warn{
+      border-color:rgba(255,212,59,.22);
+      background:rgba(255,212,59,.08);
+      color:#ffe7a8;
+    }
+
+    .status-line.ok{
+      border-color:rgba(0,255,136,.18);
+      background:rgba(0,255,136,.08);
+      color:#d1fae5;
+    }
+
+    .score-grid{
+      display:grid;
+      grid-template-columns:1.2fr .8fr;
+      gap:1rem;
+    }
+
+    .mini-note{
+      color:rgba(148,163,184,.95);
+      font-size:.9rem;
+    }
+
+    .rank-table{
+      width:100%;
+      border-collapse:collapse;
+      min-width:720px;
+    }
+
+    .rank-table th,
+    .rank-table td{
+      padding:.85rem;
+      border-bottom:1px solid rgba(30,41,59,.75);
+      color:rgba(226,232,240,.88);
+      text-align:left;
+    }
+
+    .rank-table th{
+      font-family:var(--font-code);
+      color:rgba(226,232,240,.96);
+      background:rgba(0,255,136,.06);
+      white-space:nowrap;
+    }
+
+    .rank-badge{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      min-width:32px;
+      height:32px;
+      border-radius:999px;
+      font-family:var(--font-code);
+      font-weight:900;
+      background:rgba(255,212,59,.12);
+      border:1px solid rgba(255,212,59,.22);
+      color:#ffe7a8;
+    }
+
+    .empty-state{
+      padding:1rem;
+      border-radius:14px;
+      border:1px dashed rgba(255,255,255,.12);
+      color:rgba(148,163,184,.96);
+      background:rgba(255,255,255,.03);
+    }
+
+    .attempt-list{
+      display:grid;
+      gap:.75rem;
+      margin-top:.85rem;
+    }
+
+    .attempt-item{
+      border-radius:14px;
+      border:1px solid rgba(0,255,136,.12);
+      background:rgba(255,255,255,.02);
+      padding:.85rem .95rem;
+    }
+
+    .attempt-item strong{color:rgba(255,255,255,.96)}
+
+    .pill-inline{
+      display:inline-flex;
+      align-items:center;
+      gap:.4rem;
+      padding:.28rem .55rem;
+      border-radius:999px;
+      margin:.18rem .35rem 0 0;
+      border:1px solid rgba(0,255,136,.16);
+      background:rgba(0,255,136,.06);
+      color:rgba(226,232,240,.88);
+      font-family:var(--font-code);
+      font-size:.72rem;
+      font-weight:800;
+    }
+
+    @media (max-width: 980px){
+      .score-grid{grid-template-columns:1fr}
+      .rank-table{min-width:620px}
+    }
+
   </style>
 </head>
 
@@ -440,7 +1035,10 @@
               <span class="command"> init --project pr02 --module comparative-research</span>
             </div>
             <div class="terminal-line" style="opacity:1;margin-top:.45rem;">
-              <span class="output">[OK] PR02-01 cargado · 8 plataformas · enfoque ético · documentación técnica</span>
+              <span class="output">[OK] PR02-01 cargado · 8 plataformas · enfoque ético · documentación técnica<br></span>
+              <span class="output">[OK] PR02-02 cargado · Phishing Quiz con 10 escenarios de Ingenieria social<br></span>
+              <span class="output">[OK] PR02-03 cargado · Sistema de puntuación individual y un score
+global</span>
             </div>
           </div>
         </div>
@@ -1167,8 +1765,313 @@
           </p>
         </section>
 
+
+
+        <section class="article-section" id="pr02-02">
+          <h2><span class="tag-pr">PR02-02</span> Phishing Quiz interactivo</h2>
+
+          <p>
+            Como segunda fase del proyecto, se diseñó e implementó un <strong>Phishing Quiz</strong>
+            interactivo inspirado en simuladores de concientización profesional, pero adaptado a un
+            entorno académico y ético. Esta experiencia presenta <strong>10 escenarios realistas</strong>
+            distribuidos en casos de phishing y casos legítimos, mezclando correo electrónico,
+            smishing, portales falsos, mensajes internos, archivos adjuntos, autenticación MFA,
+            documentos compartidos y códigos QR.
+          </p>
+
+          <p>
+            El propósito del quiz es evaluar si el usuario reconoce señales sospechosas antes de hacer clic,
+            descargar archivos, escanear códigos o entregar información. Cada respuesta genera
+            <strong>retroalimentación formativa inmediata</strong> y aporta a un <strong>sistema de puntuación individual</strong>
+            que permite interpretar el nivel de exposición al riesgo humano.
+          </p>
+
+          <div class="pill-mini">🎯 Escenarios phishing + legítimos</div>
+          <div class="pill-mini">🧩 Vectores mezclados y realistas</div>
+          <div class="pill-mini">⚡ Respuesta inmediata con explicación</div>
+          <div class="pill-mini">📈 Puntaje individual de 0 a 100</div>
+          <div class="pill-mini">🛡️ Consentimiento y sin captura de credenciales reales</div>
+        </section>
+
         <section class="article-section">
-          <h2>8) Referencias en formato APA 7</h2>
+          <h2>9) Diseño funcional del simulador</h2>
+
+          <div class="grid-2">
+            <div class="kblock">
+              <h3>Objetivo funcional</h3>
+              <p>
+                El simulador fue construido para que el participante observe un escenario visual completo,
+                analice contexto, remitente, contenido y acción solicitada, tome una decisión entre
+                <strong>“Es phishing”</strong> o <strong>“Es legítimo”</strong> y reciba una explicación inmediata.
+                De esta forma, el sistema no se limita a calificar respuestas, sino que transforma cada
+                decisión en una oportunidad de aprendizaje.
+              </p>
+            </div>
+
+            <div class="kblock">
+              <h3>Elementos evaluados por el quiz</h3>
+              <ul class="list list-tight">
+                <li>Identificación de urgencia artificial y presión psicológica.</li>
+                <li>Reconocimiento de dominios, remitentes y enlaces sospechosos.</li>
+                <li>Detección de adjuntos o descargas inseguras.</li>
+                <li>Análisis de solicitudes no habituales de información.</li>
+                <li>Diferenciación entre comunicaciones legítimas y engaños convincentes.</li>
+              </ul>
+            </div>
+          </div>
+        </section>
+       <div class="score-register">
+              <h3>Registro del participante</h3>
+              <p>
+                Antes de guardar un resultado, el usuario debe registrarse con un alias. El sistema permite hasta
+                <strong>3 intentos por alias</strong> para mantener control de participación y evitar resultados ilimitados.
+              </p>
+              <div class="alias-row">
+                <input class="alias-input" id="playerAliasInput" type="text" maxlength="24" placeholder="Ejemplo: CyberWolf" autocomplete="off">
+                <button class="btn btn-primary" id="saveAliasBtn" type="button">Guardar alias</button>
+                <button class="btn btn-secondary" id="changeAliasBtn" type="button">Cambiar alias</button>
+              </div>
+              <div class="status-line" id="aliasStatus">Alias actual: sin registrar.</div>
+            </div>
+        <section class="article-section">
+          <h2>10) Simulador interactivo del Phishing Quiz</h2>
+
+          <div class="quiz-shell" aria-labelledby="quizTitle">
+            <div class="quiz-topbar">
+              <div>
+                <p class="quiz-kicker">Simulación educativa</p>
+                <h3 id="quizTitle" class="quiz-title">Phishing Quiz · phishing / legítimos</h3>
+              </div>
+              <div class="quiz-scorebox" id="scoreBox" aria-live="polite">Puntaje actual: 0 / 100</div>
+            </div>
+
+            <div class="quiz-progress-wrap" aria-hidden="true">
+              <div class="quiz-progress-bar" id="quizProgressBar"></div>
+            </div>
+
+            <div class="quiz-meta">
+              <span class="quiz-chip" id="scenarioCounter">Escenario 1 de 10</span>
+              <span class="quiz-chip" id="scenarioVector">Vector: Correo</span>
+              <span class="quiz-chip" id="scenarioDifficulty">Dificultad: Media</span>
+            </div>
+
+            <article class="scenario-card" id="scenarioCard">
+              <div class="scenario-window">
+                <div class="scenario-window__top">
+                  <div class="terminal-dots" aria-hidden="true">
+                    <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+                  </div>
+                  <div class="scenario-window__title" id="scenarioChannel">Inbox Preview</div>
+                </div>
+
+                <div class="scenario-window__body">
+                  <div class="scenario-header">
+                    <div>
+                      <p class="scenario-label">Escenario visual</p>
+                      <h4 class="scenario-subject" id="scenarioTitle">Cargando escenario...</h4>
+                    </div>
+                    <span class="scenario-badge" id="scenarioBadge">Correo</span>
+                  </div>
+
+                  <div class="scenario-grid">
+                    <div class="scenario-main">
+                      <div id="scenarioPreview"></div>
+                    </div>
+
+                    <aside class="signal-panel">
+                      <h5>Qué debe analizar el usuario</h5>
+                      <ul id="scenarioChecklist" class="signal-list"></ul>
+                      <div class="legend-mini">
+                        <span>Remitente</span>
+                        <span>URL / dominio</span>
+                        <span>Urgencia</span>
+                        <span>Acción solicitada</span>
+                      </div>
+                    </aside>
+                  </div>
+                </div>
+              </div>
+
+              <div class="decision-panel">
+                <p class="decision-question">¿Este escenario representa un intento de phishing?</p>
+                <div class="decision-actions">
+                  <button class="btn btn-primary quiz-action" id="btnPhishing" type="button">Es phishing</button>
+                  <button class="btn btn-secondary quiz-action" id="btnLegit" type="button">Es legítimo</button>
+                </div>
+              </div>
+
+              <div class="feedback-panel" id="feedbackPanel" hidden>
+                <div class="feedback-state" id="feedbackState"></div>
+                <p class="feedback-text" id="feedbackText"></p>
+                <div class="feedback-signals">
+                  <h5>Señales clave detectadas</h5>
+                  <ul id="feedbackSignals"></ul>
+                </div>
+                <button class="btn btn-primary" id="nextScenarioBtn" type="button">Siguiente escenario</button>
+              </div>
+            </article>
+          </div>
+        </section>
+
+<section class="article-section">
+          <h2>11) Lógica de puntuación y retroalimentación</h2>
+
+          <div class="grid-3">
+            <div class="kpi">
+              <div class="k">Escenarios</div>
+              <div class="v">10 casos mixtos</div>
+            </div>
+            <div class="kpi">
+              <div class="k">Valor por respuesta</div>
+              <div class="v">10 puntos</div>
+            </div>
+            <div class="kpi">
+              <div class="k">Puntaje final</div>
+              <div class="v">0 a 100</div>
+            </div>
+          </div>
+
+          <p>
+            El sistema asigna <strong>10 puntos por cada respuesta correcta</strong>. Los escenarios combinan casos legítimos y casos maliciosos, por lo que el usuario debe discriminar correctamente entre ambos. Al finalizar, recibe una interpretación de desempeño según su resultado total. El propósito del puntaje no es sancionar, sino ofrecer una medición simple y clara del nivel de reconocimiento de señales de ingeniería social.
+          </p>
+
+          <div class="table-wrap">
+            <table class="tech-table" aria-label="Escala de interpretación del puntaje">
+              <thead>
+                <tr>
+                  <th>Rango</th>
+                  <th>Nivel</th>
+                  <th>Interpretación</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td class="row-h">90 - 100 pts.</td>
+                  <td>Excelente</td>
+                  <td>Reconoce con alta precisión señales de phishing y muestra criterio sólido.</td>
+                </tr>
+                <tr>
+                  <td class="row-h">70 - 80 pts.</td>
+                  <td>Bueno</td>
+                  <td>Identifica la mayoría de amenazas, aunque aún hay oportunidades de mejora.</td>
+                </tr>
+                <tr>
+                  <td class="row-h">50 - 60 pts.</td>
+                  <td>Regular</td>
+                  <td>Detecta algunas señales, pero todavía puede caer en escenarios convincentes.</td>
+                </tr>
+                <tr>
+                  <td class="row-h">0 - 40 pts.</td>
+                  <td>Insuficiente</td>
+                  <td>Necesita reforzar reconocimiento de señales de riesgo y hábitos de verificación.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <section class="article-section">
+          <h2>12) Cumplimiento ético del Phishing Quiz</h2>
+
+          <div class="grid-2">
+            <div class="kblock">
+              <h3>Medidas éticas aplicadas</h3>
+              <ul class="list list-tight">
+                <li>Consentimiento informado previo a la interacción.</li>
+                <li>No se solicitan ni almacenan credenciales reales.</li>
+                <li>No se redirige a dominios externos peligrosos.</li>
+                <li>La simulación tiene propósito exclusivamente educativo.</li>
+                <li>La retroalimentación se usa para aprender, no para castigar.</li>
+              </ul>
+            </div>
+
+            <div class="callout">
+              <p class="title">Decisión de diseño ético</p>
+              <p>
+                Aunque el proyecto toma inspiración de simuladores reales, la implementación evita la captura
+                de datos sensibles y mantiene el ejercicio dentro de un entorno controlado. El usuario analiza,
+                responde y aprende sin ser expuesto a riesgos reales de seguridad o privacidad.
+              </p>
+            </div>
+          </div>
+        </section>
+
+
+
+        <section class="article-section" id="pr02-03">
+          <h2><span class="tag-pr">PR02-03</span> Score global, ranking y análisis de desempeño</h2>
+
+          <p>
+            La tercera fase del proyecto incorpora un <strong>sistema de registro por alias</strong>,
+            <strong>control de intentos</strong>, almacenamiento local persistente y un <strong>score global</strong>
+            que conserva los resultados de los participantes directamente en el navegador mediante
+            <code>localStorage</code>. De esta manera, el quiz deja de ser solo una evaluación individual y se
+            convierte en una evidencia medible del desempeño colectivo.
+          </p>
+
+          <div class="pill-mini">👤 Alias por participante</div>
+          <div class="pill-mini">🗂️ Persistencia local sin base de datos</div>
+          <div class="pill-mini">🏆 Ranking dinámico de mejores resultados</div>
+          <div class="pill-mini">📊 Análisis básico: promedio, escenario más tardado y más fallado</div>
+
+          <div class="score-hub">
+            <div class="score-grid">
+              <div class="score-dashboard">
+                <h3>Panel de métricas</h3>
+                <div class="grid-3">
+                  <div class="kpi"><div class="k">Participantes únicos</div><div class="v" id="metricParticipants">0</div></div>
+                  <div class="kpi"><div class="k">Intentos registrados</div><div class="v" id="metricAttempts">0</div></div>
+                  <div class="kpi"><div class="k">Promedio global</div><div class="v" id="metricAverage">0 / 100</div></div>
+                  <div class="kpi"><div class="k">Escenario más tardado</div><div class="v" id="metricSlowest">Sin datos</div></div>
+                  <div class="kpi"><div class="k">Escenario más fallado</div><div class="v" id="metricMissed">Sin datos</div></div>
+                  <div class="kpi"><div class="k">Mejor puntaje actual</div><div class="v" id="metricBest">Sin datos</div></div>
+                </div>
+                <p class="mini-note" id="currentAliasSummary">No hay alias activo. Registra uno para habilitar el guardado del score individual y del ranking.</p>
+              </div>
+
+              <div class="attempts-panel">
+                <h3>Historial del alias actual</h3>
+                <p class="mini-note">Se muestra el resumen de intentos del participante activo para documentar evolución individual.</p>
+                <div id="currentAliasAttempts" class="attempt-list">
+                  <div class="empty-state">Aún no hay intentos para este alias.</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="ranking-panel">
+              <h3>Ranking global</h3>
+              <p>
+                El ranking se construye tomando el <strong>mejor intento de cada alias</strong>, con desempate por
+                menor tiempo total. Esto permite visualizar de forma clara quién obtuvo mejor desempeño general.
+              </p>
+              <div class="table-wrap">
+                <table class="rank-table" aria-label="Ranking global del Phishing Quiz">
+                  <thead>
+                    <tr>
+                      <th>Posición</th>
+                      <th>Alias</th>
+                      <th>Mejor score</th>
+                      <th>Tiempo total</th>
+                      <th>Intentos</th>
+                      <th>Escenario más tardado</th>
+                    </tr>
+                  </thead>
+                  <tbody id="rankingTableBody">
+                    <tr><td colspan="6"><div class="empty-state">Todavía no hay resultados guardados.</div></td></tr>
+                  </tbody>
+                </table>
+              </div>
+              <div class="alias-row" style="margin-top:1rem;">
+                <button class="btn btn-secondary" id="resetCurrentAliasBtn" type="button">Borrar intentos del alias actual</button>
+                <button class="btn btn-primary" id="resetAllScoresBtn" type="button">Limpiar ranking completo</button>
+              </div>
+            </div>
+          </div>
+        </section>
+
+
+        <section class="article-section">
+          <h2>13) Referencias en formato APA 7</h2>
 
           <ul class="ref-list">
             <li>Cybersecurity and Infrastructure Security Agency. (s. f.). <em>Recognize and report phishing</em>. CISA. <a href="https://www.cisa.gov/secure-our-world/recognize-and-report-phishing" target="_blank" rel="noopener noreferrer">https://www.cisa.gov/secure-our-world/recognize-and-report-phishing</a></li>
@@ -1228,6 +2131,560 @@
     <p class="muted">PF01</p>
   </div>
 </footer>
+<script>
+  (() => {
+    const STORAGE_KEY = 'pr02_scoreboard_v3';
+    const MAX_ATTEMPTS_PER_ALIAS = 3;
+
+    const scenarios = [
+      {
+        channel: 'Correo institucional',
+        badge: 'Correo',
+        vector: 'Correo de phishing',
+        difficulty: 'Media',
+        title: 'Restablecimiento urgente de contraseña del correo institucional',
+        answer: 'phishing',
+        previewType: 'email',
+        previewData: {
+          app: 'Campus Mail',
+          from: 'Mesa de Ayuda <soporte@campus-seguridad.com>',
+          to: 'alumno@campus.edu.mx',
+          subject: 'Acción requerida: tu cuenta expira hoy',
+          body: `Estimado usuario.
+
+Se detectó un error de sincronización en tu buzón. Para evitar suspensión temporal debes verificar tu contraseña antes de 30 minutos.
+
+Accede aquí para conservar tu acceso.`,
+          cta: 'Verificar cuenta',
+          note: 'Enlace visible al pasar el cursor: https://campus-seguridad.com/verify'
+        },
+        checklist: ['Revisar si el dominio coincide con el institucional.', 'Detectar urgencia artificial y amenaza de suspensión.', 'Validar si realmente el área de TI solicita contraseñas por correo.'],
+        explanation: 'Es phishing porque usa un dominio no institucional, presiona con urgencia y solicita una acción sensible desde un enlace externo.',
+        signals: ['Dominio distinto al oficial.', 'Amenaza de pérdida de acceso.', 'Solicitud indebida de validación de contraseña.']
+      },
+      {
+        channel: 'Correo institucional',
+        badge: 'Legítimo',
+        vector: 'Comunicado interno',
+        difficulty: 'Baja',
+        title: 'Aviso oficial de mantenimiento del aula virtual',
+        answer: 'legit',
+        previewType: 'email',
+        previewData: {
+          app: 'Campus Mail',
+          from: 'Soporte TI <soporte@campus.edu.mx>',
+          to: 'alumno@campus.edu.mx',
+          subject: 'Mantenimiento programado del aula virtual',
+          body: `Buen día.
+
+El viernes de 19:00 a 21:00 se realizará mantenimiento preventivo del aula virtual. Durante ese periodo el sistema podría no estar disponible.
+
+Puedes consultar el estado del servicio desde el portal institucional.`,
+          cta: 'Ver estado del servicio',
+          ctaClass: 'alt',
+          note: 'URL oficial: https://campus.edu.mx/estado-servicios'
+        },
+        checklist: ['Comprobar si el dominio es oficial.', 'Evaluar si solicita datos sensibles.', 'Distinguir entre aviso informativo y presión para actuar de inmediato.'],
+        explanation: 'Este caso es legítimo: el dominio es institucional, el mensaje es informativo y no solicita contraseñas, pagos ni descargas sospechosas.',
+        signals: ['Remitente coherente con el área de TI.', 'No pide información sensible.', 'Enlace al portal institucional esperado.']
+      },
+      {
+        channel: 'SMS',
+        badge: 'SMS',
+        vector: 'Smishing',
+        difficulty: 'Media',
+        title: 'Paquetería retenida por pago pendiente',
+        answer: 'phishing',
+        previewType: 'sms',
+        previewData: {
+          app: 'Mensajes',
+          sender: 'EntregaExpress',
+          bubbles: [
+            {text: 'Tu paquete fue retenido por saldo pendiente de $37.50 MXN.'},
+            {text: 'Paga y libera ahora: bit.ly/libera-tu-envio-24', side: 'out'}
+          ],
+          note: 'El mensaje no incluye número de guía verificable ni portal oficial.'
+        },
+        checklist: ['Revisar si el enlace está acortado.', 'Confirmar si realmente esperabas una entrega.', 'Detectar cobros pequeños usados para inducir clic rápido.'],
+        explanation: 'Es smishing. El enlace acortado oculta el destino real y el mensaje usa la expectativa de una entrega para robar datos o realizar fraude.',
+        signals: ['URL acortada.', 'Cobro inesperado.', 'No hay datos verificables del envío.']
+      },
+      {
+        channel: 'Chat interno',
+        badge: 'Legítimo',
+        vector: 'Comunicación interna',
+        difficulty: 'Media',
+        title: 'Mensaje del jefe de proyecto con enlace al tablero oficial',
+        answer: 'legit',
+        previewType: 'chat',
+        previewData: {
+          app: 'WorkChat',
+          name: 'Laura Gómez',
+          role: 'Líder de proyecto',
+          status: 'Canal: Proyecto PR02',
+          message: `Hola, ya dejé actualizado el tablero del sprint. Revisa por favor la columna de pendientes antes de la reunión de las 16:00.
+
+Enlace: https://workspace.company.com/boards/pr02-sprint`,
+          note: 'El dominio coincide con la plataforma usada normalmente por el equipo.'
+        },
+        checklist: ['Verificar si el dominio corresponde a la herramienta interna.', 'Evaluar si la solicitud coincide con actividades normales del equipo.', 'Confirmar que no pide datos sensibles ni credenciales.'],
+        explanation: 'Es legítimo porque el contexto es coherente, la solicitud corresponde al flujo de trabajo normal y el enlace apunta al dominio interno oficial.',
+        signals: ['Canal habitual de trabajo.', 'Acción congruente con tareas normales.', 'No hay presión indebida ni solicitud de datos sensibles.']
+      },
+      {
+        channel: 'Portal web',
+        badge: 'Login',
+        vector: 'Página falsa',
+        difficulty: 'Alta',
+        title: 'Portal clonado de Microsoft 365 para abrir un documento',
+        answer: 'phishing',
+        previewType: 'portal',
+        previewData: {
+          brand: 'Microsoft 365',
+          url: 'https://micr0soft-docs-login-secure.net/open',
+          title: 'Inicia sesión para abrir el documento compartido',
+          subtitle: 'Se requiere autenticación para continuar',
+          note: 'El dominio sustituye la letra o por el número 0 y agrega palabras como secure/login.'
+        },
+        checklist: ['Comparar la URL con la del proveedor real.', 'Detectar typosquatting.', 'Sospechar de portales que imitan branding oficial fuera del dominio legítimo.'],
+        explanation: 'Es phishing porque la página imita a Microsoft 365, pero usa un dominio falsificado para capturar credenciales.',
+        signals: ['Typosquatting en la URL.', 'Uso de marca oficial fuera del dominio real.', 'Solicitud de credenciales para un documento compartido desde sitio no confiable.']
+      },
+      {
+        channel: 'Aplicación MFA',
+        badge: 'Legítimo',
+        vector: 'Autenticación válida',
+        difficulty: 'Media',
+        title: 'Notificación MFA generada por tu propio inicio de sesión',
+        answer: 'legit',
+        previewType: 'auth',
+        previewData: {
+          app: 'SecureID Auth',
+          title: '¿Aprobar inicio de sesión?',
+          rows: [['Ubicación', 'San Luis Potosí, MX'], ['Hora', 'Hace 5 segundos'], ['Método', 'Microsoft 365']],
+          note: 'En este escenario tú acabas de iniciar sesión desde tu laptop y recibes una única solicitud coincidente con tu actividad.'
+        },
+        checklist: ['Relacionar la alerta con una acción que tú mismo acabas de realizar.', 'Revisar ubicación, servicio y momento.', 'Distinguir una solicitud legítima de una fatiga MFA.'],
+        explanation: 'Es legítimo porque coincide con una autenticación que el propio usuario inició, se presenta una sola vez y la ubicación es coherente.',
+        signals: ['Actividad iniciada por el usuario.', 'Una sola notificación.', 'Ubicación y servicio esperados.']
+      },
+      {
+        channel: 'Correo electrónico',
+        badge: 'Adjunto',
+        vector: 'Adjunto malicioso',
+        difficulty: 'Media',
+        title: 'Factura pendiente con archivo comprimido',
+        answer: 'phishing',
+        previewType: 'email',
+        previewData: {
+          app: 'Campus Mail',
+          from: 'Cobranza <facturacion@proveedor-serviciosmail.com>',
+          to: 'compras@empresa.com',
+          subject: 'Último aviso de pago - factura marzo',
+          body: `Buen día.
+
+Adjuntamos la factura pendiente del servicio contratado. Favor de revisar el comprobante y enviar confirmación hoy mismo para evitar recargos.
+
+Adjunto: Factura_Marzo_2026.zip`,
+          cta: 'Descargar adjunto',
+          ctaClass: 'warn',
+          note: 'El archivo comprimido puede ocultar malware o scripts.'
+        },
+        checklist: ['Revisar si esperabas esa factura.', 'Detectar adjuntos ZIP inusuales.', 'Confirmar si el dominio coincide con el proveedor real.'],
+        explanation: 'Es phishing porque usa un adjunto comprimido inesperado y presión por pago urgente, una técnica frecuente para distribuir malware.',
+        signals: ['Adjunto ZIP inesperado.', 'Dominio ambiguo.', 'Presión por recargos y revisión inmediata.']
+      },
+      {
+        channel: 'Documento compartido',
+        badge: 'Legítimo',
+        vector: 'Colaboración en la nube',
+        difficulty: 'Media',
+        title: 'Archivo compartido desde Google Drive con dominio esperado',
+        answer: 'legit',
+        previewType: 'doc',
+        previewData: {
+          app: 'Drive Preview',
+          title: 'Propuesta_Final_PR02.pdf',
+          owner: 'ana.ramirez@campus.edu.mx',
+          url: 'https://drive.google.com/file/d/1abc.../view',
+          note: 'El archivo fue compartido por una compañera con quien ya trabajas y el enlace abre dentro del dominio oficial de Google Drive.'
+        },
+        checklist: ['Confirmar si conoces al remitente y el contexto del archivo.', 'Verificar que el dominio sea el oficial del servicio.', 'Analizar si el acceso pide volver a iniciar sesión en un dominio extraño.'],
+        explanation: 'Es legítimo porque el contexto es esperado, el archivo proviene de una persona conocida y el acceso se realiza en el dominio oficial del servicio.',
+        signals: ['Dominio oficial del servicio.', 'Remitente conocido.', 'No redirige a login no oficial.']
+      },
+      {
+        channel: 'Correo con QR',
+        badge: 'QR',
+        vector: 'Quishing',
+        difficulty: 'Alta',
+        title: 'Escanea para desbloquear tu recibo de nómina',
+        answer: 'phishing',
+        previewType: 'email',
+        previewData: {
+          app: 'Campus Mail',
+          from: 'RRHH Nómina <nomina@rrhh-notify.net>',
+          to: 'empleado@empresa.com',
+          subject: 'Acceso bloqueado a tu comprobante',
+          body: `Estimado colaborador.
+
+No pudimos procesar tu último acceso al portal de nómina. Escanea el código QR adjunto para validar tu identidad y descargar tu recibo.
+
+Este acceso expirará en 30 minutos.
+
+[ QR CODE ]`,
+          note: 'Los códigos QR ocultan la URL final y dificultan la verificación visual.'
+        },
+        checklist: ['Cuestionar por qué se usa QR en lugar del portal habitual.', 'Revisar si el dominio es institucional.', 'Detectar urgencia para saltarse la validación.'],
+        explanation: 'Es quishing: el correo usa un QR para ocultar el destino real y combina urgencia con un dominio no institucional.',
+        signals: ['QR oculta el enlace real.', 'Dominio extraño.', 'Proceso no habitual para consultar nómina.']
+      },
+      {
+        channel: 'Chat interno corporativo',
+        badge: 'Interno',
+        vector: 'Suplantación interna',
+        difficulty: 'Alta',
+        title: 'Solicitud urgente del supuesto director financiero',
+        answer: 'phishing',
+        previewType: 'chat',
+        previewData: {
+          app: 'WorkChat',
+          name: 'Dirección Finanzas',
+          role: 'Cuenta externa sincronizada',
+          status: 'Mensaje directo',
+          message: `Estoy entrando a una reunión y no puedo acceder al servidor. Envíame por aquí la base de proveedores con cuentas bancarias. Hazlo ya y no marques porque voy a entrar a sala.
+
+Sube el archivo en cuanto puedas.`,
+          note: 'Usa autoridad, urgencia y evita deliberadamente la verificación por otro canal.'
+        },
+        checklist: ['Validar identidad por otro medio.', 'Detectar presión por jerarquía y urgencia.', 'Cuestionar el canal para compartir información sensible.'],
+        explanation: 'Es phishing o ingeniería social interna porque intenta obtener información sensible usando autoridad, presión temporal y bloqueo de verificación.',
+        signals: ['Autoridad usada como palanca.', 'Impide confirmar por llamada.', 'Solicita datos sensibles en un canal no aprobado.']
+      }
+    ];
+
+
+    const els = {
+      counter: document.getElementById('scenarioCounter'),
+      vector: document.getElementById('scenarioVector'),
+      difficulty: document.getElementById('scenarioDifficulty'),
+      channel: document.getElementById('scenarioChannel'),
+      title: document.getElementById('scenarioTitle'),
+      badge: document.getElementById('scenarioBadge'),
+      preview: document.getElementById('scenarioPreview'),
+      checklist: document.getElementById('scenarioChecklist'),
+      score: document.getElementById('scoreBox'),
+      progress: document.getElementById('quizProgressBar'),
+      feedbackPanel: document.getElementById('feedbackPanel'),
+      feedbackState: document.getElementById('feedbackState'),
+      feedbackText: document.getElementById('feedbackText'),
+      feedbackSignals: document.getElementById('feedbackSignals'),
+      btnPhishing: document.getElementById('btnPhishing'),
+      btnLegit: document.getElementById('btnLegit'),
+      nextBtn: document.getElementById('nextScenarioBtn'),
+      card: document.getElementById('scenarioCard'),
+      aliasInput: document.getElementById('playerAliasInput'),
+      saveAliasBtn: document.getElementById('saveAliasBtn'),
+      changeAliasBtn: document.getElementById('changeAliasBtn'),
+      aliasStatus: document.getElementById('aliasStatus'),
+      metricParticipants: document.getElementById('metricParticipants'),
+      metricAttempts: document.getElementById('metricAttempts'),
+      metricAverage: document.getElementById('metricAverage'),
+      metricSlowest: document.getElementById('metricSlowest'),
+      metricMissed: document.getElementById('metricMissed'),
+      metricBest: document.getElementById('metricBest'),
+      currentAliasSummary: document.getElementById('currentAliasSummary'),
+      currentAliasAttempts: document.getElementById('currentAliasAttempts'),
+      rankingTableBody: document.getElementById('rankingTableBody'),
+      resetCurrentAliasBtn: document.getElementById('resetCurrentAliasBtn'),
+      resetAllScoresBtn: document.getElementById('resetAllScoresBtn')
+    };
+
+    if (!els.counter) return;
+
+    let index = 0;
+    let score = 0;
+    let locked = false;
+    let scenarioStartedAt = 0;
+    let currentAlias = '';
+    let currentDurations = [];
+    let currentAnswers = [];
+    const originalCard = els.card.innerHTML;
+
+    const remap = () => {
+      els.counter = document.getElementById('scenarioCounter');
+      els.vector = document.getElementById('scenarioVector');
+      els.difficulty = document.getElementById('scenarioDifficulty');
+      els.channel = document.getElementById('scenarioChannel');
+      els.title = document.getElementById('scenarioTitle');
+      els.badge = document.getElementById('scenarioBadge');
+      els.preview = document.getElementById('scenarioPreview');
+      els.checklist = document.getElementById('scenarioChecklist');
+      els.score = document.getElementById('scoreBox');
+      els.progress = document.getElementById('quizProgressBar');
+      els.feedbackPanel = document.getElementById('feedbackPanel');
+      els.feedbackState = document.getElementById('feedbackState');
+      els.feedbackText = document.getElementById('feedbackText');
+      els.feedbackSignals = document.getElementById('feedbackSignals');
+      els.btnPhishing = document.getElementById('btnPhishing');
+      els.btnLegit = document.getElementById('btnLegit');
+      els.nextBtn = document.getElementById('nextScenarioBtn');
+      els.card = document.getElementById('scenarioCard');
+    };
+
+    const sanitizeAlias = (value) => value.trim().replace(/\s+/g, ' ').replace(/[^a-zA-Z0-9_\- ]/g, '').slice(0, 24);
+    const loadStore = () => {
+      try {
+        const raw = localStorage.getItem(STORAGE_KEY);
+        const parsed = raw ? JSON.parse(raw) : {};
+        return { attempts: Array.isArray(parsed.attempts) ? parsed.attempts : [], currentAlias: typeof parsed.currentAlias === 'string' ? parsed.currentAlias : '' };
+      } catch {
+        return { attempts: [], currentAlias: '' };
+      }
+    };
+    const saveStore = (store) => localStorage.setItem(STORAGE_KEY, JSON.stringify(store));
+    const getStore = () => loadStore();
+    const getAliasAttempts = (alias) => !alias ? [] : getStore().attempts.filter(item => item.alias.toLowerCase() === alias.toLowerCase());
+    const getRemainingAttempts = (alias) => MAX_ATTEMPTS_PER_ALIAS - getAliasAttempts(alias).length;
+    const formatSeconds = (seconds) => `${Math.max(0, Math.round(seconds || 0))}s`;
+    const getLevel = (value) => value >= 90 ? 'Excelente' : value >= 70 ? 'Bueno' : value >= 50 ? 'Regular' : 'Insuficiente';
+    const getInterpretation = (value) => value >= 90 ? 'Tu reconocimiento de señales de phishing es sólido y consistente. Demuestras criterio fuerte para identificar riesgos.' : value >= 70 ? 'Identificas la mayoría de señales correctamente, aunque algunos escenarios sofisticados todavía pueden mejorar tu análisis.' : value >= 50 ? 'Reconoces algunas señales relevantes, pero necesitas practicar más para detectar campañas más convincentes.' : 'Necesitas reforzar tu capacidad para identificar señales de ingeniería social y verificar antes de actuar.';
+    const updateScore = () => { els.score.textContent = `Puntaje actual: ${score} / 100`; };
+    const updateAliasStatus = (message, variant = '') => {
+      if (!els.aliasStatus) return;
+      els.aliasStatus.textContent = message;
+      els.aliasStatus.className = `status-line${variant ? ` ${variant}` : ''}`;
+    };
+
+    const refreshCurrentAlias = () => {
+      const store = getStore();
+      currentAlias = store.currentAlias || '';
+      if (els.aliasInput) els.aliasInput.value = currentAlias;
+      const remaining = currentAlias ? getRemainingAttempts(currentAlias) : MAX_ATTEMPTS_PER_ALIAS;
+      if (!currentAlias) updateAliasStatus('Alias actual: sin registrar.');
+      else if (remaining <= 0) updateAliasStatus(`Alias actual: ${currentAlias} · intentos agotados (${MAX_ATTEMPTS_PER_ALIAS}/${MAX_ATTEMPTS_PER_ALIAS}).`, 'warn');
+      else updateAliasStatus(`Alias actual: ${currentAlias} · intentos restantes: ${remaining} de ${MAX_ATTEMPTS_PER_ALIAS}.`, 'ok');
+    };
+
+    const getScenarioStats = (attempts) => {
+      const stats = scenarios.map((scenario, idx) => ({ title: scenario.title, totalTime: 0, countTime: 0, wrong: 0, appearances: 0, avgTime: 0, wrongRate: 0, index: idx }));
+      attempts.forEach((attempt) => {
+        (attempt.scenarioDetails || []).forEach((detail, idx) => {
+          if (!stats[idx]) return;
+          stats[idx].appearances += 1;
+          const duration = Number(detail.durationSec || 0);
+          if (duration > 0) { stats[idx].totalTime += duration; stats[idx].countTime += 1; }
+          if (!detail.correct) stats[idx].wrong += 1;
+        });
+      });
+      stats.forEach((item) => { item.avgTime = item.countTime ? item.totalTime / item.countTime : 0; item.wrongRate = item.appearances ? item.wrong / item.appearances : 0; });
+      return stats;
+    };
+
+    const syncQuizAvailability = () => {
+      const hasAlias = Boolean(currentAlias);
+      const remaining = hasAlias ? getRemainingAttempts(currentAlias) : 0;
+      const blocked = !hasAlias || remaining <= 0;
+      if (els.btnPhishing) els.btnPhishing.disabled = blocked || locked;
+      if (els.btnLegit) els.btnLegit.disabled = blocked || locked;
+      if (!hasAlias) els.score.textContent = 'Puntaje actual: 0 / 100 · registra un alias para iniciar';
+      else if (remaining <= 0) els.score.textContent = `Puntaje actual: ${score} / 100 · intentos agotados para ${currentAlias}`;
+    };
+
+    const renderDashboard = () => {
+      const store = getStore();
+      const attempts = store.attempts || [];
+      const uniqueAliases = [...new Set(attempts.map(item => item.alias.toLowerCase()))];
+      const globalAverage = attempts.length ? Math.round(attempts.reduce((sum, item) => sum + Number(item.score || 0), 0) / attempts.length) : 0;
+      const scenarioStats = getScenarioStats(attempts);
+      const slowest = scenarioStats.filter(item => item.countTime > 0).sort((a, b) => b.avgTime - a.avgTime)[0];
+      const missed = scenarioStats.filter(item => item.appearances > 0).sort((a, b) => b.wrongRate - a.wrongRate || b.wrong - a.wrong)[0];
+      const bestAttempt = [...attempts].sort((a, b) => b.score - a.score || a.totalTimeSec - b.totalTimeSec)[0];
+      els.metricParticipants.textContent = uniqueAliases.length;
+      els.metricAttempts.textContent = attempts.length;
+      els.metricAverage.textContent = `${globalAverage} / 100`;
+      els.metricSlowest.textContent = slowest ? `${slowest.title} · ${formatSeconds(slowest.avgTime)} prom.` : 'Sin datos';
+      els.metricMissed.textContent = missed && missed.appearances ? `${missed.title} · ${Math.round(missed.wrongRate * 100)}% fallos` : 'Sin datos';
+      els.metricBest.textContent = bestAttempt ? `${bestAttempt.alias} · ${bestAttempt.score}/100` : 'Sin datos';
+
+      const aliasAttempts = currentAlias ? getAliasAttempts(currentAlias).sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)) : [];
+      if (!currentAlias) els.currentAliasSummary.textContent = 'No hay alias activo. Registra uno para habilitar el guardado del score individual y del ranking.';
+      else if (!aliasAttempts.length) els.currentAliasSummary.textContent = `Alias activo: ${currentAlias}. Aún no hay intentos guardados.`;
+      else {
+        const best = [...aliasAttempts].sort((a, b) => b.score - a.score || a.totalTimeSec - b.totalTimeSec)[0];
+        const personalAverage = Math.round(aliasAttempts.reduce((sum, item) => sum + item.score, 0) / aliasAttempts.length);
+        const personalSlowest = getScenarioStats(aliasAttempts).filter(item => item.countTime > 0).sort((a, b) => b.avgTime - a.avgTime)[0];
+        els.currentAliasSummary.textContent = `Alias activo: ${currentAlias} · mejor puntaje: ${best.score}/100 · promedio: ${personalAverage}/100 · intentos usados: ${aliasAttempts.length}/${MAX_ATTEMPTS_PER_ALIAS}${personalSlowest ? ` · escenario más tardado: ${personalSlowest.title}` : ''}`;
+      }
+
+      els.currentAliasAttempts.innerHTML = !aliasAttempts.length
+        ? '<div class="empty-state">Aún no hay intentos para este alias.</div>'
+        : aliasAttempts.map((item, idx) => `<div class="attempt-item"><strong>Intento ${aliasAttempts.length - idx}</strong><div><span class="pill-inline">Score: ${item.score}/100</span><span class="pill-inline">Nivel: ${getLevel(item.score)}</span><span class="pill-inline">Tiempo total: ${formatSeconds(item.totalTimeSec)}</span></div><div class="mini-note">${new Date(item.createdAt).toLocaleString('es-MX')}</div></div>`).join('');
+
+      const bestByAliasMap = new Map();
+      attempts.forEach((attempt) => {
+        const key = attempt.alias.toLowerCase();
+        const existing = bestByAliasMap.get(key);
+        if (!existing || attempt.score > existing.score || (attempt.score === existing.score && attempt.totalTimeSec < existing.totalTimeSec)) bestByAliasMap.set(key, attempt);
+      });
+      const ranking = [...bestByAliasMap.values()].sort((a, b) => b.score - a.score || a.totalTimeSec - b.totalTimeSec || new Date(a.createdAt) - new Date(b.createdAt));
+      els.rankingTableBody.innerHTML = !ranking.length
+        ? '<tr><td colspan="6"><div class="empty-state">Todavía no hay resultados guardados.</div></td></tr>'
+        : ranking.map((item, idx) => {
+            const count = getAliasAttempts(item.alias).length;
+            const slowestDetail = [...(item.scenarioDetails || [])].sort((a, b) => (b.durationSec || 0) - (a.durationSec || 0))[0];
+            return `<tr><td><span class="rank-badge">#${idx + 1}</span></td><td>${item.alias}</td><td>${item.score} / 100</td><td>${formatSeconds(item.totalTimeSec)}</td><td>${count}</td><td>${slowestDetail ? `${slowestDetail.title} · ${formatSeconds(slowestDetail.durationSec)}` : 'Sin datos'}</td></tr>`;
+          }).join('');
+      refreshCurrentAlias();
+      syncQuizAvailability();
+    };
+
+    const saveAlias = () => {
+      const alias = sanitizeAlias(els.aliasInput.value);
+      if (!alias) return updateAliasStatus('Ingresa un alias válido de hasta 24 caracteres para continuar.', 'warn');
+      const store = getStore();
+      store.currentAlias = alias;
+      saveStore(store);
+      currentAlias = alias;
+      els.aliasInput.value = alias;
+      renderDashboard();
+    };
+
+    const clearCurrentAliasAttempts = () => {
+      if (!currentAlias) return updateAliasStatus('No hay alias activo para borrar intentos.', 'warn');
+      const store = getStore();
+      store.attempts = store.attempts.filter(item => item.alias.toLowerCase() !== currentAlias.toLowerCase());
+      saveStore(store);
+      renderDashboard();
+      resetQuiz(true);
+    };
+
+    const clearAllAttempts = () => {
+      localStorage.removeItem(STORAGE_KEY);
+      currentAlias = '';
+      renderDashboard();
+      resetQuiz(true);
+    };
+
+    const renderPreview = (item) => {
+      const d = item.previewData || {};
+      if (item.previewType === 'email') return `<div class="preview-shell"><div class="preview-top"><span>${d.app || 'Mail'}</span><span>${item.answer === 'phishing' ? 'Revisar con cuidado' : 'Comunicación habitual'}</span></div><div class="preview-body mail-card"><div class="mail-head"><div class="mail-line"><div class="mail-key">De</div><div class="mail-value">${d.from || ''}</div></div><div class="mail-line"><div class="mail-key">Para</div><div class="mail-value">${d.to || ''}</div></div><div class="mail-line"><div class="mail-key">Asunto</div><div class="mail-value"><div class="mail-subjectline">${d.subject || ''}</div></div></div></div><div class="message-preview">${(d.body || '').replace(/\n/g, '<br>')}</div>${d.cta ? `<div class="mail-actions"><span class="ui-btn ${d.ctaClass || ''}">${d.cta}</span></div>` : ''}${d.note ? `<div class="preview-caption">${d.note}</div>` : ''}</div></div>`;
+      if (item.previewType === 'sms') return `<div class="preview-shell"><div class="preview-top"><span>${d.app || 'Mensajes'}</span><span>${d.sender || ''}</span></div><div class="preview-body"><div class="sms-thread">${(d.bubbles || []).map(b => `<div class="sms-bubble ${b.side === 'out' ? 'out' : ''}">${b.text}</div>`).join('')}</div>${d.note ? `<div class="preview-caption">${d.note}</div>` : ''}</div></div>`;
+      if (item.previewType === 'portal') return `<div class="preview-shell portal-shell"><div class="portal-brand"><div class="portal-logo">M</div><div>${d.brand || ''}</div></div><div class="portal-card"><div class="portal-url">🔗 ${d.url || ''}</div><h5 style="margin:.1rem 0 .35rem;font-size:1.02rem;color:#fff;">${d.title || ''}</h5><p style="margin:0;color:#cbd5e1;line-height:1.6;">${d.subtitle || ''}</p><div class="field"><label>Correo electrónico</label><input type="text" value="usuario@empresa.com" readonly></div><div class="field"><label>Contraseña</label><input type="password" value="********" readonly></div><div class="mail-actions" style="margin-top:1rem;"><span class="ui-btn">Iniciar sesión</span></div>${d.note ? `<div class="portal-note">${d.note}</div>` : ''}</div></div>`;
+      if (item.previewType === 'chat') return `<div class="preview-shell"><div class="preview-top"><span>${d.app || 'Chat'}</span><span>${d.status || ''}</span></div><div class="chat-app"><div class="chat-sidebar"><div class="chat-sidepill">General</div><div class="chat-sidepill">Proyectos</div><div class="chat-sidepill">Dirección</div></div><div class="chat-main"><div class="chat-head"><div style="display:flex;align-items:center;gap:.8rem;"><div class="avatar">${(d.name || '?').charAt(0)}</div><div><div style="font-weight:900;color:#fff;">${d.name || ''}</div><div class="chat-tag">${d.role || ''}</div></div></div><div class="chat-tag">Ahora</div></div><div class="chat-msg">${(d.message || '').replace(/\n/g, '<br>')}</div>${d.note ? `<div class="preview-caption">${d.note}</div>` : ''}</div></div></div>`;
+      if (item.previewType === 'auth') return `<div class="preview-shell"><div class="preview-top"><span>${d.app || 'Authenticator'}</span><span>Solicitud de acceso</span></div><div class="preview-body"><div class="auth-card"><span class="auth-badge">✔ Solicitud recibida</span><h5 style="margin:0;font-size:1.02rem;color:#fff;">${d.title || ''}</h5>${(d.rows || []).map(r => `<div class="auth-row"><span>${r[0]}</span><strong>${r[1]}</strong></div>`).join('')}<div class="auth-actions"><span class="ui-btn alt">Aprobar</span><span class="ui-btn warn">Denegar</span></div>${d.note ? `<div class="preview-caption">${d.note}</div>` : ''}</div></div></div>`;
+      if (item.previewType === 'doc') return `<div class="preview-shell"><div class="preview-top"><span>${d.app || 'Drive'}</span><span>${d.url || ''}</span></div><div class="preview-body doc-preview"><div class="doc-toolbar"><strong style="color:#fff;">${d.title || ''}</strong><span class="chat-tag">Propietario: ${d.owner || ''}</span></div><div class="doc-sheet"><div class="doc-line w-80"></div><div class="doc-line w-60"></div><div class="doc-line"></div><div class="doc-line w-40"></div><div class="mail-actions"><span class="ui-btn alt">Abrir documento</span></div></div>${d.note ? `<div class="preview-caption">${d.note}</div>` : ''}</div></div>`;
+      return '<div class="message-preview">Vista previa no disponible.</div>';
+    };
+
+    const renderScenario = () => {
+      const item = scenarios[index];
+      els.counter.textContent = `Escenario ${index + 1} de ${scenarios.length}`;
+      els.vector.textContent = `Vector: ${item.vector}`;
+      els.difficulty.textContent = `Dificultad: ${item.difficulty}`;
+      els.channel.textContent = item.channel;
+      els.title.textContent = item.title;
+      els.badge.textContent = item.badge;
+      els.preview.innerHTML = renderPreview(item);
+      els.checklist.innerHTML = item.checklist.map(point => `<li>${point}</li>`).join('');
+      els.feedbackPanel.hidden = true;
+      locked = false;
+      els.progress.style.width = `${Math.max((index / scenarios.length) * 100, 10)}%`;
+      scenarioStartedAt = Date.now();
+      updateScore();
+      syncQuizAvailability();
+    };
+
+    const answerScenario = (userAnswer) => {
+      if (locked) return;
+      if (!currentAlias) return updateAliasStatus('Debes registrar un alias antes de responder el quiz.', 'warn');
+      if (getRemainingAttempts(currentAlias) <= 0) {
+        updateAliasStatus(`El alias ${currentAlias} ya alcanzó el máximo de ${MAX_ATTEMPTS_PER_ALIAS} intentos.`, 'warn');
+        return syncQuizAvailability();
+      }
+      locked = true;
+      const item = scenarios[index];
+      const ok = userAnswer === item.answer;
+      const durationSec = Math.max(1, Math.round((Date.now() - scenarioStartedAt) / 1000));
+      currentDurations[index] = durationSec;
+      currentAnswers[index] = { userAnswer, correct: ok };
+      if (ok) score += 10;
+      updateScore();
+      els.feedbackState.textContent = ok ? 'Respuesta correcta' : 'Respuesta incorrecta';
+      els.feedbackState.className = `feedback-state ${ok ? 'is-ok' : 'is-bad'}`;
+      els.feedbackText.textContent = `${item.explanation} Tiempo de análisis: ${formatSeconds(durationSec)}.`;
+      els.feedbackSignals.innerHTML = item.signals.map(signal => `<li>${signal}</li>`).join('');
+      els.feedbackPanel.hidden = false;
+      if (els.btnPhishing) els.btnPhishing.disabled = true;
+      if (els.btnLegit) els.btnLegit.disabled = true;
+      els.progress.style.width = `${((index + 1) / scenarios.length) * 100}%`;
+      els.nextBtn.textContent = index === scenarios.length - 1 ? 'Ver resultado final' : 'Siguiente escenario';
+    };
+
+    const buildAttemptPayload = () => {
+      const scenarioDetails = scenarios.map((scenario, idx) => ({ title: scenario.title, durationSec: Number(currentDurations[idx] || 0), correct: Boolean(currentAnswers[idx] && currentAnswers[idx].correct), expected: scenario.answer, userAnswer: currentAnswers[idx] ? currentAnswers[idx].userAnswer : '' }));
+      const totalTimeSec = scenarioDetails.reduce((sum, item) => sum + Number(item.durationSec || 0), 0);
+      const wrongCount = scenarioDetails.filter(item => !item.correct).length;
+      return { alias: currentAlias, score, level: getLevel(score), totalTimeSec, wrongCount, createdAt: new Date().toISOString(), scenarioDetails };
+    };
+
+    const saveAttempt = (attempt) => {
+      const store = getStore();
+      store.attempts.push(attempt);
+      store.currentAlias = currentAlias;
+      saveStore(store);
+      renderDashboard();
+    };
+
+    const showResult = () => {
+      const level = getLevel(score);
+      const interpretation = getInterpretation(score);
+      const attempt = buildAttemptPayload();
+      const slowest = [...attempt.scenarioDetails].sort((a, b) => b.durationSec - a.durationSec)[0];
+      const alreadySaved = getAliasAttempts(currentAlias).length >= MAX_ATTEMPTS_PER_ALIAS;
+      let savedNow = false;
+      if (!alreadySaved) { saveAttempt(attempt); savedNow = true; }
+      const remainingAfterSave = getRemainingAttempts(currentAlias);
+      els.card.innerHTML = `<div class="quiz-result"><div class="quiz-result__top"><div><p class="quiz-kicker">Resultado final</p><h3 class="quiz-title">Evaluación individual completada</h3></div><div class="quiz-result__score">Puntaje final: ${score} / 100</div></div><p><strong>Alias:</strong> ${currentAlias || 'Sin alias'}</p><p><strong>Nivel obtenido:</strong> ${level}</p><p>${interpretation}</p><p><strong>Análisis básico:</strong> tiempo total ${formatSeconds(attempt.totalTimeSec)}, errores ${attempt.wrongCount} de ${scenarios.length}, escenario más tardado: ${slowest ? `${slowest.title} (${formatSeconds(slowest.durationSec)})` : 'Sin datos'}.</p><p><strong>Conclusión formativa:</strong> el resultado permite identificar el nivel de reconocimiento de amenazas y sirve como base para reforzar hábitos como revisar dominios, validar solicitudes inusuales, no confiar en la urgencia artificial y confirmar acciones sensibles por canales oficiales.</p><div class="feedback-signals"><h5>Buenas prácticas reforzadas por el quiz</h5><ul><li>Verificar siempre el dominio y el remitente.</li><li>No entregar credenciales en enlaces recibidos por correo, SMS o mensajes directos.</li><li>Evitar abrir adjuntos inesperados o escanear códigos QR no verificados.</li><li>Confirmar solicitudes urgentes por un segundo canal confiable.</li><li>Reportar actividad sospechosa al área correspondiente.</li></ul></div><div class="status-line ${savedNow ? 'ok' : 'warn'}">${savedNow ? `Resultado guardado para ${currentAlias}. Intentos restantes: ${remainingAfterSave}.` : `No se guardó un nuevo resultado porque el alias ${currentAlias} ya agotó sus intentos permitidos.`}</div><button class="btn btn-primary" id="restartQuizBtn" type="button" ${remainingAfterSave <= 0 ? 'disabled' : ''}>Reiniciar quiz</button></div>`;
+      document.getElementById('restartQuizBtn')?.addEventListener('click', () => resetQuiz(false));
+    };
+
+    const resetQuiz = () => {
+      index = 0;
+      score = 0;
+      locked = false;
+      currentDurations = [];
+      currentAnswers = [];
+      els.card.innerHTML = originalCard;
+      remap();
+      bindQuiz();
+      renderScenario();
+    };
+
+    const bindQuiz = () => {
+      els.btnPhishing?.addEventListener('click', () => answerScenario('phishing'));
+      els.btnLegit?.addEventListener('click', () => answerScenario('legit'));
+      els.nextBtn?.addEventListener('click', () => {
+        if (!locked) return;
+        if (index === scenarios.length - 1) return showResult();
+        index += 1;
+        renderScenario();
+      });
+    };
+
+    els.saveAliasBtn?.addEventListener('click', saveAlias);
+    els.changeAliasBtn?.addEventListener('click', () => { els.aliasInput?.focus(); els.aliasInput?.select(); });
+    els.aliasInput?.addEventListener('keydown', (event) => { if (event.key === 'Enter') saveAlias(); });
+    els.resetCurrentAliasBtn?.addEventListener('click', clearCurrentAliasAttempts);
+    els.resetAllScoresBtn?.addEventListener('click', clearAllAttempts);
+
+    bindQuiz();
+    refreshCurrentAlias();
+    renderDashboard();
+    renderScenario();
+  })();
+</script>
+</script>
 
 </body>
 </html>
