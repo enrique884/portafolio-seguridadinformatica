@@ -420,3 +420,165 @@ initHallOfFameDropdown();
   initExportToPDF();   // si alguna página usa .js-export-pdf + html2pdf
   initDownloadPDF();   // descarga directa con .js-download-pdf
 });
+// =========================================================================
+// MÓDULO: PD05 - VISOR E INTERACCIÓN DE CERTIFICACIONES (7 PESTAÑAS)
+// =========================================================================
+
+const CERTIFICACIONES_DATA = [
+  {
+    id: 1,
+    pestaña: "Introducción a la ciberseguridad",
+    titulo: "Certification in Cybersecurity Fundamentals",
+    tag: "1. Introducción",
+    pdf: "assets/docs/cert-introduccion.pdf",
+    badge: '<i class="fas fa-user-shield" style="font-size: 5rem; color: var(--primary); filter: drop-shadow(0 0 10px var(--primary));"></i><p style="font-family:var(--font-tech); margin-top:1rem; font-size:0.8rem;">CYBER_INTRO_SECURE</p>',
+    reseña: "El análisis crítico de esta certificación inicial me permitió asentar las bases fundamentales de la seguridad de la información, migrando de un enfoque meramente técnico a una visión estratégica de la protección de activos de TI. A lo largo de este módulo de formación, se profundizaron conceptos esenciales como la tríada CIA (Confidencialidad, Integridad y Disponibilidad), los marcos normativos de gestión integral de riesgos y las arquitecturas de políticas para el control de accesos. Lo más enriquecedor a nivel profesional fue comprender que la seguridad informática no recae exclusivamente en los perímetros tecnológicos o cortafuegos físicos, sino en una simbiosis estrecha con el factor humano y los procesos operativos organizacionales. Esta certificación actúa como el núcleo introductorio de mi portafolio digital, dotándome del lenguaje estándar indispensable para interactuar con marcos de trabajo corporativos. El reto principal radicó en asimilar la densidad de políticas de cumplimiento y gobernanza, un área abstracta para un perfil puramente técnico, pero cuya comprensión completa es vital para mitigar vectores de ataque antes de que ocurra una intrusión real. En mi formación académica como estudiante de ingeniería, este logro marca un hito de formalización conceptual, permitiéndome abordar las subsecuentes capas de infraestructura de red y auditoría forense bajo una mentalidad orientada enteramente a la prevención, la resiliencia empresarial y el diseño de entornos seguros."
+  },
+  {
+    id: 2,
+    pestaña: "Conceptos básicos de redes",
+    titulo: "Networking Security Essentials",
+    tag: "2. Redes",
+    pdf: "assets/docs/cert-redes.pdf",
+    badge: '<i class="fas fa-network-wired" style="font-size: 5rem; color: var(--secondary); filter: drop-shadow(0 0 10px var(--secondary));"></i><p style="font-family:var(--font-tech); margin-top:1rem; font-size:0.8rem;">NET_SECURITY_CORE</p>',
+    reseña: "Esta certificación enfocada en redes proporcionó el andamiaje técnico fundamental necesario para comprender rigurosamente cómo viajan los datos a través de una infraestructura distribuida y, de manera crucial, cómo pueden ser interceptados, manipulados o alterados en tránsito por agentes maliciosos. El análisis académico abarcó desde las capas del modelo OSI y la pila TCP/IP, hasta el comportamiento e interconexión intrínseca de protocolos críticos como DNS, DHCP, HTTP y sus extensiones cifradas. Profesionalmente, la asimilación de estos conceptos transforma por completo la visión que poseo de la infraestructura: cada trama y paquete de red pasa de ser un mero flujo de datos automatizado a un vector potencial de análisis forense o explotación mediante técnicas de sniffing o spoofing. El verdadero reto del curso fue dominar el desglose microscópico de las cabeceras de red para identificar anomalías operativas. El impacto en mi formación académica es directo y contundente, pues resulta imposible defender una infraestructura informática que no se comprende a nivel de bits. Las lecciones de ciberseguridad empresarial extraídas demuestran que una arquitectura de red mal diseñada es el origen de brechas catastróficas. Gracias a esta instrucción, el mapeo de servicios de comunicación se realiza bajo metodologías estructuradas, permitiéndome proyectar soluciones de conectividad robustas que integran la seguridad informática desde su fase de diseño físico y lógico inicial."
+  },
+  {
+    id: 3,
+    pestaña: "Dispositivos de red y config. inicial",
+    titulo: "Switching & Routing Hardening Certification",
+    tag: "3. Configuración Inicial",
+    pdf: "assets/docs/cert-dispositivos.pdf",
+    badge: '<i class="fas fa-server" style="font-size: 5rem; color: var(--warning); filter: drop-shadow(0 0 10px var(--warning));"></i><p style="font-family:var(--font-tech); margin-top:1rem; font-size:0.8rem;">ROUTER_HARDENING_LAB</p>',
+    reseña: "Centrada firmemente en la aplicación práctica, esta certificación validó mis habilidades operativas en el aprovisionamiento, despliegue y hardening técnico de dispositivos de interconexión fundamentales como switches y routers corporativos. La experiencia abarcó desde el establecimiento de contraseñas con algoritmos de cifrado robustos y la deshabilitación completa de servicios inseguros o innecesarios (como Telnet o administración HTTP sin TLS), hasta la segmentación estricta de tráfico mediante redes locales virtuales (VLANs). El impacto profesional de este aprendizaje es inmediato: la configuración de fábrica de cualquier dispositivo de red es, por defecto, una vulnerabilidad crítica esperando ser explotada por un atacante. El mayor desafío técnico consistió en asegurar que las configuraciones de mitigación perimetral no interfirieran con el rendimiento de la red ni causaran cuellos de botella en la disponibilidad del negocio. Académicamente, esta competencia consolida mi capacidad para traducir directrices de seguridad abstractas en líneas de comandos reales dentro de entornos CLI. Al dominar la configuración inicial y el robustecimiento de dispositivos de comunicación, adquiero las bases para mitigar de raíz ataques de capa 2 y garantizar que la primera línea de defensa perimetral permanezca inalterable ante intentos de intrusión local o remota en la red organizacional."
+  },
+  {
+    id: 4,
+    pestaña: "Seguridad en terminales",
+    titulo: "Endpoint Security & Host Hardening",
+    tag: "4. Terminales",
+    pdf: "assets/docs/cert-terminales.pdf",
+    badge: '<i class="fas fa-laptop-code" style="font-size: 5rem; color: var(--danger); filter: drop-shadow(0 0 10px var(--danger));"></i><p style="font-family:var(--font-tech); margin-top:1rem; font-size:0.8rem;">ENDPOINT_DEFENSE_SYS</p>',
+    reseña: "La protección y defensa de endpoints o estaciones finales representa uno de los frentes más críticos y complejos en la actualidad corporativa debido al auge global del trabajo remoto y los entornos descentralizados. Esta certificación abordó en profundidad las estrategias esenciales de robustecimiento de sistemas operativos, despliegue administrado de soluciones EDR y antivirus avanzados, control estricto de parches y auditoría automatizada de políticas locales. A través de un análisis crítico del entorno de ejecución, logré comprender cómo los atacantes explotan la falta de hardening en estaciones de trabajo comunes para ganar un acceso inicial y, posteriormente, iniciar movimientos laterales dentro de los servidores de la organización. El reto principal en este módulo radicó en balancear de forma óptima la rigidez de las directivas de seguridad locales con la usabilidad indispensable para que los colaboradores desempeñen sus funciones cotidianas sin fricciones operativas. A nivel profesional y académico, aprender a interpretar la telemetría interna de una terminal y centralizar los registros de logs incrementa exponencialmente mi capacidad analítica para la respuesta a incidentes. Esta formación complementa perfectamente mis estudios de ingeniería en sistemas, proporcionándome un enfoque de defensa en profundidad donde cada host se transforma en un nodo fortificado capaz de resistir malware."
+  },
+  {
+    id: 5,
+    pestaña: "Administración de amenazas cibernéticas",
+    titulo: "Cyber Threat Management & Incident Response",
+    tag: "5. Amenazas",
+    pdf: "assets/docs/cert-amenazas.pdf",
+    badge: '<i class="fas fa-shield-virus" style="font-size: 5rem; color: var(--success); filter: drop-shadow(0 0 10px var(--success));"></i><p style="font-family:var(--font-tech); margin-top:1rem; font-size:0.8rem;">THREAT_INTEL_SOC</p>',
+    reseña: "Esta certificación de nivel avanzado me introdujo formalmente en el panorama del análisis estructurado de amenazas modernas, metodologías de ataque dirigidas e inteligencia de ciberamenazas (Cyber Threat Intelligence). Durante el plan formativo, se exploraron y aplicaron taxonomías globales de la industria como la matriz MITRE ATT&CK y el modelo Cyber Kill Chain para desglosar detalladamente el comportamiento de las amenazas persistentes avanzadas (APTs) y campañas de ransomware organizado. Lo más valioso para mi desarrollo profesional fue adoptar un enfoque proactivo de ciberdefensa: comprender que los indicadores de compromiso (IoCs) constituyen huellas digitales invaluables para neutralizar un ataque informático en sus fases de reconocimiento o entrega. El desafío crítico durante esta preparación fue procesar grandes volúmenes de alertas para discernir falsos positivos de intrusiones reales bajo escenarios de alta presión simulada en tiempo real. Académicamente, este hito expande mi visión de la seguridad hacia la gestión estratégica de un SOC (Security Operations Center) y la orquestación de planes de respuesta. Me capacita no solo para reaccionar ante fallos defensivos, sino para modelar perfiles de amenazas específicos, garantizando la resiliencia corporativa basada en datos de ingeniería rigurosos."
+  },
+  {
+    id: 6,
+    pestaña: "Carrera Profesional de Analista Junior en Ciberseguridad",
+    titulo: "Junior Cybersecurity Analyst Career Path",
+    tag: "6. Perfil Profesional",
+    pdf: "assets/docs/cert-analista.pdf",
+    badge: '<i class="fas fa-user-ninja" style="font-size: 5rem; color: #a29bfe; filter: drop-shadow(0 0 10px #a29bfe);"></i><p style="font-family:var(--font-tech); margin-top:1rem; font-size:0.8rem;">JR_ANALYST_PATH</p>',
+    reseña: "Esta trayectoria de certificación profesional unificó e integró de forma completa y global las competencias técnicas, metodológicas y blandas requeridas para desempeñarse formalmente como un Analista Junior dentro de un equipo de ciberdefensa corporativa. El programa consolidó conocimientos transversales de auditoría, monitoreo continuo de eventos, triaje de vulnerabilidades y la elaboración estructurada de informes técnicos ejecutivos. El análisis reflexivo de esta ruta me permitió asimilar la inmensa responsabilidad ética, civil y legal que conlleva el manejo diario de datos sensibles, información confidencial e infraestructura crítica de terceros. El principal reto de este bloque formativo fue desarrollar habilidades avanzadas de comunicación técnica: aprender a traducir vulnerabilidades complejas de criticidad alta (como inyecciones SQL o ejecuciones remotas de código) en términos de impacto financiero, reputacional y operativo comprensibles para las juntas directivas y gerenciales. Académicamente, representa la culminación integradora de mis semestres de estudio, transformando conocimientos técnicos aislados en un perfil profesional unificado, metódico y competitivo para el mercado laboral, caracterizado por el orden, la responsabilidad y el rigor."
+  },
+  {
+    id: 7,
+    pestaña: "Hacker ético",
+    titulo: "Certified Ethical Hacker (CEH) - Academic Foundations",
+    tag: "7. Hacker Ético",
+    pdf: "assets/docs/cert-hacking.pdf",
+    badge: '<i class="fas fa-mask" style="font-size: 5rem; color: #ff7675; filter: drop-shadow(0 0 10px #ff7675);"></i><p style="font-family:var(--font-tech); margin-top:1rem; font-size:0.8rem;">ETHICAL_HACKER_FOUND</p>',
+    reseña: "Pensar y actuar como el adversario es la premisa fundamental sobre la cual se estructuró esta certificación avanzada en hacking ético y pruebas de penetración. A lo largo de los laboratorios controlados, se replicaron detalladamente cada una de las fases tácticas de un ataque informático real: reconocimiento activo/pasivo, escaneo de vulnerabilidades expuestas, ganancia de acceso remoto, mantenimiento de la persistencia en el sistema y el borrado meticuloso de huellas y logs. Profesionalmente, esta instrucción transforma drásticamente mi perspectiva de la seguridad, pues me capacita para auditar proactivamente sistemas informáticos mediante simulaciones de intrusión ofensiva antes de que un actor malicioso real descubra y explote dichas fallas. El desafío más complejo fue de índole técnica y ética: dominar suites de herramientas avanzadas (como Nmap, Burp Suite y Metasploit) manteniéndose estrictamente dentro de los límites de los alcances legales establecidos en los contratos de auditoría. El impacto de este logro en mi portafolio demuestra una comprensión profunda de las debilidades del software. Este conocimiento corona de manera excelente la materia de Seguridad Informática, alineando destrezas operativas con estándares internacionales."
+  }
+];
+
+function initCertificacionesViewer() {
+  const viewer = document.getElementById('certificacionesViewer');
+  if (!viewer) return; // Si no estamos en la página de certificaciones, salimos pacíficamente
+
+  const titleEl = document.getElementById('certTitle');
+  const tagEl = document.getElementById('certTag');
+  const counterEl = document.getElementById('certCounter');
+  const evidenceEl = document.getElementById('certEvidence');
+  const reflectionEl = document.getElementById('certReflection');
+  const badgeContainer = document.getElementById('badgeContainer');
+  
+  const prevBtn = document.getElementById('certPrevBtn');
+  const nextBtn = document.getElementById('certNextBtn');
+  const thumbsContainer = document.getElementById('certThumbs');
+
+  let currentIndex = 0;
+
+  // Generar pestañas/miniaturas inferiores de forma dinámica
+  thumbsContainer.innerHTML = '';
+  CERTIFICACIONES_DATA.forEach((cert, index) => {
+    const thumb = document.createElement('button');
+    thumb.className = `lab-thumb ${index === 0 ? 'active' : ''}`;
+    thumb.type = 'button';
+    thumb.style.padding = '0.75rem';
+    thumb.style.color = 'var(--text-primary)';
+    thumb.style.display = 'flex';
+    thumb.style.flexDirection = 'column';
+    thumb.style.alignItems = 'center';
+    thumb.style.gap = '0.25rem';
+    
+    thumb.innerHTML = `
+      <span style="font-family:var(--font-code); font-size:0.75rem; color:var(--primary); font-weight:bold;">MOD-0${cert.id}</span>
+      <span style="font-size:0.65rem; text-align:center; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; line-height:1.2;">${cert.pestaña}</span>
+    `;
+
+    thumb.addEventListener('click', () => {
+      currentIndex = index;
+      updateViewer();
+    });
+
+    thumbsContainer.appendChild(thumb);
+  });
+
+  // Actualizar la interfaz con la certificación activa
+  function updateViewer() {
+    const cert = CERTIFICACIONES_DATA[currentIndex];
+
+    titleEl.textContent = cert.titulo;
+    tagEl.textContent = cert.tag;
+    counterEl.textContent = `${currentIndex + 1} / ${CERTIFICACIONES_DATA.length}`;
+    reflectionEl.textContent = cert.reseña;
+    badgeContainer.innerHTML = cert.badge;
+
+    // Enlace con estilo nativo .link-pill
+    evidenceEl.innerHTML = `
+      <a href="${cert.pdf}" class="link-pill js-download-pdf" data-pdf="${cert.pdf}" data-filename="${cert.titulo.replace(/\s+/g, '_')}.pdf" target="_blank" style="font-size:0.85rem; padding: 0.35rem 0.7rem;">
+        <i class="fas fa-file-arrow-down"></i> Descargar Evidencia (.PDF)
+      </a>
+    `;
+
+    // Actualizar clase activa en los thumbs
+    const thumbs = thumbsContainer.querySelectorAll('.lab-thumb');
+    thumbs.forEach((t, idx) => {
+      t.classList.toggle('active', idx === currentIndex);
+    });
+
+    // Re-vincular manejador de descargas si tu plantilla tiene initDownloadPDF
+    if (typeof initDownloadPDF === 'function') {
+      initDownloadPDF();
+    }
+  }
+
+  // Controles de flechas anterior/siguiente
+  prevBtn.addEventListener('click', () => {
+    currentIndex = (currentIndex - 1 + CERTIFICACIONES_DATA.length) % CERTIFICACIONES_DATA.length;
+    updateViewer();
+  });
+
+  nextBtn.addEventListener('click', () => {
+    currentIndex = (currentIndex + 1) % CERTIFICACIONES_DATA.length;
+    updateViewer();
+  });
+
+  // Renderizar la primera certificación por defecto
+  updateViewer();
+}
+
+// Asegurar que se dispare al cargar la página en tu bloque general de DOMContentLoaded
+const originalInit = document.addEventListener('DOMContentLoaded', () => {
+  // Llama a la función del visor después de que cargue la interfaz
+  initCertificacionesViewer();
+});
