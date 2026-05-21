@@ -375,7 +375,7 @@
               </div>
 
               <div class="cert-actions cert-actions-side" id="certActions" aria-label="Acciones de certificación">
-                <a class="btn btn-secondary" href="assets/pdfs/1-introduccion-ciberseguridad.pdf" target="_blank" rel="noopener noreferrer">
+                <a class="btn btn-secondary js-download-pdf" href="assets/pdfs/1-introduccion-ciberseguridad.pdf" data-pdf="assets/pdfs/1-introduccion-ciberseguridad.pdf" data-filename="1-introduccion-ciberseguridad.pdf">
                   <span>Descargar PDF</span>
                   <i class="fas fa-file-pdf"></i>
                   <div class="btn-shine"></div>
@@ -518,7 +518,7 @@ En el ámbito académico y profesional, esta evidencia muestra que he desarrolla
         `;
 
         actions.innerHTML = `
-          <a class="btn btn-secondary" href="${cert.pdf}" target="_blank" rel="noopener noreferrer">
+          <a class="btn btn-secondary js-download-pdf" href="${cert.pdf}" data-pdf="${cert.pdf}" data-filename="${cert.pdf.split('/').pop()}">
             <span>Descargar PDF</span>
             <i class="fas fa-file-pdf"></i>
             <div class="btn-shine"></div>
