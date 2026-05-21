@@ -1211,3 +1211,483 @@ code{font-family:var(--font-code)}
   .article-actions{flex-direction:column}
   .article-actions .btn{width:100%;justify-content:center}
 }
+
+
+/* =========================
+   CERTIFICACIONES
+========================= */
+.cert-page .cert-intro-card{
+  margin-bottom: 1.2rem;
+  border-color: rgba(0,255,136,.18);
+  background:
+    radial-gradient(circle at top left, rgba(0,255,136,.07), transparent 30%),
+    rgba(15,20,25,.78);
+}
+
+.cert-page .cert-intro-card p{
+  margin: 0;
+  color: rgba(226,232,240,.86);
+  line-height: 1.75;
+}
+
+.cert-viewer{
+  margin-top: 1rem;
+}
+
+.cert-stage{
+  display: grid;
+  grid-template-columns: 1fr .85fr;
+  align-items: stretch;
+}
+
+.cert-info-panel{
+  min-height: 340px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.cert-title{
+  color: var(--primary);
+  font-family: var(--font-tech);
+  font-size: 1.35rem;
+  line-height: 1.3;
+  margin-bottom: 1rem;
+}
+
+.cert-meta{
+  margin-bottom: 1.2rem;
+}
+
+.cert-reflection{
+  text-align: justify;
+}
+
+.cert-badge-wrap{
+  min-height: 340px;
+  padding: 2rem;
+  flex-direction: column;
+  background:
+    radial-gradient(circle at 50% 20%, rgba(0,255,136,.10), transparent 35%),
+    linear-gradient(135deg, rgba(0,255,136,.05), rgba(0,212,255,.05)),
+    rgba(0,0,0,.24);
+}
+
+.cert-badge-card{
+  width: min(360px, 100%);
+  min-height: 245px;
+  display: grid;
+  place-items: center;
+  text-align: center;
+  gap: .45rem;
+  padding: 1.5rem;
+  border-radius: 22px;
+  border: 1px solid rgba(0,255,136,.24);
+  background:
+    linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.015)),
+    rgba(5,8,16,.78);
+  box-shadow: var(--shadow-glow), 0 20px 70px rgba(0,0,0,.35);
+  position: relative;
+  overflow: hidden;
+}
+
+.cert-badge-card::before{
+  content: '';
+  position: absolute;
+  inset: -40%;
+  background: conic-gradient(from 180deg, transparent, rgba(0,255,136,.12), transparent, rgba(0,212,255,.10), transparent);
+  animation: certSpin 7s linear infinite;
+}
+
+.cert-badge-card > *{
+  position: relative;
+  z-index: 1;
+}
+
+.cert-badge-icon{
+  width: 78px;
+  height: 78px;
+  display: grid;
+  place-items: center;
+  border-radius: 22px;
+  color: var(--primary);
+  font-size: 2.2rem;
+  border: 1px solid rgba(0,255,136,.28);
+  background: rgba(0,255,136,.08);
+  box-shadow: var(--shadow-glow);
+}
+
+.cert-badge-kicker{
+  margin: .2rem 0 0;
+  font-family: var(--font-code);
+  font-size: .78rem;
+  font-weight: 900;
+  letter-spacing: 1.2px;
+  color: var(--primary);
+  text-transform: uppercase;
+}
+
+.cert-badge-card h4{
+  margin: 0;
+  font-family: var(--font-tech);
+  font-size: 1.1rem;
+  line-height: 1.35;
+}
+
+.cert-badge-card span{
+  color: var(--text-secondary);
+  font-family: var(--font-code);
+  font-size: .82rem;
+}
+
+.cert-thumbs{
+  gap: .75rem;
+}
+
+.cert-thumb{
+  flex: 0 0 auto;
+  width: 96px;
+  height: 66px;
+  display: grid;
+  place-items: center;
+  gap: .15rem;
+  border-radius: 15px;
+  border: 1px solid rgba(0,255,136,.12);
+  background: rgba(255,255,255,.025);
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.cert-thumb i{
+  color: var(--primary);
+}
+
+.cert-thumb span{
+  font-family: var(--font-code);
+  font-size: .8rem;
+  font-weight: 900;
+}
+
+.cert-thumb:hover,
+.cert-thumb.active{
+  color: var(--text-primary);
+  border-color: rgba(0,255,136,.38);
+  background: rgba(0,255,136,.08);
+  box-shadow: 0 0 0 1px rgba(0,255,136,.10), var(--shadow-glow);
+  transform: translateY(-2px);
+}
+
+@keyframes certSpin{
+  to{ transform: rotate(360deg); }
+}
+
+@media (max-width: 900px){
+  .cert-stage{
+    grid-template-columns: 1fr;
+  }
+
+  .cert-info-panel,
+  .cert-badge-wrap{
+    min-height: auto;
+  }
+}
+
+@media (max-width: 640px){
+  .cert-badge-wrap{
+    padding: 1rem;
+  }
+
+  .cert-thumb{
+    width: 82px;
+    height: 58px;
+  }
+}
+
+
+/* =========================
+   BOTONES CERTIFICACIONES
+========================= */
+.cert-actions{
+  display:flex;
+  flex-wrap:wrap;
+  gap:.8rem;
+  margin-top:1.2rem;
+}
+
+.cert-actions .btn{
+  min-width: 170px;
+}
+
+.btn-disabled{
+  background: rgba(255,255,255,.04);
+  color: var(--text-muted);
+  border-color: rgba(148,163,184,.18);
+  cursor: not-allowed;
+}
+
+.btn-disabled:hover{
+  transform:none;
+  box-shadow:none;
+}
+
+
+/* =========================================================
+   AJUSTES FINALES CERTIFICACIONES
+   - Se elimina la barra MOD-01 / MOD-07.
+   - Se conserva una sola vista tipo tarjeta profesional.
+   - La reseña queda del lado izquierdo.
+   - Los botones PDF / Verificación quedan dentro del recuadro de la credencial.
+========================================================= */
+.cert-stage{
+  display:grid;
+  grid-template-columns: 1.08fr .92fr;
+  gap:1.2rem;
+  align-items:stretch;
+}
+
+.cert-info-panel{
+  justify-content:flex-start;
+  padding:1.45rem 1.55rem;
+}
+
+.cert-info-top{
+  justify-content:flex-start;
+}
+
+.cert-info-counter{
+  order:-1;
+  padding:.35rem .8rem;
+  border-radius:999px;
+  border:1px solid rgba(0,255,136,.25);
+  color:var(--primary);
+  font-family:var(--font-code);
+  font-weight:900;
+  background:rgba(0,255,136,.06);
+}
+
+.cert-title{
+  font-size:1.55rem;
+  color:var(--primary);
+}
+
+.cert-reflection{
+  font-size:1rem;
+  line-height:1.9;
+  text-align:justify;
+  color:rgba(226,232,240,.88);
+}
+
+.cert-badge-wrap{
+  min-height:430px;
+  gap:1rem;
+  justify-content:center;
+  cursor:default;
+}
+
+.cert-badge-card{
+  width:min(520px, 100%);
+  min-height:300px;
+  padding:2rem;
+}
+
+.cert-badge-icon{
+  animation: certFloat 2.8s ease-in-out infinite;
+}
+
+.cert-actions-side{
+  width:min(520px, 100%);
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:.9rem;
+  margin-top:.2rem;
+}
+
+.cert-actions-side .btn{
+  width:100%;
+  min-width:0;
+  justify-content:center;
+  padding:1rem 1.1rem;
+}
+
+.cert-thumbs,
+#certThumbs{
+  display:none !important;
+}
+
+@keyframes certFloat{
+  0%,100%{ transform:translateY(0); }
+  50%{ transform:translateY(-8px); }
+}
+
+@media (max-width: 980px){
+  .cert-stage{
+    grid-template-columns:1fr;
+  }
+
+  .cert-badge-wrap{
+    min-height:auto;
+  }
+}
+
+@media (max-width: 640px){
+  .cert-actions-side{
+    grid-template-columns:1fr;
+  }
+}
+
+/* =========================================================
+   AJUSTE VISUAL PD05 - CERTIFICACIONES
+   Mejora el cuadro de credencial interactiva y botones para
+   mantener proporción, legibilidad y coherencia con la reseña.
+========================================================= */
+.cert-page .cert-viewer{
+  padding: clamp(1rem, 2vw, 1.45rem);
+}
+
+.cert-page .cert-stage{
+  display:grid;
+  grid-template-columns: minmax(0, 1.22fr) minmax(320px, .78fr);
+  gap: clamp(1rem, 2vw, 1.35rem);
+  align-items: stretch;
+}
+
+.cert-page .cert-info-panel,
+.cert-page .cert-badge-wrap{
+  min-height: auto;
+  height: 100%;
+  border-radius: 22px;
+}
+
+.cert-page .cert-info-panel{
+  padding: clamp(1.15rem, 2vw, 1.65rem);
+  justify-content: flex-start;
+}
+
+.cert-page .cert-title{
+  font-size: clamp(1.2rem, 2vw, 1.52rem);
+  line-height: 1.25;
+  margin-bottom: .9rem;
+}
+
+.cert-page .cert-reflection{
+  font-size: clamp(.94rem, 1.25vw, 1rem);
+  line-height: 1.78;
+  text-align: justify;
+  color: rgba(226,232,240,.9);
+}
+
+.cert-page .cert-badge-wrap{
+  padding: clamp(1rem, 2vw, 1.35rem);
+  gap: 1rem;
+  justify-content: center;
+  align-content: center;
+  background:
+    radial-gradient(circle at 50% 0%, rgba(0,255,136,.12), transparent 34%),
+    radial-gradient(circle at 100% 70%, rgba(0,212,255,.09), transparent 38%),
+    linear-gradient(180deg, rgba(255,255,255,.035), rgba(255,255,255,.012)),
+    rgba(0,0,0,.24);
+  cursor: default;
+}
+
+.cert-page .cert-badge-card{
+  width: 100%;
+  max-width: 430px;
+  min-height: 250px;
+  padding: clamp(1.2rem, 2vw, 1.65rem);
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:.58rem;
+}
+
+.cert-page .cert-badge-icon{
+  width: clamp(62px, 8vw, 78px);
+  height: clamp(62px, 8vw, 78px);
+  font-size: clamp(1.75rem, 3vw, 2.2rem);
+}
+
+.cert-page .cert-badge-card h4{
+  max-width: 100%;
+  font-size: clamp(.98rem, 1.45vw, 1.12rem);
+  line-height: 1.35;
+}
+
+.cert-page .cert-badge-card span{
+  font-size: clamp(.74rem, 1vw, .82rem);
+  line-height: 1.45;
+}
+
+.cert-page .cert-actions-side{
+  width: 100%;
+  max-width: 430px;
+  display:grid;
+  grid-template-columns: 1fr;
+  gap:.75rem;
+  margin-top:0;
+}
+
+.cert-page .cert-actions-side .btn{
+  min-height: 48px;
+  width:100%;
+  min-width:0;
+  padding:.9rem 1rem;
+  justify-content:center;
+  text-align:center;
+  white-space: normal;
+}
+
+.cert-page .lab-image-hint{
+  position: static;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:.45rem;
+  width: fit-content;
+  margin-top: .15rem;
+  font-size:.75rem;
+  opacity:.92;
+}
+
+@media (max-width: 980px){
+  .cert-page .cert-stage{
+    grid-template-columns:1fr;
+  }
+
+  .cert-page .cert-badge-wrap{
+    min-height:auto;
+  }
+
+  .cert-page .cert-badge-card,
+  .cert-page .cert-actions-side{
+    max-width: 100%;
+  }
+
+  .cert-page .cert-actions-side{
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 640px){
+  .cert-page .lab-viewer-header{
+    align-items: stretch;
+  }
+
+  .cert-page .lab-viewer-controls{
+    width:100%;
+    justify-content:space-between;
+  }
+
+  .cert-page .lab-nav-btn{
+    flex:1;
+  }
+
+  .cert-page .cert-info-top{
+    flex-wrap:wrap;
+  }
+
+  .cert-page .cert-actions-side{
+    grid-template-columns:1fr;
+  }
+}
