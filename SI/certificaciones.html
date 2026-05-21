@@ -1,0 +1,554 @@
+<!doctype html>
+<html lang="es" dir="ltr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes" />
+  <meta name="description" content="Certificaciones - Seguridad Informática." />
+  <title>Portafolio | Certificaciones</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&family=Fira+Code:wght@300;400;500;600;700&family=Orbitron:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <link rel="stylesheet" href="assets/css/styles.css" />
+
+  <script defer src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+  <script defer src="assets/js/main.js"></script>
+  <style>
+
+/* =========================================================
+   AJUSTE VISUAL PD05 - CERTIFICACIONES
+   Mejora el cuadro de credencial interactiva y botones para
+   mantener proporción, legibilidad y coherencia con la reseña.
+========================================================= */
+.cert-page .cert-viewer{
+  padding: clamp(1rem, 2vw, 1.45rem);
+}
+
+.cert-page .cert-stage{
+  display:grid;
+  grid-template-columns: minmax(0, 1.22fr) minmax(320px, .78fr);
+  gap: clamp(1rem, 2vw, 1.35rem);
+  align-items: stretch;
+}
+
+.cert-page .cert-info-panel,
+.cert-page .cert-badge-wrap{
+  min-height: auto;
+  height: 100%;
+  border-radius: 22px;
+}
+
+.cert-page .cert-info-panel{
+  padding: clamp(1.15rem, 2vw, 1.65rem);
+  justify-content: flex-start;
+}
+
+.cert-page .cert-title{
+  font-size: clamp(1.2rem, 2vw, 1.52rem);
+  line-height: 1.25;
+  margin-bottom: .9rem;
+}
+
+.cert-page .cert-reflection{
+  font-size: clamp(.94rem, 1.25vw, 1rem);
+  line-height: 1.78;
+  text-align: justify;
+  color: rgba(226,232,240,.9);
+}
+
+.cert-page .cert-badge-wrap{
+  padding: clamp(1rem, 2vw, 1.35rem);
+  gap: 1rem;
+  justify-content: center;
+  align-content: center;
+  background:
+    radial-gradient(circle at 50% 0%, rgba(0,255,136,.12), transparent 34%),
+    radial-gradient(circle at 100% 70%, rgba(0,212,255,.09), transparent 38%),
+    linear-gradient(180deg, rgba(255,255,255,.035), rgba(255,255,255,.012)),
+    rgba(0,0,0,.24);
+  cursor: default;
+}
+
+.cert-page .cert-badge-card{
+  width: 100%;
+  max-width: 430px;
+  min-height: 250px;
+  padding: clamp(1.2rem, 2vw, 1.65rem);
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:.58rem;
+}
+
+.cert-page .cert-badge-icon{
+  width: clamp(62px, 8vw, 78px);
+  height: clamp(62px, 8vw, 78px);
+  font-size: clamp(1.75rem, 3vw, 2.2rem);
+}
+
+.cert-page .cert-badge-card h4{
+  max-width: 100%;
+  font-size: clamp(.98rem, 1.45vw, 1.12rem);
+  line-height: 1.35;
+}
+
+.cert-page .cert-badge-card span{
+  font-size: clamp(.74rem, 1vw, .82rem);
+  line-height: 1.45;
+}
+
+.cert-page .cert-actions-side{
+  width: 100%;
+  max-width: 430px;
+  display:grid;
+  grid-template-columns: 1fr;
+  gap:.75rem;
+  margin-top:0;
+}
+
+.cert-page .cert-actions-side .btn{
+  min-height: 48px;
+  width:100%;
+  min-width:0;
+  padding:.9rem 1rem;
+  justify-content:center;
+  text-align:center;
+  white-space: normal;
+}
+
+.cert-page .lab-image-hint{
+  position: static;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:.45rem;
+  width: fit-content;
+  margin-top: .15rem;
+  font-size:.75rem;
+  opacity:.92;
+}
+
+@media (max-width: 980px){
+  .cert-page .cert-stage{
+    grid-template-columns:1fr;
+  }
+
+  .cert-page .cert-badge-wrap{
+    min-height:auto;
+  }
+
+  .cert-page .cert-badge-card,
+  .cert-page .cert-actions-side{
+    max-width: 100%;
+  }
+
+  .cert-page .cert-actions-side{
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 640px){
+  .cert-page .lab-viewer-header{
+    align-items: stretch;
+  }
+
+  .cert-page .lab-viewer-controls{
+    width:100%;
+    justify-content:space-between;
+  }
+
+  .cert-page .lab-nav-btn{
+    flex:1;
+  }
+
+  .cert-page .cert-info-top{
+    flex-wrap:wrap;
+  }
+
+  .cert-page .cert-actions-side{
+    grid-template-columns:1fr;
+  }
+}
+
+  </style>
+</head>
+
+<body class="cert-page">
+  <a class="skip-link" href="#contenido">Saltar al contenido principal</a>
+
+  <header class="header" id="header" role="banner">
+    <div class="header-container">
+      <nav class="nav" aria-label="Menú principal">
+        <a class="nav-brand" href="index.html#contenido" aria-label="Ir al inicio">
+          <span class="brand-icon"><i class="fas fa-shield-alt"></i></span>
+          <span class="brand-text">PF01</span>
+        </a>
+
+        <div class="nav-menu" id="navMenu">
+          <a class="nav-link" href="index.html#contenido">
+            <span class="nav-text">Inicio</span>
+          </a>
+
+          <a class="nav-link" href="actividades.html">
+            <span class="nav-text">Actividades</span>
+          </a>
+
+          <div class="nav-dropdown" id="parcialesDropdown">
+            <button class="nav-link nav-dropbtn" type="button" aria-expanded="false" aria-controls="parcialesMenu">
+              <span class="nav-text">Parciales</span>
+              <i class="fas fa-chevron-down"></i>
+            </button>
+            <div class="nav-dropmenu" id="parcialesMenu" role="menu">
+              <a class="nav-dropitem" href="index.html#parciales" data-open="p1" role="menuitem">Parcial 1</a>
+              <a class="nav-dropitem" href="index.html#parciales" data-open="p2" role="menuitem">Parcial 2</a>
+              <a class="nav-dropitem" href="index.html#parciales" data-open="p3" role="menuitem">Parcial 3</a>
+              <a class="nav-dropitem" href="index.html#parciales" data-open="final" role="menuitem">Final</a>
+            </div>
+          </div>
+
+          <a class="nav-link" href="proyectos.html">
+            <span class="nav-text">Proyectos</span>
+          </a>
+
+          <div class="nav-dropdown" id="hofDropdown">
+            <button class="nav-link nav-dropbtn" type="button" aria-expanded="false" aria-controls="hofMenu">
+              <span class="nav-text">ROAD TO HALL OF FAME</span>
+              <i class="fas fa-chevron-down"></i>
+            </button>
+            <div class="nav-dropmenu" id="hofMenu" role="menu">
+              <a class="nav-dropitem" href="sql-injection.html" role="menuitem">SQL Injection</a>
+            </div>
+          </div>
+
+          <a class="nav-link active" href="certificaciones.html" aria-current="page">
+            <span class="nav-text">Certificaciones</span>
+          </a>
+
+          <a class="nav-link" href="index.html#contacto">
+            <span class="nav-text">Contacto</span>
+          </a>
+        </div>
+
+        <div class="nav-actions">
+          <button class="menu-toggle" id="menuToggle" type="button" aria-label="Abrir menú">
+            <span></span><span></span><span></span>
+          </button>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main" class="main" role="main">
+    <section class="section hero hero--sub" id="contenido">
+      <div class="hero-bg" aria-hidden="true">
+        <canvas id="matrixCanvas"></canvas>
+        <div class="grid-overlay"></div>
+        <div class="scan-line"></div>
+        <div class="hack-particles" id="hackParticles"></div>
+      </div>
+
+      <div class="hero-container">
+        <div class="hero-content">
+          <div class="hero-badge">
+            <div class="badge-pulse"></div>
+            <i class="fas fa-certificate"></i>
+            <span>RUTA DE CERTIFICACIONES</span>
+          </div>
+
+          <h1 class="hero-title">
+            <span class="title-word">Certificaciones</span>
+            <span class="title-word highlight">Formación profesional en ciberseguridad</span>
+          </h1>
+
+          <p class="hero-description">
+            Evidencias de aprendizaje complementarias al curso <strong>CNO V – Seguridad Informática</strong>.
+            Esta sección concentra constancias, credenciales y una reflexión profesional sobre su valor académico y técnico.
+          </p>
+
+          <div class="hero-buttons">
+            <a class="btn btn-secondary" href="index.html#contenido">
+              <span>Volver al Inicio</span>
+              <i class="fas fa-arrow-left"></i>
+              <div class="btn-shine"></div>
+            </a>
+            <a class="btn btn-secondary" href="#certificacionesViewer">
+              <span>Ver evidencia</span>
+              <i class="fas fa-chevron-down"></i>
+              <div class="btn-shine"></div>
+            </a>
+          </div>
+        </div>
+
+        <div class="hero-visual">
+          <div class="security-terminal">
+            <div class="terminal-header">
+              <div class="terminal-dots">
+                <span class="dot red"></span>
+                <span class="dot yellow"></span>
+                <span class="dot green"></span>
+              </div>
+              <div class="terminal-title">CERTIFICATIONS::STATUS</div>
+            </div>
+            <div class="terminal-body">
+              <div class="terminal-line" style="opacity:1">
+                <span class="prompt">root@portfolio:~$</span>
+                <span class="command">cat ./certificaciones/ruta.log</span>
+              </div>
+              <div class="terminal-line" style="opacity:1"><span class="output">7 credenciales documentadas</span></div>
+              <div class="terminal-line" style="opacity:1"><span class="output">Estado: <span class="success">verificable</span></span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-number">05</span>
+          <h2 class="section-title">
+            <span class="title-text">Reflexión profesional sobre certificaciones</span>
+            <span class="title-underline"></span>
+          </h2>
+        </div>
+
+        <div class="card cert-intro-card">
+          <p>
+            Las certificaciones fortalecen el perfil profesional porque demuestran aprendizaje continuo,
+            dominio de conceptos técnicos y capacidad para documentar competencias verificables. En el área de
+            ciberseguridad, este tipo de evidencias ayuda a respaldar conocimientos en redes, defensa, análisis de amenazas,
+            buenas prácticas y protección de información.
+          </p>
+        </div>
+
+        <div class="lab-viewer cert-viewer" id="certificacionesViewer">
+          <div class="lab-viewer-header">
+            <div>
+              <span class="lab-viewer-kicker">PD05 · Entregable Oficial</span>
+              <h3 class="lab-viewer-title">Trayectoria de formación en ciberseguridad</h3>
+            </div>
+            <div class="lab-viewer-controls">
+              <button class="lab-nav-btn" id="certPrevBtn" aria-label="Certificación anterior">
+                <i class="fas fa-chevron-left"></i>
+              </button>
+              <button class="lab-nav-btn" id="certNextBtn" aria-label="Certificación siguiente">
+                <i class="fas fa-chevron-right"></i>
+              </button>
+            </div>
+          </div>
+
+          <div class="lab-stage cert-stage">
+            <div class="lab-info-panel cert-info-panel">
+              <div class="lab-info-top">
+                <span class="lab-info-badge" id="certTag">Ciberseguridad</span>
+                <span class="lab-info-counter" id="certCounter">1 / 7</span>
+              </div>
+
+              <h4 class="lab-info-title cert-title" id="certTitle">Certificación de formación profesional</h4>
+
+              <div class="lab-meta cert-meta">
+                <div class="lab-meta-line">
+                  <span class="lab-meta-label"><i class="fas fa-file-pdf"></i> EVIDENCIA:</span>
+                  <span class="lab-meta-value" id="certEvidence">Constancia o credencial digital anexada al portafolio.</span>
+                </div>
+              </div>
+
+              <p class="lab-info-text cert-reflection" id="certReflection">
+                Esta certificación representa una evidencia complementaria de aprendizaje, ya que permite demostrar preparación técnica,
+                disciplina profesional y actualización constante en temas relacionados con seguridad informática.
+              </p>
+
+            </div>
+
+            <div class="lab-main-image-wrap cert-badge-wrap">
+              <div class="cert-badge-card" id="badgeContainer" aria-live="polite">
+                <div class="cert-badge-icon"><i class="fas fa-shield-halved"></i></div>
+                <p class="cert-badge-kicker">Introducción</p>
+                <h4>Certificación en fundamentos de ciberseguridad</h4>
+                <span>Certificado PDF + credencial verificable</span>
+              </div>
+
+              <div class="cert-actions cert-actions-side" id="certActions" aria-label="Acciones de certificación">
+                <a class="btn btn-secondary" href="assets/pdfs/1-introduccion-ciberseguridad.pdf" target="_blank" rel="noopener noreferrer">
+                  <span>Descargar PDF</span>
+                  <i class="fas fa-file-pdf"></i>
+                  <div class="btn-shine"></div>
+                </a>
+                <span class="btn btn-disabled" aria-disabled="true">
+                  <span>Verificación pendiente</span>
+                  <i class="fas fa-clock"></i>
+                </span>
+              </div>
+
+              <span class="lab-image-hint"><i class="fas fa-shield-halved"></i> Credencial verificable</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer" role="contentinfo">
+    <div class="container footer__inner">
+      <p>© <span id="year">2026</span> Enrique Alvarez Aquino · Portafolio de Seguridad Informática</p>
+      <p class="footer__credits">Universidad Politécnica de San Luis Potosí · UPSLP</p>
+    </div>
+  </footer>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const certs = [
+        {
+          tag: `Fundamentos`,
+          title: `Introducción a la Ciberseguridad`,
+          evidence: `Evidencia 01 · Certificado PDF`,
+          pdf: `assets/pdfs/1-introduccion-ciberseguridad.pdf`,
+          verify: ``,
+          reflection: `Al realizar esta certificación comprendí que la ciberseguridad no es un tema exclusivo de especialistas, sino una responsabilidad que comienza con las decisiones diarias de cada usuario. Como alumno, me ayudó a identificar conceptos básicos como confidencialidad, integridad y disponibilidad de la información, además de reconocer que los riesgos digitales pueden presentarse en actividades tan comunes como abrir un correo, descargar un archivo o compartir datos personales en internet. Antes veía la seguridad informática principalmente como el uso de antivirus o contraseñas, pero esta formación me permitió entender que también implica prevención, análisis, ética y conciencia sobre el valor de la información.
+
+Uno de los aprendizajes más importantes fue reconocer la variedad de amenazas que existen, desde malware e ingeniería social hasta robo de identidad y accesos no autorizados. Esto me hizo reflexionar sobre la importancia de mantener buenos hábitos digitales, actualizar sistemas, verificar enlaces, proteger cuentas y pensar antes de entregar información sensible. También comprendí que la seguridad no se logra con una sola herramienta, sino mediante una combinación de tecnología, políticas, capacitación y responsabilidad personal.
+
+En el ámbito profesional, esta certificación me aporta una base sólida para seguir desarrollándome en seguridad informática. Me permitió relacionar los temas vistos en clase con situaciones reales y entender por qué las organizaciones necesitan proteger sus activos digitales. Considero que este primer módulo fue fundamental porque despertó mayor interés por el área y me ayudó a construir una visión inicial más clara sobre el papel que puede desempeñar un futuro profesional en ciberseguridad.`
+        },
+        {
+          tag: `Redes`,
+          title: `Conceptos básicos de redes`,
+          evidence: `Evidencia 02 · Certificado PDF + credencial verificable`,
+          pdf: `assets/pdfs/2-conceptos-basicos-redes.pdf`,
+          verify: `https://www.credly.com/badges/8e7b1660-672a-42ce-b756-1261fed72b58/public_url`,
+          reflection: `Esta certificación me permitió comprender con mayor claridad cómo se comunican los dispositivos dentro de una red y por qué ese conocimiento es indispensable para la ciberseguridad. Como alumno, aprendí que antes de proteger una infraestructura es necesario entender su funcionamiento: direcciones IP, protocolos, modelos de comunicación, tipos de redes, medios de transmisión y la forma en que viaja la información entre un origen y un destino. Estos temas me ayudaron a ver que muchas vulnerabilidades o fallas de seguridad se originan por configuraciones incorrectas, falta de segmentación o desconocimiento del comportamiento básico de la red.
+
+Uno de los aprendizajes más útiles fue reconocer la importancia de los protocolos y servicios que permiten la comunicación, ya que cada uno puede representar una oportunidad de protección o un posible punto de ataque. También comprendí que elementos como switches, routers, direcciones MAC, subredes y puertas de enlace no son conceptos aislados, sino piezas que trabajan en conjunto para mantener la conectividad. Al estudiar estos fundamentos pude relacionar la teoría con escenarios profesionales, como el análisis de tráfico, la identificación de dispositivos y la detección de comportamientos anómalos.
+
+En lo personal, esta certificación fortaleció mi confianza para continuar aprendiendo temas más avanzados. Me hizo entender que las redes son la base sobre la que se construyen muchos sistemas actuales y que un profesional de seguridad debe conocerlas para tomar mejores decisiones. Considero que este aprendizaje es muy valioso porque me prepara para analizar incidentes, proponer controles y comprender con más profundidad cómo proteger la información que circula dentro de una organización.`
+        },
+        {
+          tag: `Redes`,
+          title: `Dispositivos de Red y Configuración Inicial`,
+          evidence: `Evidencia 03 · Certificado PDF + credencial verificable`,
+          pdf: `assets/pdfs/3-dispositivos-red-configuracion-inicial.pdf`,
+          verify: `https://www.credly.com/badges/979a70a0-f0fb-4cac-85f2-d56a683cd1d4/public_url`,
+          reflection: `Al completar esta certificación aprendí que los dispositivos de red no solo permiten la comunicación, sino que también son puntos clave para mantener la seguridad y estabilidad de una infraestructura. Como alumno, me ayudó a comprender mejor la función de equipos como routers y switches, así como la importancia de realizar una configuración inicial ordenada, documentada y segura. Antes podía ver estos dispositivos únicamente como componentes técnicos, pero durante el curso entendí que una mala configuración puede provocar fallas de conectividad, exposición de información o accesos no autorizados.
+
+Uno de los aprendizajes principales fue reconocer la necesidad de establecer parámetros básicos como nombres de dispositivos, contraseñas, accesos remotos seguros, interfaces activas y configuraciones iniciales que permitan administrar la red correctamente. También comprendí que la seguridad empieza desde los primeros pasos de implementación, por ejemplo, al proteger el acceso administrativo, evitar configuraciones por defecto y mantener una estructura clara para facilitar el mantenimiento. Estos conocimientos me permitieron relacionar la teoría de redes con actividades más prácticas y cercanas al trabajo real de un área de TI.
+
+En el ámbito profesional, esta certificación aporta mucho porque demuestra que no basta con saber qué es una red, sino que también es necesario saber cómo se prepara y administra su infraestructura. Me ayudó a valorar la importancia de la documentación, la prevención y la disciplina técnica. Considero que este aprendizaje complementa mi formación en seguridad informática, ya que una red bien configurada reduce riesgos, facilita el monitoreo y permite responder mejor ante incidentes. Además, me motiva a seguir practicando con laboratorios para fortalecer mis habilidades técnicas.`
+        },
+        {
+          tag: `Defensa`,
+          title: `Seguridad en terminales`,
+          evidence: `Evidencia 04 · Certificado PDF + credencial verificable`,
+          pdf: `assets/pdfs/4-seguridad-en-terminales.pdf`,
+          verify: `https://www.credly.com/badges/deed27ec-e3e0-4888-935f-574e2bfd00e2/public_url`,
+          reflection: `Esta certificación me ayudó a entender que los equipos finales, como computadoras, laptops y dispositivos utilizados por los usuarios, representan una de las áreas más importantes dentro de la seguridad informática. Como alumno, aprendí que muchas amenazas ingresan a una organización a través de una terminal mal protegida, ya sea por descargas inseguras, correos fraudulentos, contraseñas débiles, software desactualizado o permisos excesivos. Esto me permitió valorar la importancia de aplicar medidas preventivas directamente en los dispositivos que interactúan todos los días con la información.
+
+Durante el aprendizaje reforcé conceptos relacionados con protección contra malware, actualizaciones, control de accesos, políticas de uso, copias de seguridad y buenas prácticas para reducir la superficie de ataque. También comprendí que la seguridad en terminales no depende únicamente de instalar herramientas de protección, sino de mantener una configuración adecuada, revisar comportamientos sospechosos y educar a los usuarios para evitar errores comunes. Este enfoque me pareció muy importante porque muestra que la tecnología y la conciencia del usuario deben trabajar juntas.
+
+En el ámbito profesional, esta certificación me aporta una visión más práctica sobre la defensa de sistemas. Me permite entender que proteger una red no es suficiente si los dispositivos que se conectan a ella no cuentan con controles adecuados. También me ayudó a relacionar la teoría con situaciones reales, como infecciones por malware, robo de credenciales o pérdida de información. Considero que este aprendizaje fortalece mi perfil porque me prepara para colaborar en tareas de prevención, revisión de equipos, aplicación de políticas y respuesta inicial ante incidentes de seguridad.`
+        },
+        {
+          tag: `Amenazas`,
+          title: `Gestión de Amenazas Cibernéticas`,
+          evidence: `Evidencia 05 · Certificado PDF + credencial verificable`,
+          pdf: `assets/pdfs/5-administracion-de-amenazas-ciberneticas.pdf`,
+          verify: `https://www.credly.com/badges/eadd4ccc-02af-45c4-996f-da71864b7975/public_url`,
+          reflection: `Esta certificación fue muy importante para mi formación porque me permitió comprender la ciberseguridad desde una perspectiva más estratégica y organizada. Como alumno, aprendí que las amenazas cibernéticas no deben analizarse de forma aislada, sino considerando activos, vulnerabilidades, riesgos, probabilidad e impacto. Esto me ayudó a entender que una organización necesita priorizar sus esfuerzos de seguridad, ya que no todos los riesgos tienen el mismo nivel de urgencia ni afectan de la misma manera a la operación.
+
+Uno de los aprendizajes más valiosos fue identificar que la gestión de amenazas implica observar el entorno, reconocer posibles ataques, evaluar debilidades y proponer controles antes de que ocurra un incidente. También comprendí la importancia de la prevención, el monitoreo, la documentación y la respuesta coordinada. Este módulo me hizo reflexionar sobre la diferencia entre reaccionar cuando el problema ya ocurrió y trabajar de manera anticipada para reducir las posibilidades de daño. En ese sentido, aprendí que una buena gestión permite tomar decisiones más informadas y proteger mejor los recursos críticos.
+
+En el ámbito profesional, esta certificación me aporta habilidades útiles para analizar escenarios de riesgo y participar en procesos de seguridad dentro de una organización. Me ayudó a relacionar conocimientos técnicos con criterios de administración, lo cual considero esencial para un analista de ciberseguridad. Además, reforzó mi interés por áreas como análisis de amenazas, gestión de incidentes y evaluación de riesgos. Considero que este aprendizaje complementa mi portafolio porque muestra una evolución desde los fundamentos técnicos hacia una visión más completa de cómo se protege una organización en la práctica.`
+        },
+        {
+          tag: `Perfil`,
+          title: `Carrera Profesional de Analista Junior en Ciberseguridad`,
+          evidence: `Evidencia 06 · Certificado PDF + credencial verificable`,
+          pdf: `assets/pdfs/6-carrera-profesional-analista-junior-ciberseguridad.pdf`,
+          verify: `https://www.credly.com/badges/685476f1-f0ce-4329-850e-6e7e46a1fdae/public_url`,
+          reflection: `Esta certificación me permitió visualizar con mayor claridad el camino profesional que puede seguir una persona interesada en la ciberseguridad. Como alumno, me ayudó a entender cuáles son algunas responsabilidades de un analista junior, como revisar alertas, documentar eventos, apoyar en la identificación de incidentes, analizar riesgos, seguir procedimientos y colaborar con equipos de seguridad. Esto fue importante porque conectó los conocimientos aprendidos en módulos anteriores con actividades reales que pueden realizarse dentro de un entorno laboral.
+
+Uno de los aprendizajes que más valoro es que el perfil de un analista junior no se basa únicamente en saber utilizar herramientas, sino también en tener pensamiento crítico, orden, comunicación, ética y disposición para aprender continuamente. Comprendí que en ciberseguridad es necesario investigar, preguntar, documentar correctamente y actuar con responsabilidad, especialmente cuando se trabaja con información sensible o con incidentes que pueden afectar a una organización. También entendí que los conocimientos de redes, terminales, amenazas y buenas prácticas se integran para formar una base profesional más completa.
+
+En lo personal, esta certificación me motivó porque me permitió imaginar cómo podría aplicar mis habilidades en un puesto inicial dentro del área. Me hizo ver que el aprendizaje constante es parte de la profesión y que cada evidencia del portafolio representa un paso hacia una preparación más sólida. Considero que esta certificación es una de las más significativas porque resume la ruta de formación y demuestra interés por desarrollar competencias alineadas con el campo laboral. Además, me ayuda a presentar mi avance de manera más profesional y organizada.`
+        },
+        {
+          tag: `Cierre`,
+          title: `Hacker ético`,
+          evidence: `Evidencia 07 · Certificado PDF`,
+          pdf: `assets/pdfs/7-certificacion-final.pdf`,
+          verify: ``,
+          reflection: `Esta certificación representa para mí un cierre muy significativo dentro de la ruta de formación, porque integra varios conocimientos relacionados con seguridad informática y los orienta hacia una visión ética y responsable. Como alumno, aprendí que el hacking ético no consiste en atacar sistemas sin control, sino en utilizar conocimientos técnicos para identificar debilidades, reportarlas correctamente y ayudar a mejorar la protección de una organización. Esta idea me pareció fundamental, ya que demuestra que la ética es una parte indispensable del trabajo en ciberseguridad.
+
+Durante esta formación reforcé la importancia de comprender cómo piensan los atacantes para poder anticipar riesgos y proponer defensas más efectivas. También reflexioné sobre la necesidad de trabajar siempre con autorización, respetar límites, proteger la información y documentar hallazgos de manera clara. Estos aprendizajes me ayudaron a diferenciar entre el uso responsable del conocimiento técnico y las acciones que pueden causar daño o afectar la privacidad de las personas. En ese sentido, la certificación fortaleció mi criterio profesional y mi compromiso con el uso adecuado de las habilidades adquiridas.
+
+En el ámbito académico y profesional, esta evidencia muestra que he desarrollado una comprensión más completa de la ciberseguridad, desde fundamentos y redes hasta amenazas, terminales y responsabilidades del analista. Considero que este cierre aporta valor a mi portafolio porque refleja aprendizaje continuo, interés por la seguridad ofensiva aplicada de forma legal y disposición para seguir creciendo en el área. Además, me motiva a continuar preparándome para participar en proyectos donde pueda contribuir a detectar vulnerabilidades y mejorar la seguridad de los sistemas.`
+        }
+      ];
+
+      const tag = document.getElementById('certTag');
+      const counter = document.getElementById('certCounter');
+      const title = document.getElementById('certTitle');
+      const evidence = document.getElementById('certEvidence');
+      const reflection = document.getElementById('certReflection');
+      const badge = document.getElementById('badgeContainer');
+      const actions = document.getElementById('certActions');
+      const prev = document.getElementById('certPrevBtn');
+      const next = document.getElementById('certNextBtn');
+      if (!tag || !counter || !title || !evidence || !reflection || !badge || !actions) return;
+
+      let current = 0;
+
+      function renderCert() {
+        const cert = certs[current];
+        tag.textContent = cert.tag;
+        counter.textContent = `${current + 1} / ${certs.length}`;
+        title.textContent = cert.title;
+        evidence.textContent = cert.evidence;
+        reflection.textContent = cert.reflection;
+        badge.innerHTML = `
+          <div class="cert-badge-icon"><i class="fas fa-shield-halved"></i></div>
+          <p class="cert-badge-kicker">${cert.tag}</p>
+          <h4>${cert.title}</h4>
+          <span>${cert.evidence}</span>
+        `;
+
+        actions.innerHTML = `
+          <a class="btn btn-secondary" href="${cert.pdf}" target="_blank" rel="noopener noreferrer">
+            <span>Descargar PDF</span>
+            <i class="fas fa-file-pdf"></i>
+            <div class="btn-shine"></div>
+          </a>
+          ${cert.verify ? `
+            <a class="btn btn-primary" href="${cert.verify}" target="_blank" rel="noopener noreferrer">
+              <span>Verificar certificación</span>
+              <i class="fas fa-shield-check"></i>
+              <div class="btn-shine"></div>
+            </a>` : `
+            <span class="btn btn-disabled" aria-disabled="true">
+              <span>Verificación pendiente</span>
+              <i class="fas fa-clock"></i>
+            </span>`}
+        `;
+      }
+
+      prev?.addEventListener('click', () => {
+        current = (current - 1 + certs.length) % certs.length;
+        renderCert();
+      });
+
+      next?.addEventListener('click', () => {
+        current = (current + 1) % certs.length;
+        renderCert();
+      });
+
+
+      renderCert();
+    });
+  </script>
+</body>
+</html>
