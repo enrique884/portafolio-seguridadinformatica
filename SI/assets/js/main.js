@@ -340,20 +340,20 @@ function initExportToPDF() {
 // DIRECT PDF DOWNLOAD (sin visualizar)
 // =========================
 function initDownloadPDF() {
-  const triggers = document.querySelectorAll('.js-download-pdf');
-  if (!triggers.length) return;
-
   const forceDownload = async (url, filename) => {
-    // 1) Intento robusto: fetch -> blob -> objectURL (fuerza descarga)
+    // 1) Intento robusto: fetch -> blob -> objectURL.
+    // Esto evita que el navegador abra la previsualización del PDF.
     try {
       const res = await fetch(url, { cache: 'no-store' });
       if (!res.ok) throw new Error('HTTP ' + res.status);
+
       const blob = await res.blob();
       const objectUrl = URL.createObjectURL(blob);
 
       const a = document.createElement('a');
       a.href = objectUrl;
       a.download = filename;
+      a.style.display = 'none';
       document.body.appendChild(a);
       a.click();
       a.remove();
@@ -361,41 +361,49 @@ function initDownloadPDF() {
       setTimeout(() => URL.revokeObjectURL(objectUrl), 8000);
       return;
     } catch (e) {
-      // 2) Fallback: download attribute (funciona bien en GitHub Pages cuando es mismo origen)
+      // 2) Fallback: atributo download para archivos del mismo sitio.
       const a = document.createElement('a');
       a.href = url;
       a.download = filename;
       a.rel = 'noopener';
+      a.style.display = 'none';
       document.body.appendChild(a);
       a.click();
       a.remove();
     }
   };
 
-  triggers.forEach((btn) => {
-    btn.addEventListener('click', async () => {
-      const url = btn.getAttribute('data-pdf') || btn.dataset.pdf;
-      if (!url) return;
+  // Delegación de eventos: también funciona con botones que se crean
+  // dinámicamente al cambiar de certificación con las flechas.
+  document.addEventListener('click', async (e) => {
+    const btn = e.target.closest('.js-download-pdf');
+    if (!btn) return;
 
-      const filename =
-        btn.getAttribute('data-filename') ||
-        btn.dataset.filename ||
-        (url.split('/').pop() || 'actividad.pdf');
+    e.preventDefault();
 
-      // UI feedback leve (sin cambiar tu diseño)
-      const oldHTML = btn.innerHTML;
-      btn.disabled = true;
-      btn.innerHTML = 'Descargando...';
+    const url = btn.getAttribute('data-pdf') || btn.getAttribute('href');
+    if (!url) return;
 
-      try {
-        await forceDownload(url, filename);
-      } finally {
-        setTimeout(() => {
-          btn.disabled = false;
-          btn.innerHTML = oldHTML;
-        }, 600);
-      }
-    });
+    const filename =
+      btn.getAttribute('data-filename') ||
+      (url.split('/').pop() || 'certificacion.pdf');
+
+    const oldHTML = btn.innerHTML;
+    const wasDisabled = btn.disabled;
+
+    btn.disabled = true;
+    btn.setAttribute('aria-busy', 'true');
+    btn.innerHTML = 'Descargando...';
+
+    try {
+      await forceDownload(url, filename);
+    } finally {
+      setTimeout(() => {
+        btn.disabled = wasDisabled;
+        btn.removeAttribute('aria-busy');
+        btn.innerHTML = oldHTML;
+      }, 650);
+    }
   });
 }
 
