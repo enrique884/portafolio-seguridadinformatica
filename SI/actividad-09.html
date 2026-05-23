@@ -1,0 +1,633 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="description" content="Actividad 09 - Red team report: pentesting de My File Server 1" />
+  <title>Actividad 09 | Pentesting My File Server 1</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&family=Fira+Code:wght@300;400;500;600;700&family=Orbitron:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <link rel="stylesheet" href="assets/css/styles.css" />
+
+  <script defer src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+  <script defer src="assets/js/main.js"></script>
+
+  <style>
+    .pill-mini{
+      display:inline-flex;
+      align-items:center;
+      gap:.5rem;
+      padding:.35rem .7rem;
+      border-radius:999px;
+      border:1px solid rgba(0,255,136,.20);
+      background: rgba(0,255,136,.06);
+      color: var(--text-secondary);
+      font-family: var(--font-code);
+      font-weight:900;
+      font-size:.78rem;
+      margin:.65rem .45rem 0 0;
+      white-space:nowrap;
+    }
+
+    .kblock{
+      border-radius:16px;
+      border:1px solid rgba(0,255,136,.16);
+      background: rgba(0,0,0,.18);
+      padding:1rem;
+      margin-top:1rem;
+    }
+
+    .kblock h3{
+      margin:.1rem 0 .6rem;
+      font-family:var(--font-tech);
+      letter-spacing:.5px;
+      font-size:1rem;
+      color: var(--primary);
+    }
+
+    .callout{
+      border-radius:16px;
+      border:1px solid rgba(0,212,255,.18);
+      background: rgba(0,0,0,.18);
+      padding:1rem;
+      margin-top:1rem;
+    }
+
+    .callout .title{
+      font-family:var(--font-code);
+      color: var(--secondary);
+      font-weight:900;
+      margin:0 0 .55rem;
+    }
+
+    .grid-2{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:1rem;
+      margin-top:1rem;
+    }
+
+    .grid-3{
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:1rem;
+      margin-top:1rem;
+    }
+
+    .kpi{
+      border-radius:16px;
+      border:1px solid rgba(0,255,136,.16);
+      background: rgba(0,0,0,.18);
+      padding:1rem;
+    }
+
+    .kpi .k{
+      font-family:var(--font-code);
+      color:var(--text-secondary);
+      font-weight:900;
+      font-size:.78rem;
+    }
+
+    .kpi .v{
+      margin-top:.35rem;
+      font-family:var(--font-tech);
+      font-weight:900;
+      letter-spacing:.5px;
+      font-size:1rem;
+    }
+
+    .table-wrap{
+      overflow:auto;
+      border-radius:14px;
+      border:1px solid rgba(0,255,136,.18);
+      background: rgba(0,0,0,.18);
+      margin-top:1rem;
+    }
+
+    .tech-table{
+      width:100%;
+      border-collapse:collapse;
+      min-width:920px;
+    }
+
+    .tech-table th,
+    .tech-table td{
+      padding:.85rem;
+      vertical-align:top;
+      border-bottom:1px solid rgba(30,41,59,.75);
+      color: rgba(226,232,240,.88);
+      line-height:1.58;
+    }
+
+    .tech-table th{
+      position:sticky;
+      top:0;
+      background: rgba(0,255,136,.06);
+      color: rgba(226,232,240,.95);
+      text-align:left;
+      font-family: var(--font-tech);
+      letter-spacing:.4px;
+      z-index:1;
+    }
+
+    .gallery-grid{
+      display:grid;
+      grid-template-columns:repeat(auto-fit, minmax(220px, 1fr));
+      gap:1rem;
+      margin-top:1rem;
+    }
+
+    .gallery-card{
+      border-radius:16px;
+      overflow:hidden;
+      border:1px solid rgba(0,255,136,.16);
+      background: rgba(0,0,0,.18);
+    }
+
+    .gallery-card img{
+      width:100%;
+      height:auto;
+      display:block;
+      background:#0b0f17;
+    }
+
+    .gallery-card .cap{
+      padding:.75rem .9rem;
+      color: rgba(226,232,240,.82);
+      font-size:.92rem;
+      border-top:1px solid rgba(0,255,136,.10);
+    }
+
+    .checklist{
+      margin:.55rem 0 0;
+      padding-left:1.15rem;
+      color: rgba(226,232,240,.82);
+    }
+
+    .checklist li{
+      margin:.25rem 0;
+    }
+
+    .ref-list{
+      list-style:none;
+      padding-left:0;
+      margin:1rem 0 0;
+    }
+
+    .ref-list li{
+      padding-left:1.6rem;
+      text-indent:-1.6rem;
+      margin:.8rem 0;
+      color: rgba(226,232,240,.88);
+      line-height:1.7;
+    }
+
+    @media (max-width: 980px){
+      .grid-2,
+      .grid-3{
+        grid-template-columns:1fr;
+      }
+    }
+  </style>
+</head>
+
+<body>
+<a class="skip-link" href="#contenido">Saltar al contenido principal</a>
+
+<header class="header" id="header" role="banner">
+  <div class="header-container">
+    <nav class="nav" aria-label="Menú principal">
+      <a class="nav-brand" href="index.html">
+        <span class="brand-icon" aria-hidden="true">PF01</span>
+        <span class="brand-text">Portafolio</span>
+      </a>
+
+      <button class="menu-toggle" id="menuToggle" aria-label="Abrir menú">
+        <span></span><span></span><span></span>
+      </button>
+
+      <div class="nav-menu" id="navMenu">
+        <a class="nav-link" href="index.html">Inicio</a>
+        <a class="nav-link active" href="actividades.html">Actividades</a>
+      </div>
+    </nav>
+  </div>
+</header>
+
+<main id="contenido" class="main">
+
+  <section class="section hero hero--sub">
+    <div class="hero-bg">
+      <canvas id="matrixCanvas" aria-hidden="true"></canvas>
+      <div class="grid-overlay" aria-hidden="true"></div>
+      <div class="scan-line" aria-hidden="true"></div>
+    </div>
+
+    <div class="hero-container">
+      <div>
+        <div class="hero-badge">
+          <span class="badge-pulse" aria-hidden="true"></span>
+          <span>ACTIVIDAD 09</span>
+        </div>
+
+        <h1 class="hero-title">
+          <span class="title-word">Red team report:</span>
+          <span class="title-word highlight">pentesting de My File Server 1</span>
+        </h1>
+
+        <p class="hero-description">
+          Evaluación ofensiva controlada de un servidor de archivos vulnerable, desarrollada
+          con metodología PTES/OWASP, desde reconocimiento hasta escalada de privilegios
+          a root mediante la vulnerabilidad DirtyCow.
+        </p>
+
+        <div class="hero-buttons">
+          <button
+            class="btn btn-primary js-download-pdf"
+            type="button"
+            data-pdf="assets/pdfs/act09.pdf"
+            data-filename="act09.pdf"
+          >
+            <span class="btn-shine" aria-hidden="true"></span>
+            Exportar a PDF
+          </button>
+
+          <a class="btn btn-secondary" href="actividades.html">
+            <span class="btn-shine" aria-hidden="true"></span>
+            Volver a Actividades
+          </a>
+        </div>
+      </div>
+
+      <div class="hero-visual">
+        <div class="security-terminal">
+          <div class="terminal-header">
+            <div class="terminal-dots" aria-hidden="true">
+              <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+            </div>
+            <div class="terminal-title">root@fileserver-lab:~$ REDTEAM_REPORT</div>
+          </div>
+          <div class="terminal-body">
+            <div class="terminal-line" style="opacity:1;">
+              <span class="prompt">root@fileserver-lab:~$</span>
+              <span class="command"> pentest --target my-file-server-1</span>
+            </div>
+            <div class="terminal-line" style="opacity:1;margin-top:.45rem;">
+              <span class="output">[OK] reconocimiento · FTP/SSH · credenciales expuestas · DirtyCow</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <article class="card article">
+
+        <section class="article-section">
+          <h2>Introducción</h2>
+          <p>
+            Esta actividad documenta un ejercicio de pentesting realizado sobre la máquina
+            vulnerable <strong>My File Server 1</strong> en un entorno de laboratorio aislado.
+            El objetivo fue evaluar la postura de seguridad del servidor mediante una simulación
+            de ataque realista, identificando vulnerabilidades explotables y analizando su
+            impacto en la confidencialidad, integridad y disponibilidad de la información.
+          </p>
+
+          <p>
+            La evaluación siguió principios de metodologías reconocidas como PTES y OWASP,
+            lo que permitió mantener un proceso ordenado desde la fase de reconocimiento
+            hasta la post-explotación. El hallazgo más relevante fue la exposición de
+            credenciales en texto plano dentro de <code>/readme.txt</code>, lo cual facilitó
+            acceso inicial por FTP y posteriormente por SSH, para finalmente escalar
+            privilegios mediante la vulnerabilidad <strong>DirtyCow (CVE-2016-5195)</strong>.
+          </p>
+
+          <div class="pill-mini">🧪 Entorno Host-Only</div>
+          <div class="pill-mini">🛠️ PTES / OWASP</div>
+          <div class="pill-mini">⚠️ Riesgo alto / crítico</div>
+        </section>
+
+        <section class="article-section">
+          <h2>1) Contexto del engagement</h2>
+
+          <div class="grid-2">
+            <div class="kblock">
+              <h3>Objetivo del ejercicio</h3>
+              <p>
+                Evaluar de forma proactiva la postura de seguridad del servidor principal
+                de archivos, simular un ataque real y documentar cómo distintas debilidades
+                pueden encadenarse hasta comprometer el sistema completo.
+              </p>
+            </div>
+
+            <div class="kblock">
+              <h3>Alcance</h3>
+              <p>
+                La prueba se limitó a la máquina objetivo <strong>My File Server 1</strong>,
+                dentro de un entorno de laboratorio con dos máquinas virtuales: Kali Linux
+                como atacante y el servidor vulnerable como objetivo.
+              </p>
+            </div>
+          </div>
+
+          <div class="grid-3">
+            <div class="kpi">
+              <div class="k">Máquina atacante</div>
+              <div class="v">Kali Linux</div>
+            </div>
+            <div class="kpi">
+              <div class="k">Máquina objetivo</div>
+              <div class="v">My File Server 1</div>
+            </div>
+            <div class="kpi">
+              <div class="k">Meta final</div>
+              <div class="v">Compromiso total</div>
+            </div>
+          </div>
+        </section>
+
+        <section class="article-section">
+          <h2>2) Metodología aplicada</h2>
+
+          <p>
+            El proceso de evaluación se desarrolló siguiendo un flujo estructurado alineado
+            a PTES y a buenas prácticas de OWASP. Primero se realizó reconocimiento de red
+            para localizar el host activo. Posteriormente se ejecutó enumeración de servicios
+            y análisis de recursos expuestos, lo que permitió detectar vectores de acceso
+            como HTTP, FTP, SMB y SSH.
+          </p>
+
+          <p>
+            Una vez identificados los servicios, se investigaron debilidades concretas en la
+            configuración del sistema y se verificó la viabilidad de explotación. La prueba
+            avanzó desde exposición de credenciales hasta acceso remoto persistente y escalada
+            de privilegios, demostrando que una cadena de fallos relativamente simples puede
+            terminar en control administrativo del servidor.
+          </p>
+
+          <div class="callout">
+            <p class="title">Fases ejecutadas</p>
+            <ul class="checklist">
+              <li>Reconocimiento de superficie de ataque.</li>
+              <li>Enumeración de servicios y recursos compartidos.</li>
+              <li>Identificación de credenciales expuestas y configuraciones inseguras.</li>
+              <li>Explotación de acceso inicial.</li>
+              <li>Acceso remoto mediante SSH.</li>
+              <li>Escalada de privilegios con DirtyCow.</li>
+            </ul>
+          </div>
+        </section>
+
+        <section class="article-section">
+          <h2>3) Desarrollo técnico del ataque</h2>
+
+          <div class="kblock">
+            <h3>Reconocimiento inicial</h3>
+            <p>
+              En la etapa de descubrimiento se identificó la máquina dentro de una red
+              aislada Host-Only. Posteriormente, el escaneo de puertos y servicios permitió
+              detectar componentes relevantes del sistema, entre ellos servicio web, FTP,
+              SMB y SSH. Esta etapa fue esencial porque definió la superficie de ataque
+              inicial y permitió orientar la enumeración hacia posibles puntos débiles.
+            </p>
+          </div>
+
+          <div class="kblock">
+            <h3>Enumeración de recursos</h3>
+            <p>
+              Durante la enumeración se identificó un archivo expuesto:
+              <code>/readme.txt</code>. El contenido de este archivo reveló una contraseña
+              almacenada en texto plano: <code>rootroot1</code>. Este hallazgo fue crítico,
+              ya que evidenció una mala práctica severa de gestión de credenciales y abrió
+              la posibilidad de reutilizar la contraseña sobre otros servicios activos del sistema.
+            </p>
+          </div>
+
+          <div class="kblock">
+            <h3>Acceso por FTP</h3>
+            <p>
+              Con las credenciales descubiertas, se intentó autenticación contra el servicio
+              FTP utilizando el usuario identificado durante la enumeración de Samba:
+              <code>smbuser</code>. El acceso fue exitoso, lo que confirmó que las credenciales
+              expuestas eran válidas y reutilizadas en el sistema.
+            </p>
+
+            <p>
+              Una vez dentro, se exploró el directorio del usuario autenticado y se encontró
+              que la sesión FTP correspondía a <code>/home/smbuser</code>. A partir de ello,
+              se preparó una técnica para conseguir acceso remoto persistente mediante claves SSH.
+            </p>
+          </div>
+
+          <div class="kblock">
+            <h3>Preparación de acceso remoto por SSH</h3>
+            <p>
+              El siguiente paso consistió en generar un par de claves SSH en la máquina atacante
+              y cargar la clave pública al servidor objetivo. Para ello se creó el directorio
+              <code>.ssh</code> y posteriormente se subió la clave pública al archivo
+              <code>authorized_keys</code>. Esta acción permitió preparar autenticación por
+              clave sin necesidad de contraseña, aprovechando el acceso FTP previamente obtenido.
+            </p>
+
+            <p>
+              Tras completar este proceso, se probó el acceso al servicio SSH y se estableció
+              una sesión remota exitosa como el usuario <code>smbuser</code>. Con ello, el acceso
+              inicial dejó de depender únicamente del FTP y pasó a ser una sesión interactiva
+              más estable para continuar la evaluación.
+            </p>
+          </div>
+
+          <div class="kblock">
+            <h3>Escalada de privilegios con DirtyCow</h3>
+            <p>
+              Ya dentro del sistema, se verificó información básica mediante comandos como
+              <code>whoami</code>, <code>pwd</code> y <code>uname -a</code>. Esto reveló que
+              el servidor ejecutaba un kernel Linux <code>3.10.0-229.el7.x86_64</code>, una
+              versión vulnerable a <strong>CVE-2016-5195 (DirtyCow)</strong>.
+            </p>
+
+            <p>
+              DirtyCow es una vulnerabilidad del kernel Linux asociada a una condición de
+              carrera en el mecanismo Copy-On-Write, la cual permite a un usuario local
+              escalar privilegios hasta <code>root</code>. Se identificó un exploit funcional,
+              se preparó en el sistema comprometido y se utilizó para obtener privilegios
+              elevados, logrando así el control total del servidor.
+            </p>
+          </div>
+        </section>
+
+        <section class="article-section">
+          <h2>4) Tabla de hallazgos</h2>
+
+          <div class="table-wrap">
+            <table class="tech-table" aria-label="Tabla de hallazgos de seguridad">
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Vulnerabilidad</th>
+                  <th>Severidad</th>
+                  <th>Impacto</th>
+                  <th>Recomendación</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>01</td>
+                  <td>Credenciales expuestas en <code>/readme.txt</code></td>
+                  <td>Crítica</td>
+                  <td>Permite acceso no autorizado a múltiples servicios del sistema.</td>
+                  <td>Eliminar archivos con contraseñas y usar almacenamiento seguro de secretos.</td>
+                </tr>
+                <tr>
+                  <td>02</td>
+                  <td>Configuración insegura del servidor Apache</td>
+                  <td>Media</td>
+                  <td>Incrementa la superficie de ataque del servidor web.</td>
+                  <td>Configurar headers de seguridad y deshabilitar métodos innecesarios como TRACE.</td>
+                </tr>
+                <tr>
+                  <td>03</td>
+                  <td>Acceso FTP con credenciales válidas</td>
+                  <td>Alta</td>
+                  <td>Permite acceso autenticado al sistema de archivos del servidor.</td>
+                  <td>Reemplazar FTP por SFTP y reforzar autenticación.</td>
+                </tr>
+                <tr>
+                  <td>04</td>
+                  <td>Permisos de escritura en recurso SMB</td>
+                  <td>Media</td>
+                  <td>Posibilita modificación de archivos compartidos.</td>
+                  <td>Aplicar principio de mínimo privilegio y restringir accesos.</td>
+                </tr>
+                <tr>
+                  <td>05</td>
+                  <td>Kernel vulnerable a DirtyCow (CVE-2016-5195)</td>
+                  <td>Crítica</td>
+                  <td>Permite escalada local de privilegios a root.</td>
+                  <td>Actualizar kernel y aplicar parches de seguridad.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <section class="article-section">
+          <h2>5) Impacto sobre la seguridad</h2>
+
+          <div class="grid-3">
+            <div class="kpi">
+              <div class="k">Confidencialidad</div>
+              <div class="v">Exposición de credenciales y datos</div>
+            </div>
+            <div class="kpi">
+              <div class="k">Integridad</div>
+              <div class="v">Modificación de archivos y sistema</div>
+            </div>
+            <div class="kpi">
+              <div class="k">Disponibilidad</div>
+              <div class="v">Riesgo por control completo del servidor</div>
+            </div>
+          </div>
+
+          <div class="callout">
+            <p class="title">Interpretación del riesgo</p>
+            <p>
+              El nivel general del sistema se considera crítico porque un atacante externo,
+              a partir de una cadena corta de errores, puede pasar de reconocimiento a
+              compromiso total del activo. La exposición de credenciales, combinada con
+              servicios inseguros y kernel vulnerable, generó una ruta clara hacia root.
+            </p>
+          </div>
+        </section>
+
+        <section class="article-section">
+          <h2>6) Galería de evidencias</h2>
+          <p>
+            Coloca aquí las capturas del procedimiento técnico. Solo necesitas poner tus
+            imágenes en la carpeta <code>assets/</code> con nombres <code>9.1.png</code>
+            a <code>9.19.png</code>.
+          </p>
+
+          <div class="gallery-grid">
+            <div class="gallery-card"><img src="assets/9.1.png" alt="Evidencia 9.1"><div class="cap">Evidencia 9.1</div></div>
+            <div class="gallery-card"><img src="assets/9.2.png" alt="Evidencia 9.2"><div class="cap">Evidencia 9.2</div></div>
+            <div class="gallery-card"><img src="assets/9.3.png" alt="Evidencia 9.3"><div class="cap">Evidencia 9.3</div></div>
+            <div class="gallery-card"><img src="assets/9.4.png" alt="Evidencia 9.4"><div class="cap">Evidencia 9.4</div></div>
+            <div class="gallery-card"><img src="assets/9.5.png" alt="Evidencia 9.5"><div class="cap">Evidencia 9.5</div></div>
+            <div class="gallery-card"><img src="assets/9.6.png" alt="Evidencia 9.6"><div class="cap">Evidencia 9.6</div></div>
+            <div class="gallery-card"><img src="assets/9.7.png" alt="Evidencia 9.7"><div class="cap">Evidencia 9.7</div></div>
+            <div class="gallery-card"><img src="assets/9.8.png" alt="Evidencia 9.8"><div class="cap">Evidencia 9.8</div></div>
+            <div class="gallery-card"><img src="assets/9.9.png" alt="Evidencia 9.9"><div class="cap">Evidencia 9.9</div></div>
+            <div class="gallery-card"><img src="assets/9.10.png" alt="Evidencia 9.10"><div class="cap">Evidencia 9.10</div></div>
+            <div class="gallery-card"><img src="assets/9.11.png" alt="Evidencia 9.11"><div class="cap">Evidencia 9.11</div></div>
+            <div class="gallery-card"><img src="assets/9.12.png" alt="Evidencia 9.12"><div class="cap">Evidencia 9.12</div></div>
+            <div class="gallery-card"><img src="assets/9.13.png" alt="Evidencia 9.13"><div class="cap">Evidencia 9.13</div></div>
+            <div class="gallery-card"><img src="assets/9.14.png" alt="Evidencia 9.14"><div class="cap">Evidencia 9.14</div></div>
+            <div class="gallery-card"><img src="assets/9.15.png" alt="Evidencia 9.15"><div class="cap">Evidencia 9.15</div></div>
+            <div class="gallery-card"><img src="assets/9.16.png" alt="Evidencia 9.16"><div class="cap">Evidencia 9.16</div></div>
+            <div class="gallery-card"><img src="assets/9.17.png" alt="Evidencia 9.17"><div class="cap">Evidencia 9.17</div></div>
+            <div class="gallery-card"><img src="assets/9.18.png" alt="Evidencia 9.18"><div class="cap">Evidencia 9.18</div></div>
+            <div class="gallery-card"><img src="assets/9.19.png" alt="Evidencia 9.19"><div class="cap">Evidencia 9.19</div></div>
+          </div>
+        </section>
+
+        <section class="article-section">
+          <h2>7) Conclusión</h2>
+          <p>
+            Esta actividad demuestra cómo un error aparentemente simple, como dejar una contraseña
+            en texto plano dentro de un archivo accesible, puede convertirse en el punto de partida
+            para comprometer completamente un sistema. El caso de <em>My File Server 1</em> evidencia
+            la importancia de controlar la exposición de secretos, eliminar servicios inseguros y
+            mantener actualizado el sistema operativo para reducir el riesgo de escalada.
+          </p>
+
+          <p>
+            Desde una perspectiva de ciberseguridad defensiva, el ejercicio confirma que la postura
+            de seguridad no depende de una sola barrera, sino del encadenamiento correcto de múltiples
+            controles. Cuando varios fallos coinciden, la probabilidad de compromiso total se vuelve alta.
+          </p>
+        </section>
+
+        <section class="article-section">
+          <h2>8) Referencias técnicas</h2>
+          <ul class="ref-list">
+            <li>FireFart. (2016). <em>DirtyCow privilege escalation exploit (CVE-2016-5195)</em>. GitHub.</li>
+            <li>Heffner, R. (2024). <em>Netdiscover: Active/passive ARP reconnaissance tool</em>. Kali Linux Tools.</li>
+            <li>Lyon, G. F. (2024). <em>Nmap network scanning tool</em>. Nmap Project.</li>
+            <li>National Institute of Standards and Technology. (2016). <em>CVE-2016-5195: Linux kernel Dirty COW vulnerability</em>. NVD.</li>
+            <li>National Institute of Standards and Technology. (2020). <em>NIST Special Publication 800-12 Revision 1: An introduction to information security</em>.</li>
+            <li>OWASP Foundation. (2023). <em>OWASP Web Security Testing Guide (WSTG)</em>.</li>
+            <li>OWASP Foundation. (2023). <em>DirBuster directory brute force tool</em>.</li>
+            <li>Python Software Foundation. (2024). <em>http.server — HTTP servers</em>.</li>
+            <li>Sullo, C. (2024). <em>Nikto web server scanner</em>. CIRT.net.</li>
+            <li>Evans, S. (2024). <em>SMBMap: Samba share enumerator</em>. GitHub.</li>
+          </ul>
+        </section>
+
+        <div class="article-footer">
+          <a class="link-pill" href="actividades.html">↩ Volver a Actividades</a>
+        </div>
+
+      </article>
+    </div>
+  </section>
+</main>
+
+<footer class="footer">
+  <div class="container footer__inner">
+    <p>© <span class="muted">Portafolio de evidencias</span> | Seguridad Informática</p>
+    <p class="muted">PF01</p>
+  </div>
+</footer>
+
+</body>
+</html>

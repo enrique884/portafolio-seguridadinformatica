@@ -1,0 +1,628 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="description" content="Actividad 11 - Red team report: pentesting de Napping 101" />
+  <title>Actividad 11 | Pentesting Napping 101</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&family=Fira+Code:wght@300;400;500;600;700&family=Orbitron:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <link rel="stylesheet" href="assets/css/styles.css" />
+
+  <script defer src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+  <script defer src="assets/js/main.js"></script>
+
+  <style>
+    .pill-mini{
+      display:inline-flex;
+      align-items:center;
+      gap:.5rem;
+      padding:.35rem .7rem;
+      border-radius:999px;
+      border:1px solid rgba(0,255,136,.20);
+      background: rgba(0,255,136,.06);
+      color: var(--text-secondary);
+      font-family: var(--font-code);
+      font-weight:900;
+      font-size:.78rem;
+      margin:.65rem .45rem 0 0;
+      white-space:nowrap;
+    }
+
+    .kblock{
+      border-radius:16px;
+      border:1px solid rgba(0,255,136,.16);
+      background: rgba(0,0,0,.18);
+      padding:1rem;
+      margin-top:1rem;
+    }
+
+    .kblock h3{
+      margin:.1rem 0 .6rem;
+      font-family:var(--font-tech);
+      letter-spacing:.5px;
+      font-size:1rem;
+      color: var(--primary);
+    }
+
+    .callout{
+      border-radius:16px;
+      border:1px solid rgba(0,212,255,.18);
+      background: rgba(0,0,0,.18);
+      padding:1rem;
+      margin-top:1rem;
+    }
+
+    .callout .title{
+      font-family:var(--font-code);
+      color: var(--secondary);
+      font-weight:900;
+      margin:0 0 .55rem;
+    }
+
+    .grid-2{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:1rem;
+      margin-top:1rem;
+    }
+
+    .grid-3{
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:1rem;
+      margin-top:1rem;
+    }
+
+    .kpi{
+      border-radius:16px;
+      border:1px solid rgba(0,255,136,.16);
+      background: rgba(0,0,0,.18);
+      padding:1rem;
+    }
+
+    .kpi .k{
+      font-family:var(--font-code);
+      color:var(--text-secondary);
+      font-weight:900;
+      font-size:.78rem;
+    }
+
+    .kpi .v{
+      margin-top:.35rem;
+      font-family:var(--font-tech);
+      font-weight:900;
+      letter-spacing:.5px;
+      font-size:1rem;
+    }
+
+    .table-wrap{
+      overflow:auto;
+      border-radius:14px;
+      border:1px solid rgba(0,255,136,.18);
+      background: rgba(0,0,0,.18);
+      margin-top:1rem;
+    }
+
+    .tech-table{
+      width:100%;
+      border-collapse:collapse;
+      min-width:920px;
+    }
+
+    .tech-table th,
+    .tech-table td{
+      padding:.85rem;
+      vertical-align:top;
+      border-bottom:1px solid rgba(30,41,59,.75);
+      color: rgba(226,232,240,.88);
+      line-height:1.58;
+    }
+
+    .tech-table th{
+      position:sticky;
+      top:0;
+      background: rgba(0,255,136,.06);
+      color: rgba(226,232,240,.95);
+      text-align:left;
+      font-family: var(--font-tech);
+      letter-spacing:.4px;
+      z-index:1;
+    }
+
+    .gallery-grid{
+      display:grid;
+      grid-template-columns:repeat(auto-fit, minmax(220px, 1fr));
+      gap:1rem;
+      margin-top:1rem;
+    }
+
+    .gallery-card{
+      border-radius:16px;
+      overflow:hidden;
+      border:1px solid rgba(0,255,136,.16);
+      background: rgba(0,0,0,.18);
+    }
+
+    .gallery-card img{
+      width:100%;
+      height:auto;
+      display:block;
+      background:#0b0f17;
+    }
+
+    .gallery-card .cap{
+      padding:.75rem .9rem;
+      color: rgba(226,232,240,.82);
+      font-size:.92rem;
+      border-top:1px solid rgba(0,255,136,.10);
+    }
+
+    .checklist{
+      margin:.55rem 0 0;
+      padding-left:1.15rem;
+      color: rgba(226,232,240,.82);
+    }
+
+    .checklist li{
+      margin:.25rem 0;
+    }
+
+    .ref-list{
+      list-style:none;
+      padding-left:0;
+      margin:1rem 0 0;
+    }
+
+    .ref-list li{
+      padding-left:1.6rem;
+      text-indent:-1.6rem;
+      margin:.8rem 0;
+      color: rgba(226,232,240,.88);
+      line-height:1.7;
+    }
+
+    @media (max-width: 980px){
+      .grid-2,
+      .grid-3{
+        grid-template-columns:1fr;
+      }
+    }
+  </style>
+</head>
+
+<body>
+<a class="skip-link" href="#contenido">Saltar al contenido principal</a>
+
+<header class="header" id="header" role="banner">
+  <div class="header-container">
+    <nav class="nav" aria-label="Menú principal">
+      <a class="nav-brand" href="index.html">
+        <span class="brand-icon" aria-hidden="true">PF01</span>
+        <span class="brand-text">Portafolio</span>
+      </a>
+
+      <button class="menu-toggle" id="menuToggle" aria-label="Abrir menú">
+        <span></span><span></span><span></span>
+      </button>
+
+      <div class="nav-menu" id="navMenu">
+        <a class="nav-link" href="index.html">Inicio</a>
+        <a class="nav-link active" href="actividades.html">Actividades</a>
+      </div>
+    </nav>
+  </div>
+</header>
+
+<main id="contenido" class="main">
+
+  <section class="section hero hero--sub">
+    <div class="hero-bg">
+      <canvas id="matrixCanvas" aria-hidden="true"></canvas>
+      <div class="grid-overlay" aria-hidden="true"></div>
+      <div class="scan-line" aria-hidden="true"></div>
+    </div>
+
+    <div class="hero-container">
+      <div>
+        <div class="hero-badge">
+          <span class="badge-pulse" aria-hidden="true"></span>
+          <span>ACTIVIDAD 11</span>
+        </div>
+
+        <h1 class="hero-title">
+          <span class="title-word">Red team report:</span>
+          <span class="title-word highlight">pentesting de Napping 101</span>
+        </h1>
+
+        <p class="hero-description">
+          Evaluación ofensiva de un entorno web vulnerable, enfocada en Tabnabbing,
+          robo de credenciales, acceso inicial por SSH y escalada de privilegios
+          mediante manipulación de un script ejecutado automáticamente.
+        </p>
+
+        <div class="hero-buttons">
+          <button
+            class="btn btn-primary js-download-pdf"
+            type="button"
+            data-pdf="assets/pdfs/act11.pdf"
+            data-filename="act11.pdf"
+          >
+            <span class="btn-shine" aria-hidden="true"></span>
+            Exportar a PDF
+          </button>
+
+          <a class="btn btn-secondary" href="actividades.html">
+            <span class="btn-shine" aria-hidden="true"></span>
+            Volver a Actividades
+          </a>
+        </div>
+      </div>
+
+      <div class="hero-visual">
+        <div class="security-terminal">
+          <div class="terminal-header">
+            <div class="terminal-dots" aria-hidden="true">
+              <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+            </div>
+            <div class="terminal-title">root@napping-lab:~$ WEB_REDTEAM</div>
+          </div>
+          <div class="terminal-body">
+            <div class="terminal-line" style="opacity:1;">
+              <span class="prompt">root@napping-lab:~$</span>
+              <span class="command"> exploit --vector tabnabbing --target napping-101</span>
+            </div>
+            <div class="terminal-line" style="opacity:1;margin-top:.45rem;">
+              <span class="output">[OK] phishing técnico · credenciales · reverse shell · privilegios</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <article class="card article">
+
+        <section class="article-section">
+          <h2>Introducción</h2>
+          <p>
+            Esta actividad documenta una evaluación ofensiva realizada sobre la máquina
+            vulnerable <strong>Napping 101</strong>, con el fin de medir su exposición
+            frente a un escenario realista de ataque. El enfoque principal se centró en
+            debilidades web, particularmente una vulnerabilidad asociada al manejo de
+            enlaces externos que permitió desarrollar un ataque de tipo <strong>Tabnabbing</strong>.
+          </p>
+
+          <p>
+            A partir de esa vulnerabilidad fue posible capturar credenciales válidas de un
+            usuario legítimo, conseguir acceso inicial al sistema y continuar con una fase
+            de post-explotación basada en permisos inseguros sobre un script automatizado.
+            La manipulación de dicho componente permitió ejecutar una reverse shell y escalar
+            privilegios hasta comprometer completamente el servidor.
+          </p>
+
+          <div class="pill-mini">🌐 Objetivo: Napping 101</div>
+          <div class="pill-mini">🎣 Vector: Tabnabbing</div>
+          <div class="pill-mini">🚨 Riesgo: crítico</div>
+        </section>
+
+        <section class="article-section">
+          <h2>1) Executive summary y alcance</h2>
+
+          <div class="grid-2">
+            <div class="kblock">
+              <h3>Resumen ejecutivo</h3>
+              <p>
+                Durante la evaluación se identificó una vulnerabilidad crítica en el manejo
+                de enlaces externos, la cual permitió la ejecución de un ataque de ingeniería
+                social técnica orientado al robo de credenciales. Con esa información se obtuvo
+                acceso inicial al sistema y posteriormente se aprovechó un script con permisos
+                inseguros para elevar privilegios y lograr compromiso total del servidor.
+              </p>
+            </div>
+
+            <div class="kblock">
+              <h3>Scope</h3>
+              <p>
+                Las pruebas se realizaron en un laboratorio controlado, usando Kali Linux como
+                máquina atacante y Napping 101 como máquina objetivo. Se evaluaron principalmente
+                la aplicación web, el servicio SSH y posibles mecanismos de escalada asociados
+                a archivos y scripts locales.
+              </p>
+            </div>
+          </div>
+
+          <div class="grid-3">
+            <div class="kpi">
+              <div class="k">Atacante</div>
+              <div class="v">Kali Linux</div>
+            </div>
+            <div class="kpi">
+              <div class="k">Objetivo</div>
+              <div class="v">Napping 101</div>
+            </div>
+            <div class="kpi">
+              <div class="k">Resultado</div>
+              <div class="v">Compromiso total</div>
+            </div>
+          </div>
+        </section>
+
+        <section class="article-section">
+          <h2>2) Metodología aplicada</h2>
+
+          <p>
+            La evaluación siguió una metodología alineada con PTES y OWASP. En primer lugar
+            se llevó a cabo el reconocimiento inicial para identificar activos y servicios
+            expuestos. Con herramientas de descubrimiento y escaneo se detectó un servidor web
+            en el puerto 80 y un servicio SSH en el puerto 22, los cuales fueron considerados
+            como vectores relevantes de ataque.
+          </p>
+
+          <p>
+            Posteriormente se realizó un análisis específico del comportamiento de la aplicación
+            web con base en lineamientos de OWASP, enfocándose en la gestión de enlaces externos.
+            Esta revisión permitió detectar la ausencia de mecanismos defensivos como
+            <code>noopener</code> y <code>noreferrer</code>, lo cual hacía posible un escenario
+            de Tabnabbing mediante manipulación del objeto <code>window.opener</code>.
+          </p>
+
+          <div class="callout">
+            <p class="title">Fases ejecutadas</p>
+            <ul class="checklist">
+              <li>Reconocimiento y enumeración.</li>
+              <li>Análisis web enfocado en Tabnabbing.</li>
+              <li>Explotación del vector de robo de credenciales.</li>
+              <li>Acceso inicial al sistema mediante credenciales válidas.</li>
+              <li>Post-explotación, reverse shell y escalada de privilegios.</li>
+            </ul>
+          </div>
+        </section>
+
+        <section class="article-section">
+          <h2>3) Desarrollo técnico del ataque</h2>
+
+          <div class="kblock">
+            <h3>Reconocimiento y servicios expuestos</h3>
+            <p>
+              Durante el reconocimiento se identificó la presencia de un servidor web y un
+              servicio SSH. La aplicación web fue priorizada como principal vector de análisis
+              porque representaba la superficie de ataque más accesible y además podía interactuar
+              con usuarios reales mediante formularios y enlaces.
+            </p>
+          </div>
+
+          <div class="kblock">
+            <h3>Detección del vector Tabnabbing</h3>
+            <p>
+              El análisis reveló que el campo “Blog Link” aceptaba enlaces externos sin controles
+              adecuados. La ausencia de protección en redireccionamientos permitió desarrollar una
+              técnica de Tabnabbing: se construyó un recurso HTML malicioso capaz de manipular la
+              pestaña original del navegador y presentar una interfaz falsa para capturar
+              credenciales del usuario.
+            </p>
+
+            <p>
+              Para ello se habilitó un servidor temporal con <code>python3 -m http.server</code>,
+              alojando el contenido malicioso necesario para simular el ataque y recolectar los datos.
+            </p>
+          </div>
+
+          <div class="kblock">
+            <h3>Obtención de credenciales y acceso inicial</h3>
+            <p>
+              Una vez que el usuario interactuó con el enlace malicioso, fue posible capturar
+              credenciales legítimas. Estas credenciales permitieron el acceso inicial al sistema,
+              abriendo la puerta a una fase más avanzada de explotación. A partir de este punto,
+              el pentest dejó de centrarse únicamente en la capa web y comenzó a evaluar la postura
+              interna del sistema comprometido.
+            </p>
+          </div>
+
+          <div class="kblock">
+            <h3>Permisos inseguros y reverse shell</h3>
+            <p>
+              Durante la exploración del sistema se detectó un script con permisos inseguros:
+              <code>query.py</code>. Este archivo podía ser modificado por un usuario de bajo nivel,
+              lo que representaba una oportunidad clara para inyectar código malicioso. Además,
+              el script era ejecutado automáticamente, lo que convirtió esta debilidad en un canal
+              ideal para ejecutar una reverse shell y moverse a una cuenta con mayores privilegios.
+            </p>
+          </div>
+
+          <div class="kblock">
+            <h3>Escalada de privilegios</h3>
+            <p>
+              La combinación de un acceso inicial válido y un script automatizado sin controles
+              suficientes permitió llevar la intrusión hasta un escenario de compromiso total.
+              Como resultado, se obtuvo control del sistema comprometido, confirmando un riesgo
+              crítico para la organización bajo análisis.
+            </p>
+          </div>
+        </section>
+
+        <section class="article-section">
+          <h2>4) Tabla de hallazgos</h2>
+
+          <div class="table-wrap">
+            <table class="tech-table" aria-label="Tabla de hallazgos Napping 101">
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Vulnerabilidad</th>
+                  <th>Severidad</th>
+                  <th>Impacto</th>
+                  <th>Recomendación</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>01</td>
+                  <td>Funcionalidad vulnerable a Tabnabbing</td>
+                  <td>Crítica</td>
+                  <td>Robo de credenciales y acceso inicial.</td>
+                  <td>Validar URLs externas y usar <code>rel="noopener noreferrer"</code>.</td>
+                </tr>
+                <tr>
+                  <td>02</td>
+                  <td>Gestión insegura de sesiones web</td>
+                  <td>Media</td>
+                  <td>Riesgo de robo de sesión y XSS por cookies sin protección.</td>
+                  <td>Configurar cookies seguras con HttpOnly, Secure y HTTPS.</td>
+                </tr>
+                <tr>
+                  <td>03</td>
+                  <td>Exposición de archivos sensibles</td>
+                  <td>Alta</td>
+                  <td>Filtración de información crítica.</td>
+                  <td>Restringir acceso y eliminar archivos innecesarios.</td>
+                </tr>
+                <tr>
+                  <td>04</td>
+                  <td>Permisos inseguros en <code>query.py</code></td>
+                  <td>Crítica</td>
+                  <td>Ejecución de código y escalada de privilegios.</td>
+                  <td>Restringir permisos y proteger scripts del sistema.</td>
+                </tr>
+                <tr>
+                  <td>05</td>
+                  <td>Escalada por script automatizado / cron</td>
+                  <td>Crítica</td>
+                  <td>Elevación de privilegios y compromiso total.</td>
+                  <td>Auditar tareas automatizadas y validar estrictamente scripts ejecutados.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <section class="article-section">
+          <h2>5) Impacto empresarial</h2>
+
+          <div class="grid-3">
+            <div class="kpi">
+              <div class="k">Estado general</div>
+              <div class="v">Riesgo crítico</div>
+            </div>
+            <div class="kpi">
+              <div class="k">Confidencialidad</div>
+              <div class="v">Exposición de credenciales y datos</div>
+            </div>
+            <div class="kpi">
+              <div class="k">Control del sistema</div>
+              <div class="v">Compromiso total</div>
+            </div>
+          </div>
+
+          <div class="callout">
+            <p class="title">Síntesis del impacto</p>
+            <p>
+              El riesgo se considera crítico porque el atacante pudo vulnerar defensas web,
+              comprometer cuentas de usuarios y escalar hasta control administrativo total del
+              sistema. Esto implica amenaza directa para la confidencialidad, la integridad y
+              la disponibilidad de la infraestructura.
+            </p>
+          </div>
+        </section>
+
+        <section class="article-section">
+          <h2>6) Galería de evidencias</h2>
+          <p>
+            Coloca aquí las capturas del procedimiento técnico. Solo necesitas poner tus
+            imágenes en la carpeta <code>assets/</code> con nombres <code>11.1.png</code>
+            a <code>11.26.png</code>.
+          </p>
+
+          <div class="gallery-grid">
+            <div class="gallery-card"><img src="assets/11.1.png" alt="Evidencia 11.1"><div class="cap">Evidencia 11.1</div></div>
+            <div class="gallery-card"><img src="assets/11.2.png" alt="Evidencia 11.2"><div class="cap">Evidencia 11.2</div></div>
+            <div class="gallery-card"><img src="assets/11.3.png" alt="Evidencia 11.3"><div class="cap">Evidencia 11.3</div></div>
+            <div class="gallery-card"><img src="assets/11.4.png" alt="Evidencia 11.4"><div class="cap">Evidencia 11.4</div></div>
+            <div class="gallery-card"><img src="assets/11.5.png" alt="Evidencia 11.5"><div class="cap">Evidencia 11.5</div></div>
+            <div class="gallery-card"><img src="assets/11.6.png" alt="Evidencia 11.6"><div class="cap">Evidencia 11.6</div></div>
+            <div class="gallery-card"><img src="assets/11.7.png" alt="Evidencia 11.7"><div class="cap">Evidencia 11.7</div></div>
+            <div class="gallery-card"><img src="assets/11.8.png" alt="Evidencia 11.8"><div class="cap">Evidencia 11.8</div></div>
+            <div class="gallery-card"><img src="assets/11.9.png" alt="Evidencia 11.9"><div class="cap">Evidencia 11.9</div></div>
+            <div class="gallery-card"><img src="assets/11.10.png" alt="Evidencia 11.10"><div class="cap">Evidencia 11.10</div></div>
+            <div class="gallery-card"><img src="assets/11.11.png" alt="Evidencia 11.11"><div class="cap">Evidencia 11.11</div></div>
+            <div class="gallery-card"><img src="assets/11.12.png" alt="Evidencia 11.12"><div class="cap">Evidencia 11.12</div></div>
+            <div class="gallery-card"><img src="assets/11.13.png" alt="Evidencia 11.13"><div class="cap">Evidencia 11.13</div></div>
+            <div class="gallery-card"><img src="assets/11.14.png" alt="Evidencia 11.14"><div class="cap">Evidencia 11.14</div></div>
+            <div class="gallery-card"><img src="assets/11.15.png" alt="Evidencia 11.15"><div class="cap">Evidencia 11.15</div></div>
+            <div class="gallery-card"><img src="assets/11.16.png" alt="Evidencia 11.16"><div class="cap">Evidencia 11.16</div></div>
+            <div class="gallery-card"><img src="assets/11.17.png" alt="Evidencia 11.17"><div class="cap">Evidencia 11.17</div></div>
+            <div class="gallery-card"><img src="assets/11.18.png" alt="Evidencia 11.18"><div class="cap">Evidencia 11.18</div></div>
+            <div class="gallery-card"><img src="assets/11.19.png" alt="Evidencia 11.19"><div class="cap">Evidencia 11.19</div></div>
+            <div class="gallery-card"><img src="assets/11.20.png" alt="Evidencia 11.20"><div class="cap">Evidencia 11.20</div></div>
+            <div class="gallery-card"><img src="assets/11.21.png" alt="Evidencia 11.21"><div class="cap">Evidencia 11.21</div></div>
+            <div class="gallery-card"><img src="assets/11.22.png" alt="Evidencia 11.22"><div class="cap">Evidencia 11.22</div></div>
+            <div class="gallery-card"><img src="assets/11.23.png" alt="Evidencia 11.23"><div class="cap">Evidencia 11.23</div></div>
+            <div class="gallery-card"><img src="assets/11.24.png" alt="Evidencia 11.24"><div class="cap">Evidencia 11.24</div></div>
+            <div class="gallery-card"><img src="assets/11.25.png" alt="Evidencia 11.25"><div class="cap">Evidencia 11.25</div></div>
+            <div class="gallery-card"><img src="assets/11.26.png" alt="Evidencia 11.26"><div class="cap">Evidencia 11.26</div></div>
+          </div>
+        </section>
+
+        <section class="article-section">
+          <h2>7) Conclusión</h2>
+          <p>
+            Esta actividad evidencia cómo una vulnerabilidad web aparentemente pequeña puede
+            convertirse en el punto de partida para una intrusión de alto impacto. El caso de
+            Napping 101 demuestra que la falta de protección en enlaces externos, combinada con
+            permisos inseguros y automatización deficiente, puede escalar rápidamente hacia un
+            compromiso total de la infraestructura.
+          </p>
+
+          <p>
+            Desde la perspectiva de seguridad informática, el laboratorio refuerza la importancia
+            de aplicar principios de desarrollo seguro, proteger las sesiones web, restringir
+            permisos sobre scripts y auditar tareas automáticas que puedan ser manipuladas.
+          </p>
+        </section>
+
+        <section class="article-section">
+          <h2>8) Referencias técnicas</h2>
+          <ul class="ref-list">
+            <li>GTFOBins. (s. f.). <em>Unix binaries for privilege escalation</em>.</li>
+            <li>Heffner, R. (2024). <em>Netdiscover: Active/passive ARP reconnaissance tool</em>. Kali Linux Tools.</li>
+            <li>International Organization for Standardization. (2022). <em>ISO/IEC 27002: Information security, cybersecurity and privacy protection — Information security controls</em>.</li>
+            <li>Lyon, G. F. (2024). <em>Nmap network scanning</em>. Nmap Project.</li>
+            <li>Mozilla Developer Network. (2024). <em>HTTP cookies</em>.</li>
+            <li>Mozilla Developer Network. (2024). <em>Window.open() method</em>.</li>
+            <li>National Institute of Standards and Technology. (2020). <em>NIST Special Publication 800-12 Revision 1: An introduction to information security</em>.</li>
+            <li>OWASP Foundation. (2023). <em>OWASP Web Security Testing Guide (WSTG)</em>.</li>
+            <li>OWASP Foundation. (2023). <em>DirBuster directory brute force tool</em>.</li>
+            <li>PentestMonkey. (s. f.). <em>Reverse shell cheat sheet</em>.</li>
+            <li>Python Software Foundation. (2024). <em>http.server — HTTP servers</em>.</li>
+            <li>Sullo, C. (2024). <em>Nikto web server scanner</em>. CIRT.net.</li>
+            <li>VulnHub. (s. f.). <em>Napping: 1.0.1 vulnerable machine</em>.</li>
+          </ul>
+        </section>
+
+        <div class="article-footer">
+          <a class="link-pill" href="actividades.html">↩ Volver a Actividades</a>
+        </div>
+
+      </article>
+    </div>
+  </section>
+</main>
+
+<footer class="footer">
+  <div class="container footer__inner">
+    <p>© <span class="muted">Portafolio de evidencias</span> | Seguridad Informática</p>
+    <p class="muted">PF01</p>
+  </div>
+</footer>
+
+</body>
+</html>

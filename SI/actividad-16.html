@@ -1,0 +1,543 @@
+<!doctype html>
+<html lang="es" dir="ltr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes" />
+  <meta name="description" content="Actividad 16 - Dilemas éticos en ciberseguridad." />
+  <title>Actividad 16 | Dilemas éticos en ciberseguridad</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&family=Fira+Code:wght@300;400;500;600;700&family=Orbitron:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="assets/css/styles.css" />
+
+  <script defer src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+  <script defer src="assets/js/main.js"></script>
+
+  <style>
+    .tech-table-wrap{overflow:auto;border-radius:16px;border:1px solid rgba(0,255,136,.18);background:rgba(0,0,0,.18);margin:1.2rem 0}
+    .tech-table{width:100%;border-collapse:collapse;min-width:760px}
+    .tech-table th,.tech-table td{padding:1rem;border-bottom:1px solid rgba(148,163,184,.18);vertical-align:top;color:rgba(226,232,240,.9);line-height:1.55}
+    .tech-table th{background:rgba(0,255,136,.08);font-family:var(--font-tech);text-align:left;color:#e2e8f0}
+    .ethics-cards,.ethics-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(235px,1fr));gap:1rem;margin:1.2rem 0}
+    .ethics-card,.scenario-box,.crime-card,.principle-card{border:1px solid rgba(0,255,136,.18);background:linear-gradient(135deg,rgba(0,255,136,.08),rgba(59,130,246,.05));border-radius:18px;padding:1.1rem;box-shadow:0 18px 50px rgba(0,0,0,.18)}
+    .ethics-card h3,.scenario-box h4,.crime-card h3,.principle-card h3{margin:.25rem 0 .5rem;color:#e2e8f0}
+    .ethics-card .tag,.crime-card .tag{display:inline-flex;padding:.25rem .65rem;border-radius:999px;background:rgba(0,255,136,.12);border:1px solid rgba(0,255,136,.24);font-family:var(--font-code);font-weight:800;color:var(--text-secondary);font-size:.82rem}
+    .scenario-card{border:1px solid rgba(0,255,136,.18);border-radius:22px;background:rgba(15,23,42,.45);padding:1.15rem;margin:1.4rem 0}
+    .scenario-header{display:flex;gap:1rem;align-items:center;justify-content:space-between;flex-wrap:wrap;margin-bottom:1rem}
+    .scenario-header h3{margin:0;color:#e2e8f0}
+    .scenario-pill{display:inline-flex;border-radius:999px;padding:.35rem .75rem;background:rgba(0,255,136,.1);border:1px solid rgba(0,255,136,.25);font-family:var(--font-code);font-weight:900;color:var(--text-secondary);font-size:.8rem}
+    .scenario-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1rem}
+    .scenario-subtitle{margin:1.2rem 0 .5rem;color:#e2e8f0;font-family:var(--font-tech)}
+    .ethics-decision-map{position:relative;overflow:hidden}
+    .ethics-decision-map::before{content:"";position:absolute;inset:-40%;background:radial-gradient(circle at 20% 20%, rgba(0,255,136,.12), transparent 28%),radial-gradient(circle at 80% 30%, rgba(56,189,248,.10), transparent 30%),radial-gradient(circle at 50% 90%, rgba(168,85,247,.10), transparent 32%);pointer-events:none}
+    .decision-map{position:relative;z-index:1;display:grid;gap:1rem;margin-top:1.2rem}
+    .decision-node,.decision-branch{border:1px solid rgba(0,255,136,.22);background:linear-gradient(135deg, rgba(15,23,42,.92), rgba(2,6,23,.72));border-radius:18px;padding:1.1rem;box-shadow:0 18px 40px rgba(0,0,0,.28), inset 0 0 22px rgba(0,255,136,.035)}
+    .decision-node{display:grid;grid-template-columns:auto 1fr;gap:.35rem .85rem;align-items:start}
+    .decision-number{grid-row:span 2;width:42px;height:42px;display:grid;place-items:center;border-radius:14px;background:rgba(0,255,136,.10);border:1px solid rgba(0,255,136,.28);color:var(--primary-color);font-family:var(--font-tech);font-weight:900}
+    .decision-node h3,.decision-branch h4{margin:0;color:var(--text-primary);font-family:var(--font-tech)}
+    .decision-node p,.decision-branch p{margin:.25rem 0 0;color:var(--text-secondary);line-height:1.55}
+    .decision-connector{display:flex;justify-content:center;min-height:28px}
+    .decision-connector span{width:2px;min-height:28px;background:linear-gradient(to bottom, rgba(0,255,136,.15), rgba(0,255,136,.95), rgba(0,255,136,.15));box-shadow:0 0 18px rgba(0,255,136,.45);position:relative}
+    .decision-connector span::after{content:"";position:absolute;left:50%;bottom:-6px;width:10px;height:10px;border-right:2px solid rgba(0,255,136,.95);border-bottom:2px solid rgba(0,255,136,.95);transform:translateX(-50%) rotate(45deg)}
+    .decision-branches{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1rem}
+    .branch-label{display:inline-flex;align-items:center;justify-content:center;min-width:46px;padding:.25rem .65rem;margin-bottom:.65rem;border-radius:999px;font-family:var(--font-code);font-size:.8rem;font-weight:900;border:1px solid rgba(0,255,136,.25);color:var(--primary-color);background:rgba(0,255,136,.08)}
+    .decision-branch--no{border-color:rgba(248,113,113,.28)}
+    .decision-branch--no .branch-label{color:#fca5a5;border-color:rgba(248,113,113,.32);background:rgba(248,113,113,.09)}
+    .decision-node--finish{border-color:rgba(56,189,248,.24)}
+    .principles-list{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:.85rem;margin:1rem 0}
+    .principle-card span{display:inline-flex;width:32px;height:32px;align-items:center;justify-content:center;border-radius:10px;background:rgba(0,255,136,.1);border:1px solid rgba(0,255,136,.25);font-family:var(--font-code);font-weight:900;color:#00ff88;margin-bottom:.55rem}
+    @media(max-width:760px){.decision-branches{grid-template-columns:1fr}.decision-node{grid-template-columns:1fr}.decision-number{grid-row:auto}.tech-table{min-width:620px}}
+  </style>
+</head>
+
+<body>
+  <a class="skip-link" href="#contenido">Saltar al contenido principal</a>
+
+  <header class="header" id="header" role="banner">
+    <div class="header-container">
+      <nav class="nav" aria-label="Menú principal">
+        <a class="nav-brand" href="index.html#contenido" aria-label="Ir al inicio">
+          <span class="brand-icon"><i class="fas fa-shield-alt"></i></span>
+          <span class="brand-text">PF01</span>
+        </a>
+
+        <div class="nav-menu" id="navMenu">
+          <a class="nav-link" href="index.html#contenido"><span class="nav-text">Inicio</span></a>
+          <a class="nav-link active" href="actividades.html"><span class="nav-text">Actividades</span></a>
+
+          <div class="nav-dropdown" id="parcialesDropdown">
+            <button class="nav-link nav-dropbtn" type="button" aria-expanded="false" aria-controls="parcialesMenu">
+              <span class="nav-text">Parciales</span>
+              <i class="fas fa-chevron-down"></i>
+            </button>
+            <div class="nav-dropmenu" id="parcialesMenu" role="menu">
+              <a class="nav-dropitem" href="index.html#parciales" data-open="p1" role="menuitem">Parcial 1</a>
+              <a class="nav-dropitem" href="index.html#parciales" data-open="p2" role="menuitem">Parcial 2</a>
+              <a class="nav-dropitem" href="index.html#parciales" data-open="p3" role="menuitem">Parcial 3</a>
+              <a class="nav-dropitem" href="index.html#parciales" data-open="final" role="menuitem">Final</a>
+            </div>
+          </div>
+
+          <a class="nav-link" href="proyectos.html"><span class="nav-text">Proyectos</span></a>
+          <div class="nav-dropdown" id="hofDropdown">
+            <button class="nav-link nav-dropbtn" type="button" aria-expanded="false" aria-controls="hofMenu">
+              <span class="nav-text">ROAD TO HALL OF FAME</span>
+              <i class="fas fa-chevron-down"></i>
+            </button>
+            <div class="nav-dropmenu" id="hofMenu" role="menu">
+              <a class="nav-dropitem" href="sql-injection.html" role="menuitem">SQL Injection</a>
+            </div>
+          </div>
+          <a class="nav-link" href="index.html#contacto"><span class="nav-text">Contacto</span></a>
+        </div>
+
+        <div class="nav-actions">
+          <button class="menu-toggle" id="menuToggle" type="button" aria-label="Abrir menú">
+            <span></span><span></span><span></span>
+          </button>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main" class="main" role="main">
+    <section class="section hero hero--sub" id="contenido">
+      <div class="hero-bg" aria-hidden="true">
+        <canvas id="matrixCanvas"></canvas>
+        <div class="grid-overlay"></div>
+        <div class="scan-line"></div>
+        <div class="hack-particles" id="hackParticles"></div>
+      </div>
+
+      <div class="hero-container">
+        <div class="hero-content">
+          <div class="hero-badge">
+            <div class="badge-pulse"></div>
+            <i class="fas fa-scale-balanced"></i>
+            <span>ACTIVIDAD 16 · ÉTICA PROFESIONAL</span>
+          </div>
+          <h1 class="hero-title">
+            <span class="title-word">Dilemas éticos</span>
+            <span class="title-word highlight">en ciberseguridad</span>
+          </h1>
+          <p class="hero-description">
+            Artículo técnico digital sobre toma de decisiones responsables ante accesos internos, vulnerabilidades críticas y uso de OSINT.
+          </p>
+          <div class="hero-buttons">
+            <a
+              class="btn btn-primary js-download-pdf"
+              href="assets/pdfs/act16-Equipo03.pdf"
+              download="Actividad-16-Dilemas-eticos-en-ciberseguridad.pdf"
+              data-pdf="assets/pdfs/act16-Equipo03.pdf"
+              data-filename="Actividad-16-Dilemas-eticos-en-ciberseguridad.pdf"
+            >
+              <span>Exportar a PDF</span>
+              <div class="btn-shine"></div>
+            </a>
+
+            <a class="btn btn-secondary" href="actividades.html">
+              <span>Volver a actividades</span>
+              <div class="btn-shine"></div>
+            </a>
+          </div>
+        </div>
+
+        <div class="hero-visual">
+          <div class="security-terminal">
+            <div class="terminal-header">
+              <div class="terminal-dots"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span></div>
+              <div class="terminal-title">ETHICS::DECISION_ENGINE</div>
+            </div>
+            <div class="terminal-body">
+              <div class="terminal-line" style="opacity:1"><span class="prompt">analyst@ethics:~$</span> <span class="command">evaluate --scope cybersec</span></div>
+              <div class="terminal-line" style="opacity:1"><span class="output">[OK] privacidad + legalidad + bien común</span></div>
+              <div class="terminal-line" style="opacity:1"><span class="output success">recomendación: actuar con autorización formal</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <nav class="breadcrumbs" aria-label="Breadcrumb">
+          <a href="index.html#contenido">Inicio</a>
+          <span class="crumb-sep">/</span>
+          <a href="actividades.html">Actividades</a>
+          <span class="crumb-sep">/</span>
+          <span class="crumb-current">Actividad 16</span>
+        </nav>
+
+        <article class="card article">
+          <div class="article-head">
+            <div>
+              <div class="article-kicker">CNO V · Seguridad Informática</div>
+              <h2 class="article-title">Actividad 16: Dilemas éticos en ciberseguridad</h2>
+              <p class="article-subtitle">
+                Evaluación de decisiones éticas en tres escenarios reales de seguridad informática, aplicando enfoques utilitaristas, de derechos, de bien común y clasificación de delitos cibernéticos.
+              </p>
+            </div>
+          </div>
+
+          <div class="article-meta-grid">
+            <div class="article-meta-item"><span class="article-meta-label">Tema</span><span class="article-meta-value">Ética en ciberseguridad</span></div>
+            <div class="article-meta-item"><span class="article-meta-label">Enfoques</span><span class="article-meta-value">Utilitarista · Derechos · Bien común</span></div>
+            <div class="article-meta-item"><span class="article-meta-label">Escenarios</span><span class="article-meta-value">Acceso interno · Pentest · OSINT</span></div>
+            <div class="article-meta-item"><span class="article-meta-label">Producto</span><span class="article-meta-value">Artículo web + PDF</span></div>
+          </div>
+
+          <section class="article-section">
+            <h2>1. Introducción</h2>
+            <div class="ethics-hero-panel">
+              <div>
+                <p>
+                  En el entorno actual, la ciberseguridad es una disciplina estratégica para proteger la información, la continuidad operativa y la confianza digital dentro de las organizaciones. Sin embargo, el trabajo del especialista no se limita a herramientas técnicas: también exige tomar decisiones cuando la capacidad técnica puede entrar en conflicto con principios éticos, derechos individuales, intereses organizacionales y aspectos legales.
+                </p>
+                <p>
+                  Los dilemas éticos aparecen cuando una acción técnicamente posible no necesariamente es moralmente correcta. Acceder a información privada sin autorización, explotar vulnerabilidades críticas o usar OSINT para presionar psicológicamente puede vulnerar privacidad, confidencialidad, integridad personal y confianza institucional.
+                </p>
+                <p>
+                  En esta actividad se analizan tres escenarios reales de ciberseguridad, identificando conflictos morales, enfoques éticos aplicables, principios de ética informática, clasificación de delitos cibernéticos y resolución profesional fundamentada.
+                </p>
+              </div>
+              <div class="ethics-visual-card" aria-label="Recurso visual sobre ética en ciberseguridad">
+                <div class="ethics-visual-icon"><i class="fas fa-user-shield"></i></div>
+                <h3>Decisión segura</h3>
+                <p>Una buena práctica de seguridad debe proteger sistemas sin romper derechos, procesos ni confianza.</p>
+              </div>
+            </div>
+          </section>
+
+          <section class="article-section">
+            <h2>2. Objetivos</h2>
+            <h3>2.1 Objetivo general</h3>
+            <p>
+              Evaluar la capacidad de análisis y toma de decisiones éticas en escenarios reales de ciberseguridad, considerando marcos éticos, legales y organizacionales.
+            </p>
+
+            <h3>2.2 Objetivos específicos</h3>
+            <div class="ethics-cards">
+              <div class="ethics-card"><span class="tag">01</span><h3>Identificar dilemas</h3><p>Reconocer conflictos éticos en operaciones de ciberseguridad.</p></div>
+              <div class="ethics-card"><span class="tag">02</span><h3>Aplicar enfoques</h3><p>Evaluar incidentes desde perspectivas utilitaristas, de derechos y de bien común.</p></div>
+              <div class="ethics-card"><span class="tag">03</span><h3>Relacionar principios</h3><p>Vincular decisiones profesionales con principios de ética informática.</p></div>
+              <div class="ethics-card"><span class="tag">04</span><h3>Clasificar delitos</h3><p>Determinar el tipo de delito cibernético involucrado en cada caso.</p></div>
+              <div class="ethics-card"><span class="tag">05</span><h3>Justificar decisiones</h3><p>Proponer respuestas profesionales con criterios éticos y técnicos.</p></div>
+            </div>
+          </section>
+
+          <section class="article-section">
+            <h2>3. Enfoques éticos</h2>
+            <div class="ethics-cards">
+              <div class="ethics-card">
+                <span class="tag">3.1</span>
+                <h3>Ética utilitarista</h3>
+                <p>
+                  Una acción es correcta cuando produce el mayor beneficio posible para la mayoría y reduce daños. En ciberseguridad, esto favorece proteger a usuarios y organización mediante procedimientos formales, en lugar de justificar accesos indebidos o beneficios personales.
+                </p>
+              </div>
+              <div class="ethics-card">
+                <span class="tag">3.2</span>
+                <h3>Enfoque en derechos</h3>
+                <p>
+                  Reconoce privacidad, confidencialidad y protección de la información como derechos que deben respetarse incluso cuando existe una intención de seguridad. Una acción no autorizada sigue siendo incorrecta si rompe esos límites.
+                </p>
+              </div>
+              <div class="ethics-card">
+                <span class="tag">3.3</span>
+                <h3>Bien común</h3>
+                <p>
+                  Busca mantener un entorno digital seguro, transparente y confiable para personas y organizaciones. Implica rechazar abusos tecnológicos, accesos arbitrarios o usos de información que dañen estabilidad y confianza.
+                </p>
+              </div>
+            </div>
+          </section>
+
+          <section class="article-section">
+            <h2>4. Principios de ética informática aplicables</h2>
+            <p>
+              Estos principios orientan la conducta profesional para evitar daños, abuso de privilegios y uso indebido de información o sistemas.
+            </p>
+
+            <div class="principles-list">
+              <div class="principle-card"><span>01</span><h3>No dañar</h3><p>No utilizar una computadora para dañar a otras personas.</p></div>
+              <div class="principle-card"><span>02</span><h3>No interferir</h3><p>No interferir con el trabajo informático de otras personas.</p></div>
+              <div class="principle-card"><span>03</span><h3>No acceder sin permiso</h3><p>No acceder a archivos o información privada sin autorización.</p></div>
+              <div class="principle-card"><span>04</span><h3>No cometer actos ilegales</h3><p>No utilizar recursos informáticos para cometer actos ilegales.</p></div>
+              <div class="principle-card"><span>05</span><h3>No abusar privilegios</h3><p>No utilizar privilegios tecnológicos de manera indebida.</p></div>
+              <div class="principle-card"><span>06</span><h3>Respetar privacidad</h3><p>Proteger la privacidad y confidencialidad de la información.</p></div>
+              <div class="principle-card"><span>07</span><h3>Actuar con honestidad</h3><p>Usar sistemas informáticos con responsabilidad y respeto.</p></div>
+              <div class="principle-card"><span>08</span><h3>Prever consecuencias</h3><p>Considerar impactos sociales, humanos y organizacionales.</p></div>
+              <div class="principle-card"><span>09</span><h3>Mantener integridad</h3><p>No manipular datos, falsear investigaciones ni coaccionar.</p></div>
+              <div class="principle-card"><span>10</span><h3>Respetar dignidad</h3><p>Garantizar el respeto a las personas y sus derechos.</p></div>
+            </div>
+
+            <div class="decision-flow">
+              <div class="flow-step"><span>01</span><strong>Autorización</strong><p>Verificar alcance, permisos y contrato antes de tocar información sensible.</p></div>
+              <div class="flow-step"><span>02</span><strong>Evidencia</strong><p>Documentar hallazgos de forma objetiva, técnica y verificable.</p></div>
+              <div class="flow-step"><span>03</span><strong>Reporte</strong><p>Comunicar por canales formales: seguridad, cumplimiento, auditoría o legal.</p></div>
+              <div class="flow-step"><span>04</span><strong>Mitigación</strong><p>Corregir controles y evitar reincidencias sin vulnerar derechos.</p></div>
+            </div>
+          </section>
+
+          <section class="article-section">
+            <h2>5. Clasificación general de delitos cibernéticos</h2>
+            <div class="ethics-grid">
+              <div class="crime-card">
+                <span class="tag">5.1</span>
+                <h3>Delito informático</h3>
+                <p>
+                  Ocurre cuando la computadora, los sistemas digitales o los recursos computacionales son el medio principal para ejecutar una actividad ilícita. Ejemplos: ingreso no autorizado a información protegida o explotación de vulnerabilidades para obtener recursos económicos.
+                </p>
+              </div>
+              <div class="crime-card">
+                <span class="tag">5.2</span>
+                <h3>Delito asistido por computadora</h3>
+                <p>
+                  Se presenta cuando internet o software no atacan directamente un sistema, sino que facilitan un delito común. Por ejemplo, usar información OSINT para acoso, amenazas, extorsión o presión psicológica.
+                </p>
+              </div>
+              <div class="crime-card">
+                <span class="tag">5.3</span>
+                <h3>Delito incidental</h3>
+                <p>
+                  Los dispositivos tecnológicos no son objetivo ni herramienta indispensable del ilícito, pero aparecen involucrados como repositorios de evidencia o elementos secundarios del caso.
+                </p>
+              </div>
+            </div>
+          </section>
+
+          <section class="article-section">
+            <h2>6. Escenarios de ciberseguridad</h2>
+
+            <div class="scenario-card">
+              <div class="scenario-header">
+                <h3>Escenario 01: Acceso no autorizado interno</h3>
+                <span class="scenario-pill">Delito informático</span>
+              </div>
+              <p>
+                Durante una revisión de logs se detecta que un compañero accedió sin autorización a correos privados del director general, argumentando que buscaba detectar fugas de información.
+              </p>
+
+              <h4 class="scenario-subtitle">1. Contexto del incidente y conflicto ético identificado</h4>
+              <p>
+                Aunque la intención aparente era proteger a la empresa, la acción se realizó fuera de procedimientos autorizados, vulnerando privacidad y confidencialidad. El conflicto está entre proteger la seguridad organizacional y respetar límites legales, éticos y profesionales.
+              </p>
+
+              <h4 class="scenario-subtitle">2. Evaluación de riesgos y toma de decisión profesional</h4>
+              <p>
+                El acceso no autorizado genera riesgos de pérdida de confianza, sanciones legales, abuso de privilegios y deterioro de la cultura ética. La decisión correcta es preservar logs, documentar el incidente y reportarlo por canales internos, asegurando que toda investigación tenga autorización formal.
+              </p>
+
+              <h4 class="scenario-subtitle">3. Análisis ético del escenario</h4>
+              <div class="scenario-grid">
+                <div class="scenario-box"><h4>3.1 Enfoque utilitarista</h4><p>El acceso no autorizado causa más daños que beneficios: vulnera privacidad, afecta confianza y puede provocar problemas legales. El mayor beneficio colectivo se logra respetando procedimientos y usando monitoreo legítimo.</p></div>
+                <div class="scenario-box"><h4>3.2 Derechos y privacidad</h4><p>El director general tiene derecho a privacidad y confidencialidad. Pertenecer a ciberseguridad no otorga permiso automático para acceder a correos privados.</p></div>
+                <div class="scenario-box"><h4>3.3 Bien común</h4><p>La seguridad debe crear un entorno confiable. Permitir accesos arbitrarios genera vigilancia indebida y abuso de privilegios tecnológicos.</p></div>
+              </div>
+
+              <h4 class="scenario-subtitle">4. Incumplimientos y principios aplicables</h4>
+              <p>
+                Se incumplen principios como no acceder a información privada sin autorización, no abusar de privilegios, respetar privacidad y actuar con responsabilidad. Esto puede derivar en sanciones disciplinarias, consecuencias legales y pérdida de confianza.
+              </p>
+
+              <h4 class="scenario-subtitle">5. Clasificación del incidente</h4>
+              <p>
+                Se clasifica como delito informático porque implica acceso no autorizado a información digital protegida mediante recursos computacionales de la organización. Puede relacionarse con acceso ilícito a sistemas, violación de comunicaciones privadas y uso indebido de información confidencial.
+              </p>
+
+              <h4 class="scenario-subtitle">6. Resolución propuesta</h4>
+              <p>
+                Documentar el incidente, preservar evidencia en logs, reportar a cumplimiento, auditoría o seguridad, investigar formalmente el abuso de privilegios y reforzar controles de acceso, monitoreo y autorización.
+              </p>
+            </div>
+
+            <div class="scenario-card">
+              <div class="scenario-header">
+                <h3>Escenario 02: Vulnerabilidad crítica no reportada</h3>
+                <span class="scenario-pill">Fraude informático potencial</span>
+              </div>
+              <p>
+                Durante un pentest se encuentra una vulnerabilidad crítica en un sistema financiero que permite extraer dinero. El cliente aún no firma el contrato final y existe la posibilidad de explotarla sin ser detectado.
+              </p>
+
+              <h4 class="scenario-subtitle">1. Contexto del incidente y conflicto ético identificado</h4>
+              <p>
+                El hallazgo ocurre dentro de un contexto técnico, pero al no existir contrato final formalizado surge un conflicto sobre límites de autorización y posible uso indebido de la vulnerabilidad para beneficio personal.
+              </p>
+
+              <h4 class="scenario-subtitle">2. Evaluación de riesgos y toma de decisión profesional</h4>
+              <p>
+                Explotar la vulnerabilidad puede causar pérdidas económicas, daño a usuarios, afectaciones reputacionales y consecuencias legales. La decisión profesional es documentar técnicamente el hallazgo, no explotarlo, conservar confidencialidad y reportarlo de forma responsable.
+              </p>
+
+              <h4 class="scenario-subtitle">3. Análisis ético del escenario</h4>
+              <div class="scenario-grid">
+                <div class="scenario-box"><h4>3.1 Enfoque utilitarista</h4><p>Reportar responsablemente protege usuarios, previene incidentes y fortalece confianza; explotarla solo generaría daño financiero, legal y reputacional.</p></div>
+                <div class="scenario-box"><h4>3.2 Derechos y privacidad</h4><p>La organización y sus clientes tienen derecho a proteger recursos financieros e información. La vulnerabilidad no debe usarse sin autorización.</p></div>
+                <div class="scenario-box"><h4>3.3 Bien común</h4><p>La ciberseguridad debe contribuir a sistemas financieros seguros. Reportar la falla promueve confianza digital y cultura profesional.</p></div>
+              </div>
+
+              <h4 class="scenario-subtitle">4. Incumplimientos y principios aplicables</h4>
+              <p>
+                Explotar la falla implicaría usar recursos informáticos para cometer actos ilegales, dañar a otros, interferir con sistemas y actuar sin responsabilidad social. También afectaría la confianza profesional del especialista.
+              </p>
+
+              <h4 class="scenario-subtitle">5. Clasificación del incidente</h4>
+              <p>
+                Se clasifica como delito informático porque el sistema financiero sería el medio principal para obtener un beneficio económico ilícito. Puede relacionarse con fraude informático, acceso ilícito y robo electrónico de recursos financieros.
+              </p>
+
+              <h4 class="scenario-subtitle">6. Resolución propuesta</h4>
+              <p>
+                Documentar la vulnerabilidad, reportarla al cliente o área correspondiente, evitar cualquier explotación, formalizar NDA, contrato, alcance y autorización antes de pruebas técnicas, y mantener integridad profesional.
+              </p>
+            </div>
+
+            <div class="scenario-card">
+              <div class="scenario-header">
+                <h3>Escenario 03: Uso de herramientas OSINT</h3>
+                <span class="scenario-pill">Delito asistido por computadora</span>
+              </div>
+              <p>
+                Durante una investigación por posible fraude, se encuentra información personal de una persona en fuentes abiertas: dirección, familia y hábitos. Un superior solicita usar esos datos para presionarla psicológicamente.
+              </p>
+
+              <h4 class="scenario-subtitle">1. Contexto del incidente y conflicto ético identificado</h4>
+              <p>
+                Aunque la información proviene de fuentes abiertas, utilizarla para intimidar o manipular vulnera privacidad, dignidad y uso responsable de la información. El dilema está entre investigar un fraude y cruzar límites éticos y legales.
+              </p>
+
+              <h4 class="scenario-subtitle">2. Evaluación de riesgos y toma de decisión profesional</h4>
+              <p>
+                Usar OSINT con fines de presión psicológica puede causar daño emocional, problemas legales, daño reputacional y abuso de inteligencia digital. La decisión correcta es usar la información solo para fines legítimos y rechazar la solicitud indebida.
+              </p>
+
+              <h4 class="scenario-subtitle">3. Análisis ético del escenario</h4>
+              <div class="scenario-grid">
+                <div class="scenario-box"><h4>3.1 Enfoque utilitarista</h4><p>Presionar al sospechoso podría parecer rápido, pero causa más daño: afecta a personas inocentes, invalida evidencia y genera prácticas de acoso.</p></div>
+                <div class="scenario-box"><h4>3.2 Derechos y privacidad</h4><p>Incluso un sospechoso tiene derecho al debido proceso e integridad psicológica. Que los datos sean públicos no permite usarlos para cualquier fin.</p></div>
+                <div class="scenario-box"><h4>3.3 Bien común</h4><p>La seguridad no debe convertirse en extorsión. Lo correcto es canalizar pruebas por vías legales y permitir que actúen las autoridades correspondientes.</p></div>
+              </div>
+
+              <h4 class="scenario-subtitle">4. Incumplimientos y principios aplicables</h4>
+              <p>
+                Se violan principios de no dañar, integridad en la información, responsabilidad social y respeto a la dignidad. El uso de OSINT para hostigar transforma una herramienta legítima en un mecanismo de acoso o manipulación.
+              </p>
+
+              <h4 class="scenario-subtitle">5. Clasificación del incidente</h4>
+              <p>
+                Se clasifica como delito asistido por computadora porque no se ataca directamente un servidor ni se roban datos mediante exploits; se usan internet y software OSINT para facilitar acoso, amenazas, extorsión o presión psicológica.
+              </p>
+
+              <h4 class="scenario-subtitle">6. Resolución propuesta</h4>
+              <p>
+                Rechazar la orden, explicar que implica riesgos éticos y legales, entregar un reporte técnico limpio con evidencia del fraude, excluir datos privados irrelevantes, turnar el caso a Legal o Cumplimiento y dejar constancia formal de la actuación.
+              </p>
+            </div>
+          </section>
+
+          <section class="article-section">
+            <h2>7. Recurso multimedia: matriz visual de decisión ética</h2>
+            <div class="media-block ethics-decision-map">
+              <div class="media-title"><i class="fas fa-diagram-project"></i> Flujo recomendado ante un dilema ético</div>
+
+              <div class="decision-map" aria-label="Matriz visual de decisión ética">
+                <div class="decision-node decision-node--start">
+                  <span class="decision-number">01</span>
+                  <h3>Hallazgo técnico</h3>
+                  <p>Se detecta una vulnerabilidad, acceso indebido o dato sensible.</p>
+                </div>
+
+                <div class="decision-connector"><span></span></div>
+
+                <div class="decision-node decision-node--question">
+                  <span class="decision-number">02</span>
+                  <h3>¿Hay autorización formal?</h3>
+                  <p>Antes de actuar se valida contrato, alcance, permisos y límites.</p>
+                </div>
+
+                <div class="decision-branches">
+                  <div class="decision-branch decision-branch--no">
+                    <span class="branch-label">NO</span>
+                    <h4>Detener acción</h4>
+                    <p>Documentar evidencia mínima, no explotar, no acceder a datos privados y escalar al responsable.</p>
+                  </div>
+                  <div class="decision-branch decision-branch--yes">
+                    <span class="branch-label">SÍ</span>
+                    <h4>Evaluar impacto</h4>
+                    <p>Revisar privacidad, legalidad, proporcionalidad, daño potencial y utilidad real de la acción.</p>
+                  </div>
+                </div>
+
+                <div class="decision-connector"><span></span></div>
+
+                <div class="decision-node decision-node--report">
+                  <span class="decision-number">03</span>
+                  <h3>Reporte responsable</h3>
+                  <p>Comunicar evidencia objetiva por canales autorizados: seguridad, legal, auditoría o cumplimiento.</p>
+                </div>
+
+                <div class="decision-connector"><span></span></div>
+
+                <div class="decision-node decision-node--finish">
+                  <span class="decision-number">04</span>
+                  <h3>Mitigación ética</h3>
+                  <p>Corregir controles sin vulnerar derechos, confianza ni trazabilidad.</p>
+                </div>
+              </div>
+
+              <p class="media-note muted">Este recurso visual resume el criterio profesional esperado: no basta con poder hacerlo; debe existir autorización, proporcionalidad, legalidad y trazabilidad.</p>
+            </div>
+          </section>
+
+          <section class="article-section">
+            <h2>8. Conclusión</h2>
+            <p>
+              La ciberseguridad no solo implica mecanismos técnicos para proteger sistemas e información, sino también la capacidad de tomar decisiones responsables frente a situaciones complejas donde intervienen aspectos éticos, legales y profesionales.
+            </p>
+            <p>
+              Los escenarios analizados muestran que muchas acciones técnicamente posibles pueden representar violaciones graves a la privacidad, confidencialidad y derechos de las personas cuando se ejecutan fuera de límites autorizados o con fines indebidos.
+            </p>
+            <p>
+              La aplicación de enfoques éticos permitió comprender que las decisiones deben evaluarse no solo por beneficios inmediatos, sino por sus consecuencias sociales, organizacionales y humanas. La clasificación de delitos cibernéticos también evidenció las implicaciones legales asociadas al abuso de herramientas, privilegios o vulnerabilidades.
+            </p>
+            <p>
+              Finalmente, esta actividad fortalece la capacidad de análisis ético y profesional, reafirmando que la ética es un componente indispensable dentro del ejercicio responsable de las tecnologías de información.
+            </p>
+          </section>
+
+          <section class="article-section">
+            <h2>9. Referencias</h2>
+            <ul class="references-list">
+              <li>International Association of Computer Science and Information Technology. (2010). <em>ACM Code of Ethics and Professional Conduct</em>. Association for Computing Machinery.</li>
+              <li>Institute of Electrical and Electronics Engineers. (2020). <em>IEEE Code of Ethics</em>. IEEE.</li>
+              <li>National Institute of Standards and Technology. (2008). <em>Technical Guide to Information Security Testing and Assessment (SP 800-115)</em>.</li>
+              <li>EC-Council. (2019). <em>Ethical hacking and penetration testing guidelines</em>.</li>
+              <li>Council of Europe. (2001). <em>Convention on cybercrime (Budapest Convention)</em>.</li>
+              <li>SANS Institute. (n.d.). <em>Ethics for penetration testers and security professionals</em>.</li>
+              <li>ISACA. (2022). <em>Code of Professional Ethics</em>. Information Systems Audit and Control Association.</li>
+            </ul>
+          </section>
+
+          <div class="article-footer">
+            <a class="link-pill" href="actividades.html">↩ Volver al índice</a>
+            <a class="link-pill" href="#contenido"><i class="fas fa-arrow-up"></i> Subir</a>
+          </div>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer" role="contentinfo">
+    <div class="container footer__inner">
+      <p>© <span id="year"></span> Enrique Alvarez Aquino · Portafolio de Seguridad Informática</p>
+      <p class="muted">Universidad Politécnica de San Luis Potosí · UPSLP</p>
+    </div>
+  </footer>
+</body>
+</html>

@@ -1,0 +1,473 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="description" content="Actividad 10 - Ataques, conceptos y técnicas" />
+  <title>Actividad 10 | Ataques, conceptos y técnicas</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&family=Fira+Code:wght@300;400;500;600;700&family=Orbitron:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <link rel="stylesheet" href="assets/css/styles.css" />
+
+  <script defer src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+  <script defer src="assets/js/main.js"></script>
+
+  <style>
+    .pill-mini{
+      display:inline-flex;
+      align-items:center;
+      gap:.5rem;
+      padding:.35rem .7rem;
+      border-radius:999px;
+      border:1px solid rgba(0,255,136,.20);
+      background: rgba(0,255,136,.06);
+      color: var(--text-secondary);
+      font-family: var(--font-code);
+      font-weight:900;
+      font-size:.78rem;
+      margin:.65rem .45rem 0 0;
+      white-space:nowrap;
+    }
+
+    .kblock{
+      border-radius:16px;
+      border:1px solid rgba(0,255,136,.16);
+      background: rgba(0,0,0,.18);
+      padding:1rem;
+      margin-top:1rem;
+    }
+
+    .kblock h3{
+      margin:.1rem 0 .6rem;
+      font-family:var(--font-tech);
+      letter-spacing:.5px;
+      font-size:1rem;
+      color: var(--primary);
+    }
+
+    .callout{
+      border-radius:16px;
+      border:1px solid rgba(0,212,255,.18);
+      background: rgba(0,0,0,.18);
+      padding:1rem;
+      margin-top:1rem;
+    }
+
+    .callout .title{
+      font-family:var(--font-code);
+      color: var(--secondary);
+      font-weight:900;
+      margin:0 0 .55rem;
+    }
+
+    .grid-2{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:1rem;
+      margin-top:1rem;
+    }
+
+    .grid-3{
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:1rem;
+      margin-top:1rem;
+    }
+
+    .topic-grid{
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:1rem;
+      margin-top:1rem;
+    }
+
+    .topic-card{
+      border-radius:16px;
+      border:1px solid rgba(0,255,136,.16);
+      background: rgba(0,0,0,.18);
+      padding:1rem;
+    }
+
+    .topic-card h3{
+      margin:.1rem 0 .55rem;
+      font-family:var(--font-tech);
+      font-size:1rem;
+      color:var(--primary);
+      letter-spacing:.4px;
+    }
+
+    .topic-card p{
+      margin:0;
+      color: rgba(226,232,240,.84);
+      line-height:1.62;
+    }
+
+    .media-img{
+      width:100%;
+      border-radius:16px;
+      border:1px solid rgba(0,255,136,.16);
+      background: rgba(0,0,0,.18);
+      overflow:hidden;
+      margin-top:1rem;
+    }
+
+    .media-img img{
+      width:100%;
+      height:auto;
+      display:block;
+    }
+
+    .media-caption{
+      padding:.85rem 1rem;
+      color: rgba(226,232,240,.82);
+      border-top:1px solid rgba(0,255,136,.10);
+      background: rgba(0,0,0,.14);
+    }
+
+    .ref-list{
+      list-style:none;
+      padding-left:0;
+      margin:1rem 0 0;
+    }
+
+    .ref-list li{
+      padding-left:1.6rem;
+      text-indent:-1.6rem;
+      margin:.8rem 0;
+      color: rgba(226,232,240,.88);
+      line-height:1.7;
+    }
+
+    @media (max-width: 980px){
+      .grid-2,
+      .grid-3,
+      .topic-grid{
+        grid-template-columns:1fr;
+      }
+    }
+  </style>
+</head>
+
+<body>
+<a class="skip-link" href="#contenido">Saltar al contenido principal</a>
+
+<header class="header" id="header" role="banner">
+  <div class="header-container">
+    <nav class="nav" aria-label="Menú principal">
+      <a class="nav-brand" href="index.html">
+        <span class="brand-icon" aria-hidden="true">PF01</span>
+        <span class="brand-text">Portafolio</span>
+      </a>
+
+      <button class="menu-toggle" id="menuToggle" aria-label="Abrir menú">
+        <span></span><span></span><span></span>
+      </button>
+
+      <div class="nav-menu" id="navMenu">
+        <a class="nav-link" href="index.html">Inicio</a>
+        <a class="nav-link active" href="actividades.html">Actividades</a>
+      </div>
+    </nav>
+  </div>
+</header>
+
+<main id="contenido" class="main">
+
+  <section class="section hero hero--sub">
+    <div class="hero-bg">
+      <canvas id="matrixCanvas" aria-hidden="true"></canvas>
+      <div class="grid-overlay" aria-hidden="true"></div>
+      <div class="scan-line" aria-hidden="true"></div>
+    </div>
+
+    <div class="hero-container">
+      <div>
+        <div class="hero-badge">
+          <span class="badge-pulse" aria-hidden="true"></span>
+          <span>ACTIVIDAD 10</span>
+        </div>
+
+        <h1 class="hero-title">
+          <span class="title-word">Ataques, conceptos</span>
+          <span class="title-word highlight">y técnicas</span>
+        </h1>
+
+        <p class="hero-description">
+          Actividad desarrollada a partir de una infografía técnica que resume conceptos
+          esenciales de ciberseguridad: malware, ingeniería social, ataques de contraseña,
+          DoS/DDoS, botnets, vulnerabilidades y criptojacking.
+        </p>
+
+        <div class="hero-buttons">
+          <button
+            class="btn btn-primary js-download-pdf"
+            type="button"
+            data-pdf="assets/pdfs/act10.pdf"
+            data-filename="act10.pdf"
+          >
+            <span class="btn-shine" aria-hidden="true"></span>
+            Exportar a PDF
+          </button>
+
+          <a class="btn btn-secondary" href="actividades.html">
+            <span class="btn-shine" aria-hidden="true"></span>
+            Volver a Actividades
+          </a>
+        </div>
+      </div>
+
+      <div class="hero-visual">
+        <div class="security-terminal">
+          <div class="terminal-header">
+            <div class="terminal-dots" aria-hidden="true">
+              <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+            </div>
+            <div class="terminal-title">root@infographic:~$ CYBERSEC_OVERVIEW</div>
+          </div>
+          <div class="terminal-body">
+            <div class="terminal-line" style="opacity:1;">
+              <span class="prompt">root@infographic:~$</span>
+              <span class="command"> render --topics attacks concepts techniques</span>
+            </div>
+            <div class="terminal-line" style="opacity:1;margin-top:.45rem;">
+              <span class="output">[OK] malware · phishing · DoS/DDoS · botnets · hardware flaws</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <article class="card article">
+
+        <section class="article-section">
+          <h2>Introducción</h2>
+          <p>
+            Esta actividad presenta una síntesis visual de conceptos fundamentales relacionados
+            con ataques y técnicas en ciberseguridad. Su propósito es organizar de manera clara
+            los principales vectores de amenaza, las formas de infiltración más comunes y las
+            vulnerabilidades que pueden ser explotadas en software, hardware y redes.
+          </p>
+
+          <p>
+            La infografía permite integrar contenidos de seguridad ofensiva y defensiva en una sola
+            vista: tipos de malware, ingeniería social, ataques de denegación de servicio, botnets,
+            ataques de contraseña, ataques en el camino, vulnerabilidades de hardware, amenazas
+            persistentes avanzadas y criptojacking.
+          </p>
+
+          <div class="pill-mini">🖼️ Formato: infografía</div>
+          <div class="pill-mini">🧠 Síntesis visual</div>
+          <div class="pill-mini">🛡️ Ciberseguridad esencial</div>
+        </section>
+
+        <section class="article-section">
+          <h2>1) Panorama general</h2>
+
+          <div class="callout">
+            <p class="title">Idea central</p>
+            <p>
+              La ciberseguridad no se limita a bloquear malware o instalar antivirus. También
+              implica comprender cómo piensan los atacantes, qué técnicas utilizan para infiltrar
+              sistemas, cómo comprometen credenciales y de qué manera aprovechan debilidades de
+              personas, aplicaciones, protocolos y dispositivos físicos.
+            </p>
+          </div>
+
+          <div class="grid-3">
+            <div class="topic-card">
+              <h3>Malware</h3>
+              <p>
+                La infografía resume múltiples tipos de software malicioso, entre ellos spyware,
+                ransomware, scareware, rootkits, virus, troyanos, gusanos, backdoors y adware.
+                Todos ellos comparten el objetivo de dañar, espiar, cifrar, robar información
+                o mantener acceso indebido al sistema.
+              </p>
+            </div>
+
+            <div class="topic-card">
+              <h3>Ingeniería social</h3>
+              <p>
+                Se presenta como una técnica de manipulación psicológica para engañar a las personas
+                y obtener información o acceso. Entre sus variantes aparecen el pretexto,
+                el tailgating y el quid pro quo.
+              </p>
+            </div>
+
+            <div class="topic-card">
+              <h3>Denegación de servicio</h3>
+              <p>
+                También se describen ataques DoS y DDoS, explicando cómo la saturación deliberada
+                de solicitudes puede volver lento o inoperable a un sistema y cómo una botnet
+                incrementa el impacto al distribuir el ataque entre múltiples equipos zombis.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <section class="article-section">
+          <h2>2) Desarrollo temático</h2>
+
+          <div class="topic-grid">
+            <div class="topic-card">
+              <h3>Tipos de malware</h3>
+              <p>
+                El contenido explica que el malware es software malicioso creado para robar información,
+                evadir controles de seguridad o dañar sistemas. Se enfatiza que conocer los tipos
+                y síntomas de infección es fundamental para prevenir y detectar incidentes.
+              </p>
+            </div>
+
+            <div class="topic-card">
+              <h3>Ingeniería social</h3>
+              <p>
+                Se destaca que muchos ataques no se basan solo en fallos técnicos, sino en manipular
+                a la víctima. Esto hace evidente que la seguridad depende también de la concientización
+                del usuario y de la verificación antes de compartir información sensible.
+              </p>
+            </div>
+
+            <div class="topic-card">
+              <h3>DoS / DDoS y botnets</h3>
+              <p>
+                La infografía explica que un ataque DoS busca saturar un sistema con demasiadas
+                solicitudes, mientras que un DDoS lo hace desde múltiples dispositivos a la vez.
+                Las botnets permiten coordinar esta clase de ataques mediante equipos infectados.
+              </p>
+            </div>
+
+            <div class="topic-card">
+              <h3>Ataques en el camino</h3>
+              <p>
+                Se describen variantes como <em>Man in the Middle</em> y <em>Man in the Mobile</em>,
+                donde un atacante intercepta o modifica la comunicación entre dispositivos, pudiendo
+                capturar información sensible o códigos de verificación.
+              </p>
+            </div>
+
+            <div class="topic-card">
+              <h3>Ataques de contraseña</h3>
+              <p>
+                Se presentan distintos enfoques: pulverización, diccionario, fuerza bruta,
+                tablas arcoíris e interceptación. También se subraya que la longitud y
+                complejidad de una contraseña cambian radicalmente el tiempo necesario para descifrarla.
+              </p>
+            </div>
+
+            <div class="topic-card">
+              <h3>Vulnerabilidades de software</h3>
+              <p>
+                Se mencionan fallas como desbordamientos de búfer, entradas no validadas,
+                condiciones de carrera, debilidad en autenticación/cifrado y errores de control
+                de acceso, demostrando que la calidad del desarrollo influye directamente en la seguridad.
+              </p>
+            </div>
+
+            <div class="topic-card">
+              <h3>Vulnerabilidades de hardware</h3>
+              <p>
+                La actividad también introduce debilidades a nivel físico y arquitectónico,
+                como Rowhammer, Meltdown y Spectre, resaltando que algunos ataques no dependen
+                del software sino del diseño de componentes críticos.
+              </p>
+            </div>
+
+            <div class="topic-card">
+              <h3>APT y SynFUL Knock</h3>
+              <p>
+                Se explican las amenazas persistentes avanzadas como ataques sigilosos y de largo plazo,
+                orientados a objetivos específicos. Como ejemplo se menciona SynFUL Knock, asociado
+                a routers Cisco con firmware alterado.
+              </p>
+            </div>
+
+            <div class="topic-card">
+              <h3>Criptojacking</h3>
+              <p>
+                Finalmente se presenta el criptojacking como malware que utiliza equipos infectados
+                para minar criptomonedas sin autorización, consumiendo recursos del sistema
+                y degradando el rendimiento general del dispositivo.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <section class="article-section">
+          <h2>3) Reflexión técnica</h2>
+
+          <p>
+            Una de las principales fortalezas de esta actividad es que resume, en un solo recurso,
+            amenazas de distinta naturaleza: técnicas, humanas, distribuidas y persistentes.
+            Esto ayuda a comprender que la seguridad informática no debe abordarse de forma aislada,
+            sino como una disciplina donde convergen usuarios, aplicaciones, redes, hardware y procesos.
+          </p>
+
+          <p>
+            También resalta que muchas vulnerabilidades pueden mitigarse con medidas relativamente
+            claras: actualizaciones, validación de entradas, contraseñas robustas, configuración
+            adecuada de controles de acceso, buenas políticas organizacionales y concientización
+            permanente del usuario.
+          </p>
+        </section>
+
+        <section class="article-section">
+          <h2>4) Material multimedia</h2>
+
+          <div class="media-img">
+            <img src="assets/10.1.png" alt="Infografía de ataques, conceptos y técnicas">
+            <div class="media-caption">
+              Infografía principal de la actividad 10. Coloca aquí tu imagen final en
+              <code>assets/10.1.png</code>.
+            </div>
+          </div>
+        </section>
+
+        <section class="article-section">
+          <h2>5) Conclusión</h2>
+          <p>
+            Esta actividad permite reforzar una visión amplia de la ciberseguridad. No se trata
+            solo de memorizar términos, sino de entender cómo distintas técnicas de ataque se
+            relacionan entre sí y cómo cada una aprovecha debilidades humanas o tecnológicas.
+          </p>
+
+          <p>
+            La infografía funciona como un recurso de consulta rápida y también como evidencia
+            de síntesis técnica, ya que organiza contenidos relevantes de manera clara, visual
+            y útil para futuras actividades del curso.
+          </p>
+        </section>
+
+        <section class="article-section">
+          <h2>6) Referencias técnicas</h2>
+          <ul class="ref-list">
+            <li>Cisco Networking Academy. (2026). <em>Introducción a Ciberseguridad – Seguridad Informática (T46B-PRIM26-CNO V)</em>. Cisco NetAcad.</li>
+          </ul>
+        </section>
+
+        <div class="article-footer">
+          <a class="link-pill" href="actividades.html">↩ Volver a Actividades</a>
+        </div>
+
+      </article>
+    </div>
+  </section>
+</main>
+
+<footer class="footer">
+  <div class="container footer__inner">
+    <p>© <span class="muted">Portafolio de evidencias</span> | Seguridad Informática</p>
+    <p class="muted">PF01</p>
+  </div>
+</footer>
+
+</body>
+</html>

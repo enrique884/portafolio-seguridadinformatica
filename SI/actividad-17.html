@@ -1,0 +1,902 @@
+<!doctype html>
+<html lang="es" dir="ltr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes" />
+  <meta name="description" content="Actividad 17 - Evaluación de Vulnerabilidades con CVSS v3.1." />
+  <title>Actividad 17 | Evaluación de Vulnerabilidades con CVSS v3.1</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&family=Fira+Code:wght@300;400;500;600;700&family=Orbitron:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="assets/css/styles.css" />
+
+  <script defer src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+  <script defer src="assets/js/main.js"></script>
+
+  <style>
+    .tech-table-wrap{
+      overflow:auto;
+      border-radius:16px;
+      border:1px solid rgba(0,255,136,.18);
+      background:rgba(0,0,0,.18);
+      margin:1.2rem 0;
+    }
+
+    .tech-table{
+      width:100%;
+      border-collapse:collapse;
+      min-width:760px;
+    }
+
+    .tech-table th,
+    .tech-table td{
+      padding:1rem;
+      border-bottom:1px solid rgba(148,163,184,.18);
+      vertical-align:top;
+      color:rgba(226,232,240,.9);
+      line-height:1.55;
+    }
+
+    .tech-table th{
+      background:rgba(0,255,136,.08);
+      font-family:var(--font-tech);
+      text-align:left;
+      color:#e2e8f0;
+    }
+
+    .metric-grid{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+      gap:1rem;
+      margin:1.2rem 0;
+    }
+
+    .metric-card,
+    .visual-card{
+      border:1px solid rgba(0,255,136,.18);
+      background:linear-gradient(135deg,rgba(0,255,136,.08),rgba(59,130,246,.05));
+      border-radius:18px;
+      padding:1.1rem;
+      box-shadow:0 18px 50px rgba(0,0,0,.18);
+    }
+
+    .metric-card h3,
+    .visual-card h3{
+      margin:.3rem 0 .5rem;
+      color:#e2e8f0;
+    }
+
+    .metric-card .tag{
+      display:inline-flex;
+      padding:.25rem .65rem;
+      border-radius:999px;
+      background:rgba(0,255,136,.12);
+      border:1px solid rgba(0,255,136,.24);
+      font-family:var(--font-code);
+      font-weight:800;
+      color:var(--text-secondary);
+    }
+
+    .cvss-vector-box{
+      border:1px solid rgba(0,255,136,.24);
+      background:rgba(2,6,23,.75);
+      border-radius:18px;
+      padding:1rem;
+      margin:1.2rem 0;
+      box-shadow:0 0 35px rgba(0,255,136,.08);
+    }
+
+    .cvss-vector-box pre{
+      margin:0;
+      white-space:pre-wrap;
+      word-break:break-word;
+      color:#00ff88;
+      font-family:var(--font-code);
+      font-size:1rem;
+      line-height:1.6;
+    }
+
+    .score-panel{
+      display:grid;
+      grid-template-columns:1fr 1.3fr;
+      gap:1.2rem;
+      align-items:center;
+      border:1px solid rgba(0,255,136,.2);
+      border-radius:22px;
+      padding:1.25rem;
+      background:rgba(15,23,42,.55);
+      margin:1.3rem 0;
+    }
+
+    .score-circle{
+      width:180px;
+      height:180px;
+      border-radius:50%;
+      display:grid;
+      place-items:center;
+      margin:auto;
+      border:10px solid rgba(0,255,136,.45);
+      box-shadow:0 0 35px rgba(0,255,136,.18);
+      background:radial-gradient(circle,rgba(0,255,136,.13),rgba(2,6,23,.85));
+    }
+
+    .score-circle strong{
+      font-size:3.2rem;
+      color:#e2e8f0;
+      font-family:var(--font-tech);
+    }
+
+    .score-circle span{
+      display:block;
+      text-align:center;
+      color:var(--text-secondary);
+      font-family:var(--font-code);
+      font-weight:800;
+      margin-top:.2rem;
+    }
+
+    .severity-box{
+      border:1px solid rgba(0,255,136,.18);
+      background:rgba(0,0,0,.18);
+      border-radius:18px;
+      padding:1.1rem;
+      margin:1rem 0;
+    }
+
+    .severity-track{
+      position:relative;
+      height:28px;
+      border-radius:999px;
+      overflow:hidden;
+      background:linear-gradient(90deg,
+        rgba(34,197,94,.75) 0%,
+        rgba(34,197,94,.75) 39%,
+        rgba(234,179,8,.78) 39%,
+        rgba(234,179,8,.78) 69%,
+        rgba(249,115,22,.8) 69%,
+        rgba(249,115,22,.8) 89%,
+        rgba(239,68,68,.85) 89%,
+        rgba(239,68,68,.85) 100%
+      );
+      border:1px solid rgba(226,232,240,.18);
+    }
+
+    .severity-marker{
+      position:absolute;
+      left:47%;
+      top:-9px;
+      width:4px;
+      height:46px;
+      border-radius:999px;
+      background:#e2e8f0;
+      box-shadow:0 0 20px rgba(255,255,255,.8);
+    }
+
+    .severity-labels{
+      display:grid;
+      grid-template-columns:repeat(4,1fr);
+      gap:.5rem;
+      margin-top:.8rem;
+      font-size:.85rem;
+      color:rgba(226,232,240,.8);
+      font-family:var(--font-code);
+    }
+
+    .calc-flow{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+      gap:.9rem;
+      margin:1.2rem 0;
+    }
+
+    .calc-step{
+      position:relative;
+      padding:1rem;
+      border-radius:18px;
+      border:1px solid rgba(0,255,136,.18);
+      background:rgba(0,0,0,.18);
+    }
+
+    .calc-step span{
+      display:inline-flex;
+      width:34px;
+      height:34px;
+      align-items:center;
+      justify-content:center;
+      border-radius:50%;
+      background:rgba(0,255,136,.12);
+      border:1px solid rgba(0,255,136,.25);
+      color:#00ff88;
+      font-family:var(--font-code);
+      font-weight:900;
+      margin-bottom:.5rem;
+    }
+
+    .calc-step strong{
+      display:block;
+      color:#e2e8f0;
+      margin-bottom:.4rem;
+    }
+
+    .article-actions{
+      display:none !important;
+    }
+
+    @media(max-width:760px){
+      .score-panel{
+        grid-template-columns:1fr;
+      }
+
+      .severity-labels{
+        grid-template-columns:1fr 1fr;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <a class="skip-link" href="#contenido">Saltar al contenido principal</a>
+
+  <header class="header" id="header" role="banner">
+    <div class="header-container">
+      <nav class="nav" aria-label="Menú principal">
+        <a class="nav-brand" href="index.html#contenido" aria-label="Ir al inicio">
+          <span class="brand-icon">PF01</span>
+          <span class="brand-text">Portafolio</span>
+        </a>
+
+        <button class="menu-toggle" id="menuToggle" type="button" aria-label="Abrir menú">
+          <span></span><span></span><span></span>
+        </button>
+
+        <div class="nav-menu" id="navMenu">
+          <a class="nav-link" href="index.html#contenido">Inicio</a>
+          <a class="nav-link active" href="actividades.html">Actividades</a>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main" class="main" role="main">
+    <section class="section hero hero--sub" id="contenido">
+      <div class="hero-bg" aria-hidden="true">
+        <canvas id="matrixCanvas"></canvas>
+        <div class="grid-overlay"></div>
+        <div class="scan-line"></div>
+        <div class="hack-particles" id="hackParticles"></div>
+      </div>
+
+      <div class="hero-container">
+        <div class="hero-content">
+          <div class="hero-badge">
+            <div class="badge-pulse"></div>
+            <span>ACTIVIDAD 17 · CVSS V3.1</span>
+          </div>
+
+          <h1 class="hero-title">
+            <span class="title-word">Evaluación de Vulnerabilidades</span>
+            <span class="title-word highlight">con CVSS v3.1</span>
+          </h1>
+
+          <p class="hero-description">
+            Artículo técnico digital sobre evaluación de vulnerabilidades usando CVSS v3.1,
+            vector base, puntuación de severidad y priorización del riesgo.
+          </p>
+
+          <div class="hero-buttons">
+            <button
+              class="btn btn-primary js-download-pdf"
+              type="button"
+              data-pdf="assets/pdfs/act17-Equipo03.pdf"
+              data-filename="Actividad-17-Evaluacion-CVSS.pdf"
+            >
+              <span class="btn-shine" aria-hidden="true"></span>
+              Exportar a PDF
+            </button>
+
+            <a class="btn btn-secondary" href="actividades.html">
+              <span class="btn-shine" aria-hidden="true"></span>
+              Volver a actividades
+            </a>
+          </div>
+        </div>
+
+        <div class="hero-visual">
+          <div class="security-terminal">
+            <div class="terminal-header">
+              <div class="terminal-dots">
+                <span class="dot red"></span>
+                <span class="dot yellow"></span>
+                <span class="dot green"></span>
+              </div>
+              <div class="terminal-title">CVSS::RISK_ENGINE</div>
+            </div>
+
+            <div class="terminal-body">
+              <div class="terminal-line" style="opacity:1">
+                <span class="prompt">analyst@portfolio:~$</span>
+                <span class="command"> calculate --vector CVSS:3.1</span>
+              </div>
+              <div class="terminal-line" style="opacity:1">
+                <span class="output">[OK] Base Score: 4.7 · Severity: Medium</span>
+              </div>
+              <div class="terminal-line" style="opacity:1">
+                <span class="output success">risk_status: mitigación planificada</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <nav class="breadcrumbs" aria-label="Breadcrumb">
+          <a href="index.html#contenido">Inicio</a>
+          <span class="crumb-sep">/</span>
+          <a href="actividades.html">Actividades</a>
+          <span class="crumb-sep">/</span>
+          <span class="crumb-current">Actividad 17</span>
+        </nav>
+
+        <article class="card article">
+          <div class="article-head">
+            <div>
+              <div class="article-kicker">CNO V · Seguridad Informática</div>
+              <h2 class="article-title">Actividad 17: Evaluación de Vulnerabilidades con CVSS v3.1</h2>
+              <p class="article-subtitle">
+                Análisis técnico de una vulnerabilidad en un sistema web interno mediante métricas base,
+                vector CVSS, cálculo de puntuación y clasificación de severidad.
+              </p>
+            </div>
+          </div>
+
+          <section class="article-section">
+            <h2>1. Introducción</h2>
+            <p>
+              La seguridad de la información se ha convertido en un elemento fundamental para las organizaciones modernas
+              debido al incremento constante de amenazas y vulnerabilidades presentes en los sistemas tecnológicos.
+              En entornos corporativos, una vulnerabilidad puede comprometer la confidencialidad, integridad y disponibilidad
+              de la información, generando riesgos operativos, financieros y reputacionales.
+            </p>
+            <p>
+              El sistema Common Vulnerability Scoring System (CVSS) versión 3.1 es uno de los estándares más utilizados
+              para evaluar la severidad de vulnerabilidades de seguridad informática. Este modelo proporciona un mecanismo
+              estructurado para medir la gravedad de una vulnerabilidad mediante métricas técnicas relacionadas con la facilidad
+              de explotación, el nivel de privilegios requerido y el impacto potencial sobre los activos de información.
+            </p>
+            <p>
+              En esta actividad se analiza una vulnerabilidad detectada en un sistema web interno. A partir del escenario,
+              se identifican las métricas base correspondientes, se construye el vector CVSS y se interpreta la puntuación
+              de riesgo obtenida.
+            </p>
+          </section>
+
+          <section class="article-section">
+            <h2>2. Objetivos</h2>
+
+            <div class="metric-grid">
+              <div class="metric-card">
+                <span class="tag">General</span>
+                <h3>Aplicar CVSS v3.1</h3>
+                <p>
+                  Evaluar la gravedad de una vulnerabilidad e interpretar correctamente sus métricas base
+                  para justificar la priorización del riesgo en un contexto organizacional.
+                </p>
+              </div>
+
+              <div class="metric-card">
+                <span class="tag">Específico</span>
+                <h3>Identificar métricas</h3>
+                <p>
+                  Reconocer las métricas base de CVSS v3.1 y comprender cómo influyen en la puntuación final.
+                </p>
+              </div>
+
+              <div class="metric-card">
+                <span class="tag">Específico</span>
+                <h3>Construir vector</h3>
+                <p>
+                  Traducir el escenario técnico a un vector CVSS válido y explicar cada valor asignado.
+                </p>
+              </div>
+            </div>
+          </section>
+
+          <section class="article-section">
+            <h2>3. Marco teórico</h2>
+
+            <h3>3.1 ¿Qué es una vulnerabilidad?</h3>
+            <p>
+              Una vulnerabilidad es una debilidad o falla presente en un sistema, aplicación, red o dispositivo que puede
+              ser aprovechada por un atacante para comprometer la seguridad de la información. Estas vulnerabilidades pueden
+              originarse por errores de configuración, fallas de programación, software desactualizado o malas prácticas
+              de seguridad.
+            </p>
+
+            <div class="metric-grid">
+              <div class="visual-card">
+                <h3>Confidencialidad</h3>
+                <p>
+                  Garantiza que la información solo sea accesible para usuarios autorizados. Una vulnerabilidad puede provocar
+                  filtración o robo de datos sensibles.
+                </p>
+              </div>
+
+              <div class="visual-card">
+                <h3>Integridad</h3>
+                <p>
+                  Asegura que la información no sea modificada de manera no autorizada. Una vulnerabilidad puede permitir
+                  alteraciones indebidas en archivos o bases de datos.
+                </p>
+              </div>
+
+              <div class="visual-card">
+                <h3>Disponibilidad</h3>
+                <p>
+                  Garantiza que los sistemas y servicios estén disponibles cuando se necesiten. Una vulnerabilidad puede
+                  ocasionar interrupciones o caídas del sistema.
+                </p>
+              </div>
+            </div>
+
+            <h3>3.2 ¿Qué es CVSS v3.1?</h3>
+            <p>
+              CVSS v3.1 es un estándar internacional desarrollado por FIRST para evaluar la severidad de vulnerabilidades
+              de seguridad informática. Su objetivo principal es proporcionar un método estandarizado que permita medir
+              el nivel de riesgo mediante una puntuación numérica de 0.0 a 10.0.
+            </p>
+
+            <h3>3.3 Estructura de CVSS</h3>
+            <div class="metric-grid">
+              <div class="visual-card">
+                <h3>Métricas base</h3>
+                <p>
+                  Representan las características fundamentales de la vulnerabilidad. Son las más importantes porque determinan
+                  la puntuación principal de severidad.
+                </p>
+              </div>
+
+              <div class="visual-card">
+                <h3>Métricas temporales</h3>
+                <p>
+                  Consideran factores que pueden cambiar con el tiempo, como exploits públicos, herramientas disponibles o
+                  actualizaciones liberadas por el fabricante.
+                </p>
+              </div>
+
+              <div class="visual-card">
+                <h3>Métricas ambientales</h3>
+                <p>
+                  Permiten ajustar la evaluación al contexto de la organización, considerando la importancia de los activos
+                  afectados y requisitos internos.
+                </p>
+              </div>
+            </div>
+
+            <h3>3.4 Métricas base CVSS v3.1</h3>
+            <div class="tech-table-wrap">
+              <table class="tech-table" aria-label="Métricas base CVSS v3.1">
+                <thead>
+                  <tr>
+                    <th>Métrica</th>
+                    <th>Nombre</th>
+                    <th>Significado</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>AV</td>
+                    <td>Attack Vector</td>
+                    <td>Define desde dónde puede explotarse la vulnerabilidad: red, adyacente, local o físico.</td>
+                  </tr>
+                  <tr>
+                    <td>AC</td>
+                    <td>Attack Complexity</td>
+                    <td>Indica el nivel de complejidad necesario para ejecutar el ataque exitosamente.</td>
+                  </tr>
+                  <tr>
+                    <td>PR</td>
+                    <td>Privileges Required</td>
+                    <td>Representa el nivel de privilegios que necesita el atacante antes de explotar la vulnerabilidad.</td>
+                  </tr>
+                  <tr>
+                    <td>UI</td>
+                    <td>User Interaction</td>
+                    <td>Determina si se requiere interacción de un usuario legítimo para que el ataque funcione.</td>
+                  </tr>
+                  <tr>
+                    <td>S</td>
+                    <td>Scope</td>
+                    <td>Indica si la vulnerabilidad afecta únicamente al sistema vulnerable o puede impactar otros componentes.</td>
+                  </tr>
+                  <tr>
+                    <td>C</td>
+                    <td>Confidentiality</td>
+                    <td>Mide el impacto sobre la confidencialidad de la información.</td>
+                  </tr>
+                  <tr>
+                    <td>I</td>
+                    <td>Integrity</td>
+                    <td>Evalúa el impacto sobre la integridad de los datos o sistemas.</td>
+                  </tr>
+                  <tr>
+                    <td>A</td>
+                    <td>Availability</td>
+                    <td>Mide el impacto sobre la disponibilidad de los servicios o recursos afectados.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <h3>3.5 Clasificación de severidad</h3>
+            <div class="tech-table-wrap">
+              <table class="tech-table" aria-label="Clasificación de severidad CVSS">
+                <thead>
+                  <tr>
+                    <th>Rango de puntuación</th>
+                    <th>Nivel de severidad</th>
+                    <th>Descripción</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>0.1 - 3.9</td>
+                    <td>Baja</td>
+                    <td>Impacto limitado y riesgo reducido para la organización.</td>
+                  </tr>
+                  <tr>
+                    <td>4.0 - 6.9</td>
+                    <td>Media</td>
+                    <td>Puede afectar parcialmente la seguridad de los activos de información y requiere atención.</td>
+                  </tr>
+                  <tr>
+                    <td>7.0 - 8.9</td>
+                    <td>Alta</td>
+                    <td>Representa un riesgo considerable y puede generar impactos importantes.</td>
+                  </tr>
+                  <tr>
+                    <td>9.0 - 10.0</td>
+                    <td>Crítica</td>
+                    <td>Impacto extremadamente grave. Requiere atención inmediata.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </section>
+
+          <section class="article-section">
+            <h2>4. Caso práctico</h2>
+
+            <h3>4.1 Escenario</h3>
+            <p>
+              Una organización detectó una vulnerabilidad dentro de un sistema web interno utilizado para la gestión de
+              información corporativa. El análisis preliminar determinó que puede ser explotada remotamente a través de la red,
+              sin necesidad de acceso físico al sistema comprometido.
+            </p>
+            <p>
+              La explotación presenta una baja complejidad técnica, por lo que no requiere condiciones especiales o avanzadas.
+              Sin embargo, el atacante necesita contar con privilegios elevados dentro del sistema. Además, no requiere interacción
+              por parte del usuario y no provoca cambios en el alcance de seguridad del sistema afectado.
+            </p>
+            <p>
+              Respecto al impacto potencial, se determinó que las afectaciones sobre la confidencialidad, integridad y disponibilidad
+              son de nivel bajo, debido a que la vulnerabilidad compromete parcialmente los recursos del entorno evaluado sin generar
+              una afectación crítica sobre la operación general.
+            </p>
+
+            <h3>4.2 Identificación de métricas</h3>
+            <div class="tech-table-wrap">
+              <table class="tech-table" aria-label="Identificación de métricas CVSS">
+                <thead>
+                  <tr>
+                    <th>Característica del escenario</th>
+                    <th>Métrica CVSS</th>
+                    <th>Valor</th>
+                    <th>Justificación</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Explotable por red</td>
+                    <td>AV</td>
+                    <td>N</td>
+                    <td>El ataque puede ejecutarse remotamente mediante conexión de red.</td>
+                  </tr>
+                  <tr>
+                    <td>Baja complejidad</td>
+                    <td>AC</td>
+                    <td>L</td>
+                    <td>No requiere condiciones especiales ni pasos técnicos avanzados.</td>
+                  </tr>
+                  <tr>
+                    <td>Privilegios elevados</td>
+                    <td>PR</td>
+                    <td>H</td>
+                    <td>El atacante debe contar con privilegios altos antes de explotar la vulnerabilidad.</td>
+                  </tr>
+                  <tr>
+                    <td>Sin interacción</td>
+                    <td>UI</td>
+                    <td>N</td>
+                    <td>El ataque no depende de que un usuario legítimo realice alguna acción.</td>
+                  </tr>
+                  <tr>
+                    <td>Alcance sin cambios</td>
+                    <td>S</td>
+                    <td>U</td>
+                    <td>El impacto permanece dentro del mismo componente o sistema vulnerable.</td>
+                  </tr>
+                  <tr>
+                    <td>Impacto bajo en confidencialidad</td>
+                    <td>C</td>
+                    <td>L</td>
+                    <td>Solo puede existir exposición parcial de información.</td>
+                  </tr>
+                  <tr>
+                    <td>Impacto bajo en integridad</td>
+                    <td>I</td>
+                    <td>L</td>
+                    <td>Podrían realizarse modificaciones limitadas, sin comprometer totalmente el sistema.</td>
+                  </tr>
+                  <tr>
+                    <td>Impacto bajo en disponibilidad</td>
+                    <td>A</td>
+                    <td>L</td>
+                    <td>La afectación al servicio sería menor o parcial.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <h3>4.3 Construcción del vector CVSS</h3>
+            <p>
+              Con base en las métricas identificadas, se construye el siguiente vector CVSS v3.1:
+            </p>
+
+            <div class="cvss-vector-box">
+              <pre>CVSS:3.1/AV:N/AC:L/PR:H/UI:N/S:U/C:L/I:L/A:L</pre>
+            </div>
+
+            <div class="calc-flow">
+              <div class="calc-step">
+                <span>01</span>
+                <strong>Escenario</strong>
+                <p>Se analiza cómo se explota la vulnerabilidad y qué condiciones requiere.</p>
+              </div>
+              <div class="calc-step">
+                <span>02</span>
+                <strong>Métricas</strong>
+                <p>Se asignan valores a AV, AC, PR, UI, S, C, I y A.</p>
+              </div>
+              <div class="calc-step">
+                <span>03</span>
+                <strong>Vector</strong>
+                <p>Se construye el vector CVSS v3.1 con los valores seleccionados.</p>
+              </div>
+              <div class="calc-step">
+                <span>04</span>
+                <strong>Puntuación</strong>
+                <p>Se obtiene el puntaje base y se interpreta la severidad.</p>
+              </div>
+            </div>
+          </section>
+
+          <section class="article-section">
+            <h2>5. Interpretación</h2>
+            <p>
+              A pesar de requerir privilegios elevados, esta vulnerabilidad sigue siendo relevante porque representa un riesgo
+              que podría ser explotado por un atacante interno malintencionado o por un agente externo que ya haya comprometido
+              una cuenta administrativa mediante otros métodos.
+            </p>
+            <p>
+              El tipo de atacante que podría explotarla es un insider, como un empleado o colaborador con acceso, o un atacante
+              avanzado que busque ampliar su control después de una intrusión inicial. Que el impacto sea bajo en confidencialidad,
+              integridad y disponibilidad significa que la explotación exitosa solo permitiría un acceso parcial a información,
+              modificaciones limitadas o interrupciones menores.
+            </p>
+          </section>
+
+          <section class="article-section">
+            <h2>6. Cálculo de puntuación</h2>
+
+            <div class="score-panel">
+              <div>
+                <div class="score-circle">
+                  <div>
+                    <strong>4.7</strong>
+                    <span>MEDIA</span>
+                  </div>
+                </div>
+              </div>
+
+              <div>
+                <h3>Puntuación base obtenida</h3>
+                <p>
+                  La puntuación base calculada para el vector
+                  <strong>CVSS:3.1/AV:N/AC:L/PR:H/UI:N/S:U/C:L/I:L/A:L</strong>
+                  es de <strong>4.7</strong>, lo que corresponde a una severidad
+                  <strong>Media</strong>.
+                </p>
+                <p>
+                  Aunque el impacto en la triada CIA es bajo, la vulnerabilidad debe atenderse porque puede ser explotada por red,
+                  no requiere interacción del usuario y tiene baja complejidad técnica.
+                </p>
+              </div>
+            </div>
+
+            <div class="severity-box">
+              <h3>Escala visual de severidad</h3>
+              <div class="severity-track">
+                <div class="severity-marker" title="Puntuación 4.7"></div>
+              </div>
+              <div class="severity-labels">
+                <span>Baja<br>0.1 - 3.9</span>
+                <span><strong>Media<br>4.0 - 6.9</strong></span>
+                <span>Alta<br>7.0 - 8.9</span>
+                <span>Crítica<br>9.0 - 10.0</span>
+              </div>
+            </div>
+
+            <h3>6.1 Resumen técnico del cálculo</h3>
+            <div class="tech-table-wrap">
+              <table class="tech-table" aria-label="Resumen técnico del cálculo CVSS">
+                <thead>
+                  <tr>
+                    <th>Elemento evaluado</th>
+                    <th>Resultado</th>
+                    <th>Interpretación</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Vector CVSS</td>
+                    <td>CVSS:3.1/AV:N/AC:L/PR:H/UI:N/S:U/C:L/I:L/A:L</td>
+                    <td>Describe las condiciones de explotación y el impacto técnico.</td>
+                  </tr>
+                  <tr>
+                    <td>Attack Vector</td>
+                    <td>Network</td>
+                    <td>La vulnerabilidad puede ser explotada remotamente.</td>
+                  </tr>
+                  <tr>
+                    <td>Attack Complexity</td>
+                    <td>Low</td>
+                    <td>La explotación no requiere condiciones complejas.</td>
+                  </tr>
+                  <tr>
+                    <td>Privileges Required</td>
+                    <td>High</td>
+                    <td>Se requieren privilegios elevados para explotar la vulnerabilidad.</td>
+                  </tr>
+                  <tr>
+                    <td>User Interaction</td>
+                    <td>None</td>
+                    <td>No se necesita participación de un usuario legítimo.</td>
+                  </tr>
+                  <tr>
+                    <td>Scope</td>
+                    <td>Unchanged</td>
+                    <td>El impacto permanece dentro del mismo alcance de seguridad.</td>
+                  </tr>
+                  <tr>
+                    <td>Impacto CIA</td>
+                    <td>Low / Low / Low</td>
+                    <td>El impacto en confidencialidad, integridad y disponibilidad es bajo.</td>
+                  </tr>
+                  <tr>
+                    <td>Puntuación base</td>
+                    <td>4.7</td>
+                    <td>Se clasifica como severidad media.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <h3>6.2 Priorización del riesgo</h3>
+            <div class="calc-flow">
+              <div class="calc-step">
+                <span>A</span>
+                <strong>Riesgo técnico</strong>
+                <p>Medio, porque requiere privilegios altos pero puede ejecutarse por red.</p>
+              </div>
+              <div class="calc-step">
+                <span>B</span>
+                <strong>Impacto operativo</strong>
+                <p>Limitado, ya que la afectación a datos y servicios es baja.</p>
+              </div>
+              <div class="calc-step">
+                <span>C</span>
+                <strong>Probable atacante</strong>
+                <p>Usuario interno con privilegios o atacante externo con cuenta comprometida.</p>
+              </div>
+              <div class="calc-step">
+                <span>D</span>
+                <strong>Atención recomendada</strong>
+                <p>Mitigación planificada, revisión de privilegios y monitoreo de cuentas administrativas.</p>
+              </div>
+            </div>
+          </section>
+
+          <section class="article-section">
+            <h2>7. Recomendaciones de mitigación</h2>
+            <div class="metric-grid">
+              <div class="visual-card">
+                <h3>Mínimo privilegio</h3>
+                <p>
+                  Revisar permisos administrativos y limitar el acceso solo a usuarios que realmente lo necesiten.
+                </p>
+              </div>
+
+              <div class="visual-card">
+                <h3>Monitoreo de cuentas</h3>
+                <p>
+                  Detectar accesos anómalos, intentos de abuso de privilegios y comportamientos fuera de patrón.
+                </p>
+              </div>
+
+              <div class="visual-card">
+                <h3>Corrección del sistema web</h3>
+                <p>
+                  Validar controles de autorización, endurecer configuraciones y aplicar parches o cambios de seguridad.
+                </p>
+              </div>
+
+              <div class="visual-card">
+                <h3>Reevaluación CVSS</h3>
+                <p>
+                  Recalcular la puntuación después de aplicar medidas correctivas para confirmar la reducción del riesgo.
+                </p>
+              </div>
+            </div>
+          </section>
+
+          <section class="article-section">
+            <h2>8. Conclusión</h2>
+            <p>
+              El análisis realizado mediante CVSS v3.1 permitió identificar y evaluar la severidad de una vulnerabilidad
+              presente en un sistema web interno, determinando una puntuación base de <strong>4.7</strong>, correspondiente
+              a un nivel de severidad <strong>media</strong>.
+            </p>
+            <p>
+              Aunque la vulnerabilidad requiere privilegios elevados para ser explotada y su impacto en confidencialidad,
+              integridad y disponibilidad es bajo, sigue representando un riesgo que debe atenderse. La posibilidad de explotación
+              remota, la baja complejidad del ataque y la ausencia de interacción del usuario justifican una mitigación planificada.
+            </p>
+            <p>
+              Esta actividad demuestra que CVSS ayuda a convertir características técnicas en una evaluación cuantitativa,
+              facilitando la priorización de vulnerabilidades y la toma de decisiones dentro de la seguridad organizacional.
+            </p>
+          </section>
+
+          <section class="article-section">
+            <h2>9. Referencias</h2>
+            <ul class="references-list">
+              <li>FIRST.org. (2019). <em>Common Vulnerability Scoring System version 3.1: Specification Document</em>.</li>
+              <li>FIRST. (s. f.). <em>CVSS v3.1 Calculator</em>.</li>
+              <li>National Institute of Standards and Technology. (s. f.). <em>National Vulnerability Database: Vulnerability Metrics CVSS</em>.</li>
+            </ul>
+          </section>
+
+           <div class="article-footer">
+          <a class="link-pill" href="actividades.html">↩ Volver al índice</a>
+           <a class="link-pill" href="#contenido"><i class="fas fa-arrow-up"></i> Subir</a>
+        </div>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer" role="contentinfo">
+    <div class="container footer__inner">
+      <p>© <span id="year"></span> Enrique Alvarez Aquino · Portafolio de Seguridad Informática</p>
+      <p class="muted">Universidad Politécnica de San Luis Potosí · UPSLP</p>
+    </div>
+  </footer>
+</body>
+</html>
